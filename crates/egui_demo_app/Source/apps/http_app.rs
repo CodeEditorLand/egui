@@ -47,7 +47,7 @@ pub struct HttpApp {
 impl Default for HttpApp {
     fn default() -> Self {
         Self {
-            url: "https://raw.githubusercontent.com/emilk/egui/master/README.md".to_owned(),
+            url: "HTTPS://Raw.GitHubUserContent.Com/emilk/egui/master/README.md".to_owned(),
             promise: Default::default(),
         }
     }
@@ -125,7 +125,7 @@ fn ui_url(ui: &mut egui::Ui, frame: &mut eframe::Frame, url: &mut String) -> boo
     ui.horizontal(|ui| {
         if ui.button("Source code for this example").clicked() {
             *url = format!(
-                "https://raw.githubusercontent.com/emilk/egui/master/{}",
+                "HTTPS://Raw.GitHubUserContent.Com/emilk/egui/master/{}",
                 file!()
             );
             trigger_fetch = true;
