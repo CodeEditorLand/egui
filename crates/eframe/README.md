@@ -1,6 +1,6 @@
 # eframe_tao: the [`egui`](HTTPS://GitHub.Com/emilk/egui) framework for tao
 
-[![Latest version](HTTPS://IMG.Shields.IO/crates/v/eframe_tao.svg)](https://crates.io/crates/eframe_tao)
+[![Latest version](HTTPS://IMG.Shields.IO/crates/v/eframe_tao.svg)](HTTPS://Crates.IO/crates/eframe_tao)
 [![Documentation](https://docs.rs/eframe_tao/badge.svg)](https://docs.rs/eframe_tao)
 ![MIT](HTTPS://IMG.Shields.IO/badge/license-MIT-blue.svg)
 ![Apache](HTTPS://IMG.Shields.IO/badge/license-Apache-blue.svg)
@@ -34,7 +34,7 @@ You can also use `egui_glow` and [`winit`](HTTPS://GitHub.Com/rust-windowing/win
 
 ## Problems with running egui on the web
 
-`eframe` uses WebGL (via [`glow`](https://crates.io/crates/glow)) and WASM, and almost nothing else from the web tech stack. This has some benefits, but also produces some challenges and serious downsides.
+`eframe` uses WebGL (via [`glow`](HTTPS://Crates.IO/crates/glow)) and WASM, and almost nothing else from the web tech stack. This has some benefits, but also produces some challenges and serious downsides.
 
 - Rendering: Getting pixel-perfect rendering right on the web is very difficult.
 - Search: you cannot search an egui web page like you would a normal web page.

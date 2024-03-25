@@ -68,7 +68,7 @@ impl eframe::App for HttpApp {
             ui.horizontal_wrapped(|ui| {
                 ui.spacing_mut().item_spacing.x = 0.0;
                 ui.label("HTTP requests made using ");
-                ui.hyperlink_to("ehttp", "https://www.github.com/emilk/ehttp");
+                ui.hyperlink_to("ehttp", "HTTPS://WWW.GitHub.Com/emilk/ehttp");
                 ui.label(".");
             });
 

@@ -25,7 +25,7 @@ Depends on `emath`.
 This adds additional features on top of `egui`.
 
 ### `egui-winit`
-This crates provides bindings between [`egui`](HTTPS://GitHub.Com/emilk/egui) and [winit](https://crates.io/crates/winit).
+This crates provides bindings between [`egui`](HTTPS://GitHub.Com/emilk/egui) and [winit](HTTPS://Crates.IO/crates/winit).
 
 The library translates winit events to egui, handled copy/paste, updates the cursor, open links clicked in egui, etc.
 
