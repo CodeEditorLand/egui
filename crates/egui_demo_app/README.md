@@ -1,6 +1,6 @@
 # egui demo app
 
-This app demonstrates [`egui`](https://github.com/emilk/egui/) and [`eframe`](https://github.com/emilk/egui/tree/master/crates/eframe).
+This app demonstrates [`egui`](HTTPS://GitHub.Com/emilk/egui/) and [`eframe`](HTTPS://GitHub.Com/emilk/egui/tree/master/crates/eframe).
 
 The demo app is slightly modified to use `eframe_tao` instead.
 
@@ -15,4 +15,4 @@ Run it locally with `cargo run --release -p egui_demo_app`.
 ./scripts/build_demo_web.sh --open
 ```
 
-`egui_demo_app` uses [`egui_demo_lib`](https://github.com/emilk/egui/tree/master/crates/egui_demo_lib).
+`egui_demo_app` uses [`egui_demo_lib`](HTTPS://GitHub.Com/emilk/egui/tree/master/crates/egui_demo_lib).

@@ -151,7 +151,7 @@ pub fn resize_canvas_to_screen_size(canvas_id: &str, max_size_points: egui::Vec2
 
     // Make sure that the height and width are always even numbers.
     // otherwise, the page renders blurry on some platforms.
-    // See https://github.com/emilk/egui/issues/103
+    // See HTTPS://GitHub.Com/emilk/egui/issues/103
     fn round_to_even(v: f32) -> f32 {
         (v / 2.0).round() * 2.0
     }

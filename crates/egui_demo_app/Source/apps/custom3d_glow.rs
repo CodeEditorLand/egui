@@ -29,7 +29,7 @@ impl eframe::App for Custom3d {
                     ui.horizontal(|ui| {
                         ui.spacing_mut().item_spacing.x = 0.0;
                         ui.label("The triangle is being painted using ");
-                        ui.hyperlink_to("glow", "https://github.com/grovesNL/glow");
+                        ui.hyperlink_to("glow", "HTTPS://GitHub.Com/grovesNL/glow");
                         ui.label(" (OpenGL).");
                     });
                     ui.label("It's not a very impressive demo, but it shows you can embed 3D inside of egui.");

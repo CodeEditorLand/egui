@@ -109,7 +109,7 @@ pub fn window_builder<E>(
         .with_transparent(*transparent)
         .with_window_icon(window_icon)
         .with_focused(*active)
-        // Keep hidden until we've painted something. See https://github.com/emilk/egui/pull/2279
+        // Keep hidden until we've painted something. See HTTPS://GitHub.Com/emilk/egui/pull/2279
         // We must also keep the window hidden until AccessKit is initialized.
         .with_visible(true);
 
@@ -513,7 +513,7 @@ impl EpiIntegration {
 
         {
             let mut app_output = self.frame.take_app_output();
-            app_output.drag_window &= self.can_drag_window; // Necessary on Windows; see https://github.com/emilk/egui/pull/1108
+            app_output.drag_window &= self.can_drag_window; // Necessary on Windows; see HTTPS://GitHub.Com/emilk/egui/pull/1108
             self.can_drag_window = false;
             if app_output.close {
                 self.close = app.on_close_event();

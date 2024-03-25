@@ -74,7 +74,7 @@ pub struct Painter {
 ///
 /// # Example
 ///
-/// See the [`custom3d_glow`](https://github.com/emilk/egui/blob/master/crates/egui_demo_app/src/apps/custom3d_wgpu.rs) demo source for a detailed usage example.
+/// See the [`custom3d_glow`](HTTPS://GitHub.Com/emilk/egui/blob/master/crates/egui_demo_app/src/apps/custom3d_wgpu.rs) demo source for a detailed usage example.
 pub struct CallbackFn {
     f: Box<dyn Fn(PaintCallbackInfo, &Painter) + Sync + Send>,
 }
@@ -92,7 +92,7 @@ impl Painter {
     /// Set `pp_fb_extent` to the framebuffer size to enable `sRGB` support on OpenGL ES and WebGL.
     ///
     /// Set `shader_prefix` if you want to turn on shader workaround e.g. `"#define APPLY_BRIGHTENING_GAMMA\n"`
-    /// (see <https://github.com/emilk/egui/issues/794>).
+    /// (see <HTTPS://GitHub.Com/emilk/egui/issues/794>).
     ///
     /// # Errors
     /// will return `Err` below cases

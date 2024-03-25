@@ -1,16 +1,16 @@
-# eframe_tao: the [`egui`](https://github.com/emilk/egui) framework for tao
+# eframe_tao: the [`egui`](HTTPS://GitHub.Com/emilk/egui) framework for tao
 
-[![Latest version](https://img.shields.io/crates/v/eframe_tao.svg)](https://crates.io/crates/eframe_tao)
+[![Latest version](HTTPS://IMG.Shields.IO/crates/v/eframe_tao.svg)](https://crates.io/crates/eframe_tao)
 [![Documentation](https://docs.rs/eframe_tao/badge.svg)](https://docs.rs/eframe_tao)
-![MIT](https://img.shields.io/badge/license-MIT-blue.svg)
-![Apache](https://img.shields.io/badge/license-Apache-blue.svg)
+![MIT](HTTPS://IMG.Shields.IO/badge/license-MIT-blue.svg)
+![Apache](HTTPS://IMG.Shields.IO/badge/license-Apache-blue.svg)
 
 `eframe_tao` is a modification of `eframe` to utilized `tao` instead of `winit`.
 
-`eframe` is the official framework library for writing apps using [`egui`](https://github.com/emilk/egui). The app can be compiled both to run natively (cross platform) or be compiled to a web app (using WASM).
+`eframe` is the official framework library for writing apps using [`egui`](HTTPS://GitHub.Com/emilk/egui). The app can be compiled both to run natively (cross platform) or be compiled to a web app (using WASM).
 
-To get started, see the [examples](https://github.com/emilk/egui/tree/master/examples).
-To learn how to set up `eframe` for web and native, go to <https://github.com/emilk/eframe_template/> and follow the instructions there!
+To get started, see the [examples](HTTPS://GitHub.Com/emilk/egui/tree/master/examples).
+To learn how to set up `eframe` for web and native, go to <HTTPS://GitHub.Com/emilk/eframe_template/> and follow the instructions there!
 
 There is also a tutorial video at <https://www.youtube.com/watch?v=NtUkr_z7l84>.
 
@@ -18,7 +18,7 @@ For how to use `egui`, see [the egui docs](https://docs.rs/egui).
 
 ---
 
-`eframe` uses [`egui_glow_tao`](https://github.com/tauri-apps/egui/tree/master/crates/egui_glow) for rendering, and on native it uses [`egui-tao`](https://github.com/tauri-apps/egui/tree/master/crates/egui-winit).
+`eframe` uses [`egui_glow_tao`](HTTPS://GitHub.Com/tauri-apps/egui/tree/master/crates/egui_glow) for rendering, and on native it uses [`egui-tao`](HTTPS://GitHub.Com/tauri-apps/egui/tree/master/crates/egui-winit).
 
 To use on Linux, first run:
 
@@ -30,7 +30,7 @@ You need to either use `edition = "2021"`, or set `resolver = "2"` in the `[work
 
 ## Alternatives
 
-You can also use `egui_glow` and [`winit`](https://github.com/rust-windowing/winit) to build your own app as demonstrated in <https://github.com/emilk/egui/blob/master/crates/egui_glow/examples/pure_glow.rs>.
+You can also use `egui_glow` and [`winit`](HTTPS://GitHub.Com/rust-windowing/winit) to build your own app as demonstrated in <HTTPS://GitHub.Com/emilk/egui/blob/master/crates/egui_glow/examples/pure_glow.rs>.
 
 ## Problems with running egui on the web
 
@@ -51,10 +51,10 @@ The suggested use for `eframe` are for web apps where performance and responsive
 
 Not all rust crates work when compiled to WASM, but here are some useful crates have been designed to work well both natively and as WASM:
 
-- Audio: [`cpal`](https://github.com/RustAudio/cpal).
-- HTTP client: [`ehttp`](https://github.com/emilk/ehttp) and [`reqwest`](https://github.com/seanmonstar/reqwest).
-- Time: [`chrono`](https://github.com/chronotope/chrono).
-- WebSockets: [`ewebsock`](https://github.com/rerun-io/ewebsock).
+- Audio: [`cpal`](HTTPS://GitHub.Com/RustAudio/cpal).
+- HTTP client: [`ehttp`](HTTPS://GitHub.Com/emilk/ehttp) and [`reqwest`](HTTPS://GitHub.Com/seanmonstar/reqwest).
+- Time: [`chrono`](HTTPS://GitHub.Com/chronotope/chrono).
+- WebSockets: [`ewebsock`](HTTPS://GitHub.Com/rerun-io/ewebsock).
 
 ## Name
 

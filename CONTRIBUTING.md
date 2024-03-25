@@ -9,14 +9,14 @@
 
 ## Discussion
 
-You can ask questions, share screenshots and more at [GitHub Discussions](https://github.com/emilk/egui/discussions).
+You can ask questions, share screenshots and more at [GitHub Discussions](HTTPS://GitHub.Com/emilk/egui/discussions).
 
 There is an `egui` discord at <https://discord.gg/vbuv9Xan65>.
 
 
 ## Filing an issue
 
-[Issues](https://github.com/emilk/egui/issues) are for bug reports and feature requests. Issues are not for asking questions (use [Discussions](https://github.com/emilk/egui/discussions) or [Discord](https://discord.gg/vbuv9Xan65) for that).
+[Issues](HTTPS://GitHub.Com/emilk/egui/issues) are for bug reports and feature requests. Issues are not for asking questions (use [Discussions](HTTPS://GitHub.Com/emilk/egui/discussions) or [Discord](https://discord.gg/vbuv9Xan65) for that).
 
 Always make sure there is not already a similar issue to the one you are creating.
 
@@ -47,7 +47,7 @@ Do not include the `.js` and `.wasm` build artifacts generated for building for 
 If you make an integration for `egui` for some engine or renderer, please share it with the world!
 I will add a link to it from the `egui` README.md so others can easily find it.
 
-Read the section on integrations at <https://github.com/emilk/egui#integrations>.
+Read the section on integrations at <HTTPS://GitHub.Com/emilk/egui#integrations>.
 
 
 ## Testing the web viewer
