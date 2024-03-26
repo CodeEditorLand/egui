@@ -4,7 +4,7 @@
 >
 > egui aims to be the easiest-to-use Rust GUI library, and the simplest way to make a web app in Rust.
 
-[![](HTTPS://IMG.Shields.IO/crates/v/egui.svg)](HTTPS://Crates.IO/crates/egui)
+[![](https://img.shields.io/crates/v/egui.svg)](https://Crates.IO/crates/egui)
 [![Docs.rs](https://docs.rs/egui/badge.svg)](https://docs.rs/egui)
 
 ```
@@ -14,7 +14,7 @@ egui = "0.22.0"
 
 This repository provides binding for egui to use tao instead. Currently only `glow` backend is supported.
 
-For more information on how to use egui, please check out [egui repository](HTTPS://GitHub.Com/emilk/egui) for both [simple examples](HTTPS://GitHub.Com/emilk/egui/tree/master/examples) and [detailed documents](https://docs.rs/egui).
+For more information on how to use egui, please check out [egui repository](https://GitHub.Com/emilk/egui) for both [simple examples](https://GitHub.Com/emilk/egui/tree/master/examples) and [detailed documents](https://docs.rs/egui).
 
 ## Who is egui for?
 
@@ -24,11 +24,11 @@ Quoting from egui repository:
 
 ## Demo
 
-Demo app uses [`eframe_tao`](HTTPS://GitHub.Com/tauri-apps/egui/tree/master/crates/eframe).
+Demo app uses [`eframe_tao`](https://GitHub.Com/tauri-apps/egui/tree/master/crates/eframe).
 
 To test the demo app locally, run `cargo run --release -p egui_demo_app`.
 
-The native backend is [`egui_glow_tao`](HTTPS://GitHub.Com/tauri-apps/egui/tree/master/crates/egui_glow) (using [`glow`](HTTPS://Crates.IO/crates/glow)) and should work out-of-the-box on Mac and Windows, but on Linux you need to first run:
+The native backend is [`egui_glow_tao`](https://GitHub.Com/tauri-apps/egui/tree/master/crates/egui_glow) (using [`glow`](https://Crates.IO/crates/glow)) and should work out-of-the-box on Mac and Windows, but on Linux you need to first run:
 
 `sudo apt-get install -y libclang-dev libgtk-3-dev libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev libxkbcommon-dev libssl-dev`
 

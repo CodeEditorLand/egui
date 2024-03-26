@@ -95,7 +95,7 @@ pub fn should_ignore_key(key: &str) -> bool {
                 | "Enter"
                 | "Esc"
                 | "Escape"
-                | "GroupNext" // HTTPS://GitHub.Com/emilk/egui/issues/510
+                | "GroupNext" // https://GitHub.Com/emilk/egui/issues/510
                 | "Help"
                 | "Home"
                 | "Insert"

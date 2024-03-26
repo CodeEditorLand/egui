@@ -25,15 +25,15 @@ Depends on `emath`.
 This adds additional features on top of `egui`.
 
 ### `egui-winit`
-This crates provides bindings between [`egui`](HTTPS://GitHub.Com/emilk/egui) and [winit](HTTPS://Crates.IO/crates/winit).
+This crates provides bindings between [`egui`](https://GitHub.Com/emilk/egui) and [winit](https://Crates.IO/crates/winit).
 
 The library translates winit events to egui, handled copy/paste, updates the cursor, open links clicked in egui, etc.
 
 ### `egui_glium`
-Puts an egui app inside a native window on your laptop. Paints the triangles that egui outputs using [glium](HTTPS://GitHub.Com/glium/glium).
+Puts an egui app inside a native window on your laptop. Paints the triangles that egui outputs using [glium](https://GitHub.Com/glium/glium).
 
 ### `egui_glow`
-Puts an egui app inside a native window on your laptop. Paints the triangles that egui outputs using [glow](HTTPS://GitHub.Com/grovesNL/glow).
+Puts an egui app inside a native window on your laptop. Paints the triangles that egui outputs using [glow](https://GitHub.Com/grovesNL/glow).
 
 ### `eframe`
 `eframe` is the official `egui` framework, built so you can compile the same app for either web or native.
@@ -50,4 +50,4 @@ Depends on `egui_demo_lib` + `eframe`.
 
 ### Other integrations
 
-There are also many great integrations for game engines such as `bevy` and `miniquad` which you can find at <HTTPS://GitHub.Com/emilk/egui#integrations>.
+There are also many great integrations for game engines such as `bevy` and `miniquad` which you can find at <https://GitHub.Com/emilk/egui#integrations>.

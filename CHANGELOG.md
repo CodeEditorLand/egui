@@ -9,187 +9,187 @@ NOTE: [`epaint`](crates/epaint/CHANGELOG.md), [`eframe`](crates/eframe/CHANGELOG
 
 ## 0.22.0 - 2023-05-23 - A plethora of small improvements
 ### ⭐ Added
-* Scroll bar visibility options [#2729](HTTPS://GitHub.Com/emilk/egui/pull/2729) (thanks [@IVAN-MK7](HTTPS://GitHub.Com/IVAN-MK7)!)
-* Add `Grid::with_row_color` [#2519](HTTPS://GitHub.Com/emilk/egui/pull/2519) (thanks [@imgurbot12](HTTPS://GitHub.Com/imgurbot12)!)
-* Add raw mouse wheel event [#2782](HTTPS://GitHub.Com/emilk/egui/pull/2782) (thanks [@YgorSouza](HTTPS://GitHub.Com/YgorSouza)!)
-* Improved plot groups and bounds handling [#2410](HTTPS://GitHub.Com/emilk/egui/pull/2410) (thanks [@s-nie](HTTPS://GitHub.Com/s-nie)!)
-* Return plot transforms [#2935](HTTPS://GitHub.Com/emilk/egui/pull/2935)
-* Add `Pointer::is_decidedly_dragging` and `could_any_button_be_click` [#2979](HTTPS://GitHub.Com/emilk/egui/pull/2979)
-* Plot widget - allow disabling zoom and drag for x and y separately [#2901](HTTPS://GitHub.Com/emilk/egui/pull/2901) (thanks [@OmegaJak](HTTPS://GitHub.Com/OmegaJak)!)
-* Add character limit to `TextEdit` [#2816](HTTPS://GitHub.Com/emilk/egui/pull/2816) (thanks [@wzid](HTTPS://GitHub.Com/wzid)!)
-* Add `egui::Modifiers::contains` [#2989](HTTPS://GitHub.Com/emilk/egui/pull/2989) (thanks [@Wumpf](HTTPS://GitHub.Com/Wumpf)!)
+* Scroll bar visibility options [#2729](https://GitHub.Com/emilk/egui/pull/2729) (thanks [@IVAN-MK7](https://GitHub.Com/IVAN-MK7)!)
+* Add `Grid::with_row_color` [#2519](https://GitHub.Com/emilk/egui/pull/2519) (thanks [@imgurbot12](https://GitHub.Com/imgurbot12)!)
+* Add raw mouse wheel event [#2782](https://GitHub.Com/emilk/egui/pull/2782) (thanks [@YgorSouza](https://GitHub.Com/YgorSouza)!)
+* Improved plot groups and bounds handling [#2410](https://GitHub.Com/emilk/egui/pull/2410) (thanks [@s-nie](https://GitHub.Com/s-nie)!)
+* Return plot transforms [#2935](https://GitHub.Com/emilk/egui/pull/2935)
+* Add `Pointer::is_decidedly_dragging` and `could_any_button_be_click` [#2979](https://GitHub.Com/emilk/egui/pull/2979)
+* Plot widget - allow disabling zoom and drag for x and y separately [#2901](https://GitHub.Com/emilk/egui/pull/2901) (thanks [@OmegaJak](https://GitHub.Com/OmegaJak)!)
+* Add character limit to `TextEdit` [#2816](https://GitHub.Com/emilk/egui/pull/2816) (thanks [@wzid](https://GitHub.Com/wzid)!)
+* Add `egui::Modifiers::contains` [#2989](https://GitHub.Com/emilk/egui/pull/2989) (thanks [@Wumpf](https://GitHub.Com/Wumpf)!)
 
 ### 🔧 Changed
-* Improve vertical alignment of fonts [#2724](HTTPS://GitHub.Com/emilk/egui/pull/2724) (thanks [@lictex](HTTPS://GitHub.Com/lictex)!)
-* Transpose the value/satuation panel of the color picker [#2727](HTTPS://GitHub.Com/emilk/egui/pull/2727) (thanks [@IVAN-MK7](HTTPS://GitHub.Com/IVAN-MK7)!)
-* Replace `ComboBox::show_index` `String` with `Into<TextWidget>` [#2790](HTTPS://GitHub.Com/emilk/egui/pull/2790) (thanks [@tosti007](HTTPS://GitHub.Com/tosti007)!)
-* Replace `tracing` with `log` [#2928](HTTPS://GitHub.Com/emilk/egui/pull/2928)
-* Only show id clash warnings in debug builds by default [#2930](HTTPS://GitHub.Com/emilk/egui/pull/2930)
-* ⚠️ BREAKING: `Plot::link_axis` and `Plot::link_cursor` now take the name of the group [#2410](HTTPS://GitHub.Com/emilk/egui/pull/2410)
+* Improve vertical alignment of fonts [#2724](https://GitHub.Com/emilk/egui/pull/2724) (thanks [@lictex](https://GitHub.Com/lictex)!)
+* Transpose the value/satuation panel of the color picker [#2727](https://GitHub.Com/emilk/egui/pull/2727) (thanks [@IVAN-MK7](https://GitHub.Com/IVAN-MK7)!)
+* Replace `ComboBox::show_index` `String` with `Into<TextWidget>` [#2790](https://GitHub.Com/emilk/egui/pull/2790) (thanks [@tosti007](https://GitHub.Com/tosti007)!)
+* Replace `tracing` with `log` [#2928](https://GitHub.Com/emilk/egui/pull/2928)
+* Only show id clash warnings in debug builds by default [#2930](https://GitHub.Com/emilk/egui/pull/2930)
+* ⚠️ BREAKING: `Plot::link_axis` and `Plot::link_cursor` now take the name of the group [#2410](https://GitHub.Com/emilk/egui/pull/2410)
 
 ### 🐛 Fixed
-* Clear all keys and modifies on focus change, fixing "stuck keys" [#2933](HTTPS://GitHub.Com/emilk/egui/pull/2933)
-* Fix deadlock when using `show_blocking_widget` [#2753](HTTPS://GitHub.Com/emilk/egui/pull/2753) (thanks [@YgorSouza](HTTPS://GitHub.Com/YgorSouza)!)
-* Fix the OS check for windows [#2832](HTTPS://GitHub.Com/emilk/egui/pull/2832) (thanks [@jleibs](HTTPS://GitHub.Com/jleibs)!)
-* Fix scroll bars not appearing (#2826) [#2827](HTTPS://GitHub.Com/emilk/egui/pull/2827) (thanks [@lunixbochs](HTTPS://GitHub.Com/lunixbochs)!)
-* Fix UI `data()` read mutability [#2742](HTTPS://GitHub.Com/emilk/egui/pull/2742) (thanks [@IS2511](HTTPS://GitHub.Com/IS2511)!)
-* Menu State rect now uses menu frame rect instead of contents rect [#2886](HTTPS://GitHub.Com/emilk/egui/pull/2886) (thanks [@hats-np](HTTPS://GitHub.Com/hats-np)!)
-* Hide `Response::triple_clicked` in docs [#2867](HTTPS://GitHub.Com/emilk/egui/pull/2867) (thanks [@ccaven](HTTPS://GitHub.Com/ccaven)!)
-* `request_repaint_after` works even when called from background thread [#2939](HTTPS://GitHub.Com/emilk/egui/pull/2939)
-* Show alt key on Mac as `"Option"`, not `"Alt"` [#2981](HTTPS://GitHub.Com/emilk/egui/pull/2981) (thanks [@Wumpf](HTTPS://GitHub.Com/Wumpf)!)
-* Mention `store` in `TextEditState` doc comment [#2988](HTTPS://GitHub.Com/emilk/egui/pull/2988) (thanks [@fxdave](HTTPS://GitHub.Com/fxdave)!)
-* Fix typos [#2866](HTTPS://GitHub.Com/emilk/egui/pull/2866) (thanks [@fezjo](HTTPS://GitHub.Com/fezjo)!)
+* Clear all keys and modifies on focus change, fixing "stuck keys" [#2933](https://GitHub.Com/emilk/egui/pull/2933)
+* Fix deadlock when using `show_blocking_widget` [#2753](https://GitHub.Com/emilk/egui/pull/2753) (thanks [@YgorSouza](https://GitHub.Com/YgorSouza)!)
+* Fix the OS check for windows [#2832](https://GitHub.Com/emilk/egui/pull/2832) (thanks [@jleibs](https://GitHub.Com/jleibs)!)
+* Fix scroll bars not appearing (#2826) [#2827](https://GitHub.Com/emilk/egui/pull/2827) (thanks [@lunixbochs](https://GitHub.Com/lunixbochs)!)
+* Fix UI `data()` read mutability [#2742](https://GitHub.Com/emilk/egui/pull/2742) (thanks [@IS2511](https://GitHub.Com/IS2511)!)
+* Menu State rect now uses menu frame rect instead of contents rect [#2886](https://GitHub.Com/emilk/egui/pull/2886) (thanks [@hats-np](https://GitHub.Com/hats-np)!)
+* Hide `Response::triple_clicked` in docs [#2867](https://GitHub.Com/emilk/egui/pull/2867) (thanks [@ccaven](https://GitHub.Com/ccaven)!)
+* `request_repaint_after` works even when called from background thread [#2939](https://GitHub.Com/emilk/egui/pull/2939)
+* Show alt key on Mac as `"Option"`, not `"Alt"` [#2981](https://GitHub.Com/emilk/egui/pull/2981) (thanks [@Wumpf](https://GitHub.Com/Wumpf)!)
+* Mention `store` in `TextEditState` doc comment [#2988](https://GitHub.Com/emilk/egui/pull/2988) (thanks [@fxdave](https://GitHub.Com/fxdave)!)
+* Fix typos [#2866](https://GitHub.Com/emilk/egui/pull/2866) (thanks [@fezjo](https://GitHub.Com/fezjo)!)
 
 
 ### ✨ Examples
-* Fix resizable columns option in the table demo [#2780](HTTPS://GitHub.Com/emilk/egui/pull/2780) (thanks [@Bobo1239](HTTPS://GitHub.Com/Bobo1239)!)
-* Update serial window example [#2756](HTTPS://GitHub.Com/emilk/egui/pull/2756) (thanks [@c-git](HTTPS://GitHub.Com/c-git)!)
-* Demo app: use `enum` instead of strings for demo-selector anchor [#2781](HTTPS://GitHub.Com/emilk/egui/pull/2781) (thanks [@XyLyXyRR](HTTPS://GitHub.Com/XyLyXyRR)!)
-* Use `env_logger` in all examples [#2934](HTTPS://GitHub.Com/emilk/egui/pull/2934)
-* Rename `examples/user_attention/README.mg` to `README.md` [#2948](HTTPS://GitHub.Com/emilk/egui/pull/2948) (thanks [@MAlba124](HTTPS://GitHub.Com/MAlba124)!)
-* egui_demo_app: add some native window info [b5c24d6](HTTPS://GitHub.Com/emilk/egui/commit/b5c24d6ec83112440f1a807d5ec79241ea8b40fe)
+* Fix resizable columns option in the table demo [#2780](https://GitHub.Com/emilk/egui/pull/2780) (thanks [@Bobo1239](https://GitHub.Com/Bobo1239)!)
+* Update serial window example [#2756](https://GitHub.Com/emilk/egui/pull/2756) (thanks [@c-git](https://GitHub.Com/c-git)!)
+* Demo app: use `enum` instead of strings for demo-selector anchor [#2781](https://GitHub.Com/emilk/egui/pull/2781) (thanks [@XyLyXyRR](https://GitHub.Com/XyLyXyRR)!)
+* Use `env_logger` in all examples [#2934](https://GitHub.Com/emilk/egui/pull/2934)
+* Rename `examples/user_attention/README.mg` to `README.md` [#2948](https://GitHub.Com/emilk/egui/pull/2948) (thanks [@MAlba124](https://GitHub.Com/MAlba124)!)
+* egui_demo_app: add some native window info [b5c24d6](https://GitHub.Com/emilk/egui/commit/b5c24d6ec83112440f1a807d5ec79241ea8b40fe)
 
 
 
 ## 0.21.0 - 2023-02-08 - Deadlock fix and style customizability
-* ⚠️ BREAKING: `egui::Context` now use closures for locking ([#2625](HTTPS://GitHub.Com/emilk/egui/pull/2625)):
+* ⚠️ BREAKING: `egui::Context` now use closures for locking ([#2625](https://GitHub.Com/emilk/egui/pull/2625)):
   * `ctx.input().key_pressed(Key::A)` -> `ctx.input(|i| i.key_pressed(Key::A))`
   * `ui.memory().toggle_popup(popup_id)` -> `ui.memory_mut(|mem| mem.toggle_popup(popup_id))`
 
 ### ⭐ Added
-* Add `Response::drag_started_by` and `Response::drag_released_by` for convenience, similar to `dragged` and `dragged_by` ([#2507](HTTPS://GitHub.Com/emilk/egui/pull/2507)).
-* Add `PointerState::*_pressed` to check if the given button was pressed in this frame ([#2507](HTTPS://GitHub.Com/emilk/egui/pull/2507)).
-* `Event::Key` now has a `repeat` field that is set to `true` if the event was the result of a key-repeat ([#2435](HTTPS://GitHub.Com/emilk/egui/pull/2435)).
+* Add `Response::drag_started_by` and `Response::drag_released_by` for convenience, similar to `dragged` and `dragged_by` ([#2507](https://GitHub.Com/emilk/egui/pull/2507)).
+* Add `PointerState::*_pressed` to check if the given button was pressed in this frame ([#2507](https://GitHub.Com/emilk/egui/pull/2507)).
+* `Event::Key` now has a `repeat` field that is set to `true` if the event was the result of a key-repeat ([#2435](https://GitHub.Com/emilk/egui/pull/2435)).
 * Add `Slider::drag_value_speed`, which lets you ask for finer precision when dragging the slider value rather than the actual slider.
-* Add `Memory::any_popup_open`, which returns true if any popup is currently open ([#2464](HTTPS://GitHub.Com/emilk/egui/pull/2464)).
-* Add `Plot::clamp_grid` to only show grid where there is data ([#2480](HTTPS://GitHub.Com/emilk/egui/pull/2480)).
+* Add `Memory::any_popup_open`, which returns true if any popup is currently open ([#2464](https://GitHub.Com/emilk/egui/pull/2464)).
+* Add `Plot::clamp_grid` to only show grid where there is data ([#2480](https://GitHub.Com/emilk/egui/pull/2480)).
 * Add `ScrollArea::drag_to_scroll` if you want to turn off that feature.
 * Add `Response::on_hover_and_drag_cursor`.
-* Add `Window::default_open` ([#2539](HTTPS://GitHub.Com/emilk/egui/pull/2539)).
-* Add `ProgressBar::fill` if you want to set the fill color manually. ([#2618](HTTPS://GitHub.Com/emilk/egui/pull/2618)).
-* Add `Button::rounding` to enable round buttons ([#2616](HTTPS://GitHub.Com/emilk/egui/pull/2616)).
-* Add `WidgetVisuals::optional_bg_color` - set it to `Color32::TRANSPARENT` to hide button backgrounds ([#2621](HTTPS://GitHub.Com/emilk/egui/pull/2621)).
-* Add `Context::screen_rect` and `Context::set_cursor_icon` ([#2625](HTTPS://GitHub.Com/emilk/egui/pull/2625)).
-* You can turn off the vertical line left of indented regions with `Visuals::indent_has_left_vline` ([#2636](HTTPS://GitHub.Com/emilk/egui/pull/2636)).
-* Add `Response.highlight` to highlight a widget ([#2632](HTTPS://GitHub.Com/emilk/egui/pull/2632)).
-* Add `Separator::grow` and `Separator::shrink` ([#2665](HTTPS://GitHub.Com/emilk/egui/pull/2665)).
-* Add `Slider::trailing_fill` for trailing color behind the circle like a `ProgressBar` ([#2660](HTTPS://GitHub.Com/emilk/egui/pull/2660)).
+* Add `Window::default_open` ([#2539](https://GitHub.Com/emilk/egui/pull/2539)).
+* Add `ProgressBar::fill` if you want to set the fill color manually. ([#2618](https://GitHub.Com/emilk/egui/pull/2618)).
+* Add `Button::rounding` to enable round buttons ([#2616](https://GitHub.Com/emilk/egui/pull/2616)).
+* Add `WidgetVisuals::optional_bg_color` - set it to `Color32::TRANSPARENT` to hide button backgrounds ([#2621](https://GitHub.Com/emilk/egui/pull/2621)).
+* Add `Context::screen_rect` and `Context::set_cursor_icon` ([#2625](https://GitHub.Com/emilk/egui/pull/2625)).
+* You can turn off the vertical line left of indented regions with `Visuals::indent_has_left_vline` ([#2636](https://GitHub.Com/emilk/egui/pull/2636)).
+* Add `Response.highlight` to highlight a widget ([#2632](https://GitHub.Com/emilk/egui/pull/2632)).
+* Add `Separator::grow` and `Separator::shrink` ([#2665](https://GitHub.Com/emilk/egui/pull/2665)).
+* Add `Slider::trailing_fill` for trailing color behind the circle like a `ProgressBar` ([#2660](https://GitHub.Com/emilk/egui/pull/2660)).
 
 ### 🔧 Changed
-* Improved plot grid appearance ([#2412](HTTPS://GitHub.Com/emilk/egui/pull/2412)).
+* Improved plot grid appearance ([#2412](https://GitHub.Com/emilk/egui/pull/2412)).
 * Improved the algorithm for picking the number of decimals to show when hovering values in the `Plot`.
-* Default `ComboBox` is now controlled with `Spacing::combo_width` ([#2621](HTTPS://GitHub.Com/emilk/egui/pull/2621)).
-* `DragValue` and `Slider` now use the proportional font ([#2638](HTTPS://GitHub.Com/emilk/egui/pull/2638)).
-* `ScrollArea` is less aggressive about clipping its contents ([#2665](HTTPS://GitHub.Com/emilk/egui/pull/2665)).
-* Updated to be compatible with a major breaking change in AccessKit that drastically reduces memory usage when accessibility is enabled ([#2678](HTTPS://GitHub.Com/emilk/egui/pull/2678)).
-* Improve `DragValue` behavior ([#2649](HTTPS://GitHub.Com/emilk/egui/pull/2649), [#2650](HTTPS://GitHub.Com/emilk/egui/pull/2650), [#2688](HTTPS://GitHub.Com/emilk/egui/pull/2688), [#2638](HTTPS://GitHub.Com/emilk/egui/pull/2638)).
+* Default `ComboBox` is now controlled with `Spacing::combo_width` ([#2621](https://GitHub.Com/emilk/egui/pull/2621)).
+* `DragValue` and `Slider` now use the proportional font ([#2638](https://GitHub.Com/emilk/egui/pull/2638)).
+* `ScrollArea` is less aggressive about clipping its contents ([#2665](https://GitHub.Com/emilk/egui/pull/2665)).
+* Updated to be compatible with a major breaking change in AccessKit that drastically reduces memory usage when accessibility is enabled ([#2678](https://GitHub.Com/emilk/egui/pull/2678)).
+* Improve `DragValue` behavior ([#2649](https://GitHub.Com/emilk/egui/pull/2649), [#2650](https://GitHub.Com/emilk/egui/pull/2650), [#2688](https://GitHub.Com/emilk/egui/pull/2688), [#2638](https://GitHub.Com/emilk/egui/pull/2638)).
 
 ### 🐛 Fixed
-* Trigger `PointerEvent::Released` for drags ([#2507](HTTPS://GitHub.Com/emilk/egui/pull/2507)).
-* Expose `TextEdit`'s multiline flag to AccessKit ([#2448](HTTPS://GitHub.Com/emilk/egui/pull/2448)).
-* Don't render `\r` (Carriage Return) ([#2452](HTTPS://GitHub.Com/emilk/egui/pull/2452)).
-* The `button_padding` style option works closer as expected with image+text buttons now ([#2510](HTTPS://GitHub.Com/emilk/egui/pull/2510)).
+* Trigger `PointerEvent::Released` for drags ([#2507](https://GitHub.Com/emilk/egui/pull/2507)).
+* Expose `TextEdit`'s multiline flag to AccessKit ([#2448](https://GitHub.Com/emilk/egui/pull/2448)).
+* Don't render `\r` (Carriage Return) ([#2452](https://GitHub.Com/emilk/egui/pull/2452)).
+* The `button_padding` style option works closer as expected with image+text buttons now ([#2510](https://GitHub.Com/emilk/egui/pull/2510)).
 * Menus are now moved to fit on the screen.
-* Fix `Window::pivot` causing windows to move around ([#2694](HTTPS://GitHub.Com/emilk/egui/pull/2694)).
+* Fix `Window::pivot` causing windows to move around ([#2694](https://GitHub.Com/emilk/egui/pull/2694)).
 
 
 ## 0.20.1 - 2022-12-11 - Fix key-repeat
 ### 🔧 Changed
-* `InputState`: all press functions again include key repeats (like in egui 0.19) ([#2429](HTTPS://GitHub.Com/emilk/egui/pull/2429)).
-* Improve the look of thin white lines ([#2437](HTTPS://GitHub.Com/emilk/egui/pull/2437)).
+* `InputState`: all press functions again include key repeats (like in egui 0.19) ([#2429](https://GitHub.Com/emilk/egui/pull/2429)).
+* Improve the look of thin white lines ([#2437](https://GitHub.Com/emilk/egui/pull/2437)).
 
 ### 🐛 Fixed
-* Fix key-repeats for `TextEdit`, `Slider`s, etc ([#2429](HTTPS://GitHub.Com/emilk/egui/pull/2429)).
+* Fix key-repeats for `TextEdit`, `Slider`s, etc ([#2429](https://GitHub.Com/emilk/egui/pull/2429)).
 
 
 ## 0.20.0 - 2022-12-08 - AccessKit, prettier text, overlapping widgets
-* MSRV (Minimum Supported Rust Version) is now `1.65.0` ([#2314](HTTPS://GitHub.Com/emilk/egui/pull/2314)).
-* ⚠️ BREAKING: egui now expects integrations to do all color blending in gamma space ([#2071](HTTPS://GitHub.Com/emilk/egui/pull/2071)).
-* ⚠️ BREAKING: if you have overlapping interactive widgets, only the top widget (last added) will be interactive ([#2244](HTTPS://GitHub.Com/emilk/egui/pull/2244)).
+* MSRV (Minimum Supported Rust Version) is now `1.65.0` ([#2314](https://GitHub.Com/emilk/egui/pull/2314)).
+* ⚠️ BREAKING: egui now expects integrations to do all color blending in gamma space ([#2071](https://GitHub.Com/emilk/egui/pull/2071)).
+* ⚠️ BREAKING: if you have overlapping interactive widgets, only the top widget (last added) will be interactive ([#2244](https://GitHub.Com/emilk/egui/pull/2244)).
 
 ### ⭐ Added
-* Added helper functions for animating panels that collapse/expand ([#2190](HTTPS://GitHub.Com/emilk/egui/pull/2190)).
-* Added `Context::os/Context::set_os` to query/set what operating system egui believes it is running on ([#2202](HTTPS://GitHub.Com/emilk/egui/pull/2202)).
-* Added `Button::shortcut_text` for showing keyboard shortcuts in menu buttons ([#2202](HTTPS://GitHub.Com/emilk/egui/pull/2202)).
-* Added `egui::KeyboardShortcut` for showing keyboard shortcuts in menu buttons ([#2202](HTTPS://GitHub.Com/emilk/egui/pull/2202)).
-* Texture loading now takes a `TexureOptions` with minification and magnification filters ([#2224](HTTPS://GitHub.Com/emilk/egui/pull/2224)).
-* Added `Key::Minus` and `Key::Equals` ([#2239](HTTPS://GitHub.Com/emilk/egui/pull/2239)).
-* Added `egui::gui_zoom` module with helpers for scaling the whole GUI of an app ([#2239](HTTPS://GitHub.Com/emilk/egui/pull/2239)).
-* You can now put one interactive widget on top of another, and only one will get interaction at a time ([#2244](HTTPS://GitHub.Com/emilk/egui/pull/2244)).
-* Added `spacing.menu_margin` for customizing menu spacing ([#2036](HTTPS://GitHub.Com/emilk/egui/pull/2036))
-* Added possibility to enable text wrap for the selected text of `egui::ComboBox` ([#2272](HTTPS://GitHub.Com/emilk/egui/pull/2272))
-* Added `Area::constrain` and `Window::constrain` which constrains area to the screen bounds ([#2270](HTTPS://GitHub.Com/emilk/egui/pull/2270)).
-* Added `Area::pivot` and `Window::pivot` which controls what part of the window to position ([#2303](HTTPS://GitHub.Com/emilk/egui/pull/2303)).
+* Added helper functions for animating panels that collapse/expand ([#2190](https://GitHub.Com/emilk/egui/pull/2190)).
+* Added `Context::os/Context::set_os` to query/set what operating system egui believes it is running on ([#2202](https://GitHub.Com/emilk/egui/pull/2202)).
+* Added `Button::shortcut_text` for showing keyboard shortcuts in menu buttons ([#2202](https://GitHub.Com/emilk/egui/pull/2202)).
+* Added `egui::KeyboardShortcut` for showing keyboard shortcuts in menu buttons ([#2202](https://GitHub.Com/emilk/egui/pull/2202)).
+* Texture loading now takes a `TexureOptions` with minification and magnification filters ([#2224](https://GitHub.Com/emilk/egui/pull/2224)).
+* Added `Key::Minus` and `Key::Equals` ([#2239](https://GitHub.Com/emilk/egui/pull/2239)).
+* Added `egui::gui_zoom` module with helpers for scaling the whole GUI of an app ([#2239](https://GitHub.Com/emilk/egui/pull/2239)).
+* You can now put one interactive widget on top of another, and only one will get interaction at a time ([#2244](https://GitHub.Com/emilk/egui/pull/2244)).
+* Added `spacing.menu_margin` for customizing menu spacing ([#2036](https://GitHub.Com/emilk/egui/pull/2036))
+* Added possibility to enable text wrap for the selected text of `egui::ComboBox` ([#2272](https://GitHub.Com/emilk/egui/pull/2272))
+* Added `Area::constrain` and `Window::constrain` which constrains area to the screen bounds ([#2270](https://GitHub.Com/emilk/egui/pull/2270)).
+* Added `Area::pivot` and `Window::pivot` which controls what part of the window to position ([#2303](https://GitHub.Com/emilk/egui/pull/2303)).
 * Added support for [thin space](https://en.wikipedia.org/wiki/Thin_space).
-* Added optional integration with [AccessKit](https://accesskit.dev/) for implementing platform accessibility APIs ([#2294](HTTPS://GitHub.Com/emilk/egui/pull/2294)).
-* Added `panel_fill`, `window_fill` and `window_stroke` to `Visuals` for your theming pleasure ([#2406](HTTPS://GitHub.Com/emilk/egui/pull/2406)).
+* Added optional integration with [AccessKit](https://accesskit.dev/) for implementing platform accessibility APIs ([#2294](https://GitHub.Com/emilk/egui/pull/2294)).
+* Added `panel_fill`, `window_fill` and `window_stroke` to `Visuals` for your theming pleasure ([#2406](https://GitHub.Com/emilk/egui/pull/2406)).
 * Plots:
-  * Allow linking plot cursors ([#1722](HTTPS://GitHub.Com/emilk/egui/pull/1722)).
-  * Added `Plot::auto_bounds_x/y` and `Plot::reset` ([#2029](HTTPS://GitHub.Com/emilk/egui/pull/2029)).
-  * Added `PlotUi::translate_bounds` ([#2145](HTTPS://GitHub.Com/emilk/egui/pull/2145)).
-  * Added `PlotUi::set_plot_bounds` ([#2320](HTTPS://GitHub.Com/emilk/egui/pull/2320)).
-  * Added `PlotUi::plot_secondary_clicked` ([#2318](HTTPS://GitHub.Com/emilk/egui/pull/2318)).
+  * Allow linking plot cursors ([#1722](https://GitHub.Com/emilk/egui/pull/1722)).
+  * Added `Plot::auto_bounds_x/y` and `Plot::reset` ([#2029](https://GitHub.Com/emilk/egui/pull/2029)).
+  * Added `PlotUi::translate_bounds` ([#2145](https://GitHub.Com/emilk/egui/pull/2145)).
+  * Added `PlotUi::set_plot_bounds` ([#2320](https://GitHub.Com/emilk/egui/pull/2320)).
+  * Added `PlotUi::plot_secondary_clicked` ([#2318](https://GitHub.Com/emilk/egui/pull/2318)).
 
 ### 🔧 Changed
-* Panels always have a separator line, but no stroke on other sides. Their spacing has also changed slightly ([#2261](HTTPS://GitHub.Com/emilk/egui/pull/2261)).
-* Tooltips are only shown when mouse pointer is still ([#2263](HTTPS://GitHub.Com/emilk/egui/pull/2263)).
-* Make it slightly easier to click buttons ([#2304](HTTPS://GitHub.Com/emilk/egui/pull/2304)).
-* `egui::color` has been renamed `egui::ecolor` ([#2399](HTTPS://GitHub.Com/emilk/egui/pull/2399)).
+* Panels always have a separator line, but no stroke on other sides. Their spacing has also changed slightly ([#2261](https://GitHub.Com/emilk/egui/pull/2261)).
+* Tooltips are only shown when mouse pointer is still ([#2263](https://GitHub.Com/emilk/egui/pull/2263)).
+* Make it slightly easier to click buttons ([#2304](https://GitHub.Com/emilk/egui/pull/2304)).
+* `egui::color` has been renamed `egui::ecolor` ([#2399](https://GitHub.Com/emilk/egui/pull/2399)).
 
 ### 🐛 Fixed
-* ⚠️ BREAKING: Fix text being too small ([#2069](HTTPS://GitHub.Com/emilk/egui/pull/2069)).
-* Improve mixed CJK/Latin line-breaking ([#1986](HTTPS://GitHub.Com/emilk/egui/pull/1986)).
-* Improved text rendering ([#2071](HTTPS://GitHub.Com/emilk/egui/pull/2071)).
-* Constrain menu popups to the screen ([#2191](HTTPS://GitHub.Com/emilk/egui/pull/2191)).
-* Less jitter when calling `Context::set_pixels_per_point` ([#2239](HTTPS://GitHub.Com/emilk/egui/pull/2239)).
+* ⚠️ BREAKING: Fix text being too small ([#2069](https://GitHub.Com/emilk/egui/pull/2069)).
+* Improve mixed CJK/Latin line-breaking ([#1986](https://GitHub.Com/emilk/egui/pull/1986)).
+* Improved text rendering ([#2071](https://GitHub.Com/emilk/egui/pull/2071)).
+* Constrain menu popups to the screen ([#2191](https://GitHub.Com/emilk/egui/pull/2191)).
+* Less jitter when calling `Context::set_pixels_per_point` ([#2239](https://GitHub.Com/emilk/egui/pull/2239)).
 * Fixed popups and color edit going outside the screen.
-* Fixed keyboard support in `DragValue` ([#2342](HTTPS://GitHub.Com/emilk/egui/pull/2342)).
-* If you nest `ScrollAreas` inside each other, the inner area will now move its scroll bar so it is always visible ([#2371](HTTPS://GitHub.Com/emilk/egui/pull/2371)).
-* Ignore key-repeats for `input.key_pressed` ([#2334](HTTPS://GitHub.Com/emilk/egui/pull/2334), [#2389](HTTPS://GitHub.Com/emilk/egui/pull/2389)).
-* Fixed issue with calling `set_pixels_per_point` each frame ([#2352](HTTPS://GitHub.Com/emilk/egui/pull/2352)).
-* Fix bug in `ScrollArea::show_rows` ([#2258](HTTPS://GitHub.Com/emilk/egui/pull/2258)).
-* Fix bug in `plot::Line::fill` ([#2275](HTTPS://GitHub.Com/emilk/egui/pull/2275)).
-* Only emit `changed` events in `radio_value` and `selectable_value` if the value actually changed ([#2343](HTTPS://GitHub.Com/emilk/egui/pull/2343)).
-* Fixed sizing bug in `Grid` ([#2384](HTTPS://GitHub.Com/emilk/egui/pull/2384)).
-* `ComboBox::width` now correctly sets the outer width ([#2406](HTTPS://GitHub.Com/emilk/egui/pull/2406)).
+* Fixed keyboard support in `DragValue` ([#2342](https://GitHub.Com/emilk/egui/pull/2342)).
+* If you nest `ScrollAreas` inside each other, the inner area will now move its scroll bar so it is always visible ([#2371](https://GitHub.Com/emilk/egui/pull/2371)).
+* Ignore key-repeats for `input.key_pressed` ([#2334](https://GitHub.Com/emilk/egui/pull/2334), [#2389](https://GitHub.Com/emilk/egui/pull/2389)).
+* Fixed issue with calling `set_pixels_per_point` each frame ([#2352](https://GitHub.Com/emilk/egui/pull/2352)).
+* Fix bug in `ScrollArea::show_rows` ([#2258](https://GitHub.Com/emilk/egui/pull/2258)).
+* Fix bug in `plot::Line::fill` ([#2275](https://GitHub.Com/emilk/egui/pull/2275)).
+* Only emit `changed` events in `radio_value` and `selectable_value` if the value actually changed ([#2343](https://GitHub.Com/emilk/egui/pull/2343)).
+* Fixed sizing bug in `Grid` ([#2384](https://GitHub.Com/emilk/egui/pull/2384)).
+* `ComboBox::width` now correctly sets the outer width ([#2406](https://GitHub.Com/emilk/egui/pull/2406)).
 
 
 ## 0.19.0 - 2022-08-20
 ### ⭐ Added
-* Added `*_released` & `*_clicked` methods for `PointerState` ([#1582](HTTPS://GitHub.Com/emilk/egui/pull/1582)).
-* Added `PointerButton::Extra1` and `PointerButton::Extra2` ([#1592](HTTPS://GitHub.Com/emilk/egui/pull/1592)).
-* Added `egui::hex_color!` to create `Color32`'s from hex strings under the `color-hex` feature ([#1596](HTTPS://GitHub.Com/emilk/egui/pull/1596)).
-* Optimized painting of filled circles (e.g. for scatter plots) by 10x or more ([#1616](HTTPS://GitHub.Com/emilk/egui/pull/1616)).
-* Added opt-in feature `deadlock_detection` to detect double-lock of mutexes on the same thread ([#1619](HTTPS://GitHub.Com/emilk/egui/pull/1619)).
-* Added `InputState::stable_dt`: a more stable estimate for the delta-time in reactive mode ([#1625](HTTPS://GitHub.Com/emilk/egui/pull/1625)).
-* You can now specify a texture filter for your textures ([#1636](HTTPS://GitHub.Com/emilk/egui/pull/1636)).
-* Added functions keys in `egui::Key` ([#1665](HTTPS://GitHub.Com/emilk/egui/pull/1665)).
-* Added support for using `PaintCallback` shapes with the WGPU backend ([#1684](HTTPS://GitHub.Com/emilk/egui/pull/1684)).
-* Added `Context::request_repaint_after` ([#1694](HTTPS://GitHub.Com/emilk/egui/pull/1694)).
-* `ctrl-h` now acts like backspace in `TextEdit` ([#1812](HTTPS://GitHub.Com/emilk/egui/pull/1812)).
-* Added `custom_formatter` method for `Slider` and `DragValue` ([#1851](HTTPS://GitHub.Com/emilk/egui/issues/1851)).
-* Added `RawInput::has_focus` which backends can set to indicate whether the UI as a whole has the keyboard focus ([#1859](HTTPS://GitHub.Com/emilk/egui/pull/1859)).
-* Added `PointerState::button_double_clicked()` and `PointerState::button_triple_clicked()` ([#1906](HTTPS://GitHub.Com/emilk/egui/issues/1906)).
-* Added `custom_formatter`, `binary`, `octal`, and `hexadecimal` to `DragValue` and `Slider` ([#1953](HTTPS://GitHub.Com/emilk/egui/issues/1953))
+* Added `*_released` & `*_clicked` methods for `PointerState` ([#1582](https://GitHub.Com/emilk/egui/pull/1582)).
+* Added `PointerButton::Extra1` and `PointerButton::Extra2` ([#1592](https://GitHub.Com/emilk/egui/pull/1592)).
+* Added `egui::hex_color!` to create `Color32`'s from hex strings under the `color-hex` feature ([#1596](https://GitHub.Com/emilk/egui/pull/1596)).
+* Optimized painting of filled circles (e.g. for scatter plots) by 10x or more ([#1616](https://GitHub.Com/emilk/egui/pull/1616)).
+* Added opt-in feature `deadlock_detection` to detect double-lock of mutexes on the same thread ([#1619](https://GitHub.Com/emilk/egui/pull/1619)).
+* Added `InputState::stable_dt`: a more stable estimate for the delta-time in reactive mode ([#1625](https://GitHub.Com/emilk/egui/pull/1625)).
+* You can now specify a texture filter for your textures ([#1636](https://GitHub.Com/emilk/egui/pull/1636)).
+* Added functions keys in `egui::Key` ([#1665](https://GitHub.Com/emilk/egui/pull/1665)).
+* Added support for using `PaintCallback` shapes with the WGPU backend ([#1684](https://GitHub.Com/emilk/egui/pull/1684)).
+* Added `Context::request_repaint_after` ([#1694](https://GitHub.Com/emilk/egui/pull/1694)).
+* `ctrl-h` now acts like backspace in `TextEdit` ([#1812](https://GitHub.Com/emilk/egui/pull/1812)).
+* Added `custom_formatter` method for `Slider` and `DragValue` ([#1851](https://GitHub.Com/emilk/egui/issues/1851)).
+* Added `RawInput::has_focus` which backends can set to indicate whether the UI as a whole has the keyboard focus ([#1859](https://GitHub.Com/emilk/egui/pull/1859)).
+* Added `PointerState::button_double_clicked()` and `PointerState::button_triple_clicked()` ([#1906](https://GitHub.Com/emilk/egui/issues/1906)).
+* Added `custom_formatter`, `binary`, `octal`, and `hexadecimal` to `DragValue` and `Slider` ([#1953](https://GitHub.Com/emilk/egui/issues/1953))
 
 ### 🔧 Changed
-* MSRV (Minimum Supported Rust Version) is now `1.61.0` ([#1846](HTTPS://GitHub.Com/emilk/egui/pull/1846)).
-* `PaintCallback` shapes now require the whole callback to be put in an `Arc<dyn Any>` with the value being a backend-specific callback type ([#1684](HTTPS://GitHub.Com/emilk/egui/pull/1684)).
-* Replaced `needs_repaint` in `FullOutput` with `repaint_after`. Used to force repaint after the set duration in reactive mode ([#1694](HTTPS://GitHub.Com/emilk/egui/pull/1694)).
+* MSRV (Minimum Supported Rust Version) is now `1.61.0` ([#1846](https://GitHub.Com/emilk/egui/pull/1846)).
+* `PaintCallback` shapes now require the whole callback to be put in an `Arc<dyn Any>` with the value being a backend-specific callback type ([#1684](https://GitHub.Com/emilk/egui/pull/1684)).
+* Replaced `needs_repaint` in `FullOutput` with `repaint_after`. Used to force repaint after the set duration in reactive mode ([#1694](https://GitHub.Com/emilk/egui/pull/1694)).
 * `Layout::left_to_right` and `Layout::right_to_left` now takes the vertical align as an argument. Previous default was `Align::Center`.
-* Improved ergonomics of adding plot items. All plot items that take a series of 2D coordinates can now be created directly from `Vec<[f64; 2]>`. The `Value` and `Values` types were removed in favor of `PlotPoint` and `PlotPoints` respectively ([#1816](HTTPS://GitHub.Com/emilk/egui/pull/1816)).
-* `TextBuffer` no longer needs to implement `AsRef<str>` ([#1824](HTTPS://GitHub.Com/emilk/egui/pull/1824)).
+* Improved ergonomics of adding plot items. All plot items that take a series of 2D coordinates can now be created directly from `Vec<[f64; 2]>`. The `Value` and `Values` types were removed in favor of `PlotPoint` and `PlotPoints` respectively ([#1816](https://GitHub.Com/emilk/egui/pull/1816)).
+* `TextBuffer` no longer needs to implement `AsRef<str>` ([#1824](https://GitHub.Com/emilk/egui/pull/1824)).
 
 ### 🐛 Fixed
-* Fixed `Response::changed` for `ui.toggle_value` ([#1573](HTTPS://GitHub.Com/emilk/egui/pull/1573)).
-* Fixed `ImageButton`'s changing background padding on hover ([#1595](HTTPS://GitHub.Com/emilk/egui/pull/1595)).
-* Fixed `Plot` auto-bounds bug ([#1599](HTTPS://GitHub.Com/emilk/egui/pull/1599)).
-* Fixed dead-lock when alt-tabbing while also showing a tooltip ([#1618](HTTPS://GitHub.Com/emilk/egui/pull/1618)).
-* Fixed `ScrollArea` scrolling when editing an unrelated `TextEdit` ([#1779](HTTPS://GitHub.Com/emilk/egui/pull/1779)).
-* Fixed `Slider` not always generating events on change ([#1854](HTTPS://GitHub.Com/emilk/egui/pull/1854)).
-* Fixed jitter of anchored windows for the first frame ([#1856](HTTPS://GitHub.Com/emilk/egui/pull/1856)).
-* Fixed focus behavior when pressing Tab in a UI with no focused widget ([#1861](HTTPS://GitHub.Com/emilk/egui/pull/1861)).
-* Fixed automatic plot bounds ([#1865](HTTPS://GitHub.Com/emilk/egui/pull/1865)).
+* Fixed `Response::changed` for `ui.toggle_value` ([#1573](https://GitHub.Com/emilk/egui/pull/1573)).
+* Fixed `ImageButton`'s changing background padding on hover ([#1595](https://GitHub.Com/emilk/egui/pull/1595)).
+* Fixed `Plot` auto-bounds bug ([#1599](https://GitHub.Com/emilk/egui/pull/1599)).
+* Fixed dead-lock when alt-tabbing while also showing a tooltip ([#1618](https://GitHub.Com/emilk/egui/pull/1618)).
+* Fixed `ScrollArea` scrolling when editing an unrelated `TextEdit` ([#1779](https://GitHub.Com/emilk/egui/pull/1779)).
+* Fixed `Slider` not always generating events on change ([#1854](https://GitHub.Com/emilk/egui/pull/1854)).
+* Fixed jitter of anchored windows for the first frame ([#1856](https://GitHub.Com/emilk/egui/pull/1856)).
+* Fixed focus behavior when pressing Tab in a UI with no focused widget ([#1861](https://GitHub.Com/emilk/egui/pull/1861)).
+* Fixed automatic plot bounds ([#1865](https://GitHub.Com/emilk/egui/pull/1865)).
 
 
 ## 0.18.1 - 2022-05-01
@@ -199,172 +199,172 @@ NOTE: [`epaint`](crates/epaint/CHANGELOG.md), [`eframe`](crates/eframe/CHANGELOG
 ## 0.18.0 - 2022-04-30
 
 ### ⭐ Added
-* Added `Shape::Callback` for backend-specific painting, [with an example](HTTPS://GitHub.Com/emilk/egui/tree/master/examples/custom_3d_glow) ([#1351](HTTPS://GitHub.Com/emilk/egui/pull/1351)).
-* Added `Frame::canvas` ([#1362](HTTPS://GitHub.Com/emilk/egui/pull/1362)).
-* `Context::request_repaint` will now wake up UI thread, if integrations has called `Context::set_request_repaint_callback` ([#1366](HTTPS://GitHub.Com/emilk/egui/pull/1366)).
-* Added `Plot::allow_scroll`, `Plot::allow_zoom` no longer affects scrolling ([#1382](HTTPS://GitHub.Com/emilk/egui/pull/1382)).
-* Added `Ui::push_id` to resolve id clashes ([#1374](HTTPS://GitHub.Com/emilk/egui/pull/1374)).
-* Added `ComboBox::icon` ([#1405](HTTPS://GitHub.Com/emilk/egui/pull/1405)).
+* Added `Shape::Callback` for backend-specific painting, [with an example](https://GitHub.Com/emilk/egui/tree/master/examples/custom_3d_glow) ([#1351](https://GitHub.Com/emilk/egui/pull/1351)).
+* Added `Frame::canvas` ([#1362](https://GitHub.Com/emilk/egui/pull/1362)).
+* `Context::request_repaint` will now wake up UI thread, if integrations has called `Context::set_request_repaint_callback` ([#1366](https://GitHub.Com/emilk/egui/pull/1366)).
+* Added `Plot::allow_scroll`, `Plot::allow_zoom` no longer affects scrolling ([#1382](https://GitHub.Com/emilk/egui/pull/1382)).
+* Added `Ui::push_id` to resolve id clashes ([#1374](https://GitHub.Com/emilk/egui/pull/1374)).
+* Added `ComboBox::icon` ([#1405](https://GitHub.Com/emilk/egui/pull/1405)).
 * Added `Ui::scroll_with_delta`.
 * Added `Frame::outer_margin`.
 * Added `Painter::hline` and `Painter::vline`.
-* Added `Link` and `ui.link` ([#1506](HTTPS://GitHub.Com/emilk/egui/pull/1506)).
-* Added triple-click support; triple-clicking a TextEdit field will select the whole paragraph ([#1512](HTTPS://GitHub.Com/emilk/egui/pull/1512)).
-* Added `Plot::x_grid_spacer` and `Plot::y_grid_spacer` for custom grid spacing ([#1180](HTTPS://GitHub.Com/emilk/egui/pull/1180)).
-* Added `Ui::spinner()` shortcut method ([#1494](HTTPS://GitHub.Com/emilk/egui/pull/1494)).
+* Added `Link` and `ui.link` ([#1506](https://GitHub.Com/emilk/egui/pull/1506)).
+* Added triple-click support; triple-clicking a TextEdit field will select the whole paragraph ([#1512](https://GitHub.Com/emilk/egui/pull/1512)).
+* Added `Plot::x_grid_spacer` and `Plot::y_grid_spacer` for custom grid spacing ([#1180](https://GitHub.Com/emilk/egui/pull/1180)).
+* Added `Ui::spinner()` shortcut method ([#1494](https://GitHub.Com/emilk/egui/pull/1494)).
 * Added `CursorIcon`s for resizing columns, rows, and the eight cardinal directions.
 * Added `Ui::toggle_value`.
-* Added ability to add any widgets to the header of a collapsing region ([#1538](HTTPS://GitHub.Com/emilk/egui/pull/1538)).
+* Added ability to add any widgets to the header of a collapsing region ([#1538](https://GitHub.Com/emilk/egui/pull/1538)).
 
 ### 🔧 Changed
-* MSRV (Minimum Supported Rust Version) is now `1.60.0` ([#1467](HTTPS://GitHub.Com/emilk/egui/pull/1467)).
-* `ClippedMesh` has been replaced with `ClippedPrimitive` ([#1351](HTTPS://GitHub.Com/emilk/egui/pull/1351)).
+* MSRV (Minimum Supported Rust Version) is now `1.60.0` ([#1467](https://GitHub.Com/emilk/egui/pull/1467)).
+* `ClippedMesh` has been replaced with `ClippedPrimitive` ([#1351](https://GitHub.Com/emilk/egui/pull/1351)).
 * Renamed `Frame::margin` to `Frame::inner_margin`.
-* Renamed `AlphaImage` to `FontImage` to discourage any other use for it ([#1412](HTTPS://GitHub.Com/emilk/egui/pull/1412)).
-* Warnings will be painted on screen when there is an `Id` clash for `Grid`, `Plot` or `ScrollArea` ([#1452](HTTPS://GitHub.Com/emilk/egui/pull/1452)).
-* `Checkbox` and `RadioButton` with an empty label (`""`) will now take up much less space ([#1456](HTTPS://GitHub.Com/emilk/egui/pull/1456)).
+* Renamed `AlphaImage` to `FontImage` to discourage any other use for it ([#1412](https://GitHub.Com/emilk/egui/pull/1412)).
+* Warnings will be painted on screen when there is an `Id` clash for `Grid`, `Plot` or `ScrollArea` ([#1452](https://GitHub.Com/emilk/egui/pull/1452)).
+* `Checkbox` and `RadioButton` with an empty label (`""`) will now take up much less space ([#1456](https://GitHub.Com/emilk/egui/pull/1456)).
 * Replaced `Memory::top_most_layer` with more flexible `Memory::layer_ids`.
-* Renamed the feature `convert_bytemuck` to `bytemuck` ([#1467](HTTPS://GitHub.Com/emilk/egui/pull/1467)).
-* Renamed the feature `serialize` to `serde` ([#1467](HTTPS://GitHub.Com/emilk/egui/pull/1467)).
+* Renamed the feature `convert_bytemuck` to `bytemuck` ([#1467](https://GitHub.Com/emilk/egui/pull/1467)).
+* Renamed the feature `serialize` to `serde` ([#1467](https://GitHub.Com/emilk/egui/pull/1467)).
 * Renamed `Painter::sub_region` to `Painter::with_clip_rect`.
 
 ### 🐛 Fixed
-* Fixed `ComboBox`es always being rendered left-aligned ([#1304](HTTPS://GitHub.Com/emilk/egui/pull/1304)).
-* Fixed ui code that could lead to a deadlock ([#1380](HTTPS://GitHub.Com/emilk/egui/pull/1380)).
-* Text is darker and more readable in bright mode ([#1412](HTTPS://GitHub.Com/emilk/egui/pull/1412)).
-* Fixed a lot of broken/missing doclinks  ([#1419](HTTPS://GitHub.Com/emilk/egui/pull/1419)).
-* Fixed `Ui::add_visible` sometimes leaving the `Ui` in a disabled state ([#1436](HTTPS://GitHub.Com/emilk/egui/issues/1436)).
-* Added line breaking rules for Japanese text ([#1498](HTTPS://GitHub.Com/emilk/egui/pull/1498)).
+* Fixed `ComboBox`es always being rendered left-aligned ([#1304](https://GitHub.Com/emilk/egui/pull/1304)).
+* Fixed ui code that could lead to a deadlock ([#1380](https://GitHub.Com/emilk/egui/pull/1380)).
+* Text is darker and more readable in bright mode ([#1412](https://GitHub.Com/emilk/egui/pull/1412)).
+* Fixed a lot of broken/missing doclinks  ([#1419](https://GitHub.Com/emilk/egui/pull/1419)).
+* Fixed `Ui::add_visible` sometimes leaving the `Ui` in a disabled state ([#1436](https://GitHub.Com/emilk/egui/issues/1436)).
+* Added line breaking rules for Japanese text ([#1498](https://GitHub.Com/emilk/egui/pull/1498)).
 
 ### ☢️ Deprecated
-* Deprecated `CollapsingHeader::selectable` ([#1538](HTTPS://GitHub.Com/emilk/egui/pull/1538)).
+* Deprecated `CollapsingHeader::selectable` ([#1538](https://GitHub.Com/emilk/egui/pull/1538)).
 
 ### 🔥 Removed
-* Removed the `single_threaded/multi_threaded` flags - egui is now always thread-safe ([#1390](HTTPS://GitHub.Com/emilk/egui/pull/1390)).
+* Removed the `single_threaded/multi_threaded` flags - egui is now always thread-safe ([#1390](https://GitHub.Com/emilk/egui/pull/1390)).
 
 ### Contributors 🙏
-* [4JX](HTTPS://GitHub.Com/4JX)
-* [AlexxxRu](HTTPS://GitHub.Com/AlexxxRu)
-* [ascclemens](HTTPS://GitHub.Com/ascclemens)
-* [awaken1ng](HTTPS://GitHub.Com/awaken1ng)
-* [bigfarts](HTTPS://GitHub.Com/bigfarts)
-* [bobyclaws](HTTPS://GitHub.Com/bobyclaws)
-* [Bromeon](HTTPS://GitHub.Com/Bromeon)
-* [cloudhead](HTTPS://GitHub.Com/cloudhead)
-* [collin-kemper](HTTPS://GitHub.Com/collin-kemper)
-* [cpterry](HTTPS://GitHub.Com/cpterry)
-* [dbuch](HTTPS://GitHub.Com/dbuch)
-* [DusterTheFirst](HTTPS://GitHub.Com/DusterTheFirst)
-* [Edgeworth ](HTTPS://GitHub.Com/Edgeworth )
-* [elwerene](HTTPS://GitHub.Com/elwerene)
-* [follower](HTTPS://GitHub.Com/follower)
-* [Friz64](HTTPS://GitHub.Com/Friz64)
-* [Hunter522 ](HTTPS://GitHub.Com/Hunter522 )
-* [Jake-Shadle](HTTPS://GitHub.Com/Jake-Shadle)
-* [jean-airoldie ](HTTPS://GitHub.Com/jean-airoldie )
-* [JelNiSlaw](HTTPS://GitHub.Com/JelNiSlaw)
-* [juancampa](HTTPS://GitHub.Com/juancampa)
-* [LU15W1R7H](HTTPS://GitHub.Com/LU15W1R7H)
-* [mbillingr](HTTPS://GitHub.Com/mbillingr)
-* [nicklasmoeller](HTTPS://GitHub.Com/nicklasmoeller)
-* [rukai](HTTPS://GitHub.Com/rukai)
-* [tami5](HTTPS://GitHub.Com/tami5)
-* [Titaniumtown](HTTPS://GitHub.Com/Titaniumtown)
-* [trevyn](HTTPS://GitHub.Com/trevyn)
-* [waynr](HTTPS://GitHub.Com/waynr)
-* [zam-5 ](HTTPS://GitHub.Com/zam-5 )
+* [4JX](https://GitHub.Com/4JX)
+* [AlexxxRu](https://GitHub.Com/AlexxxRu)
+* [ascclemens](https://GitHub.Com/ascclemens)
+* [awaken1ng](https://GitHub.Com/awaken1ng)
+* [bigfarts](https://GitHub.Com/bigfarts)
+* [bobyclaws](https://GitHub.Com/bobyclaws)
+* [Bromeon](https://GitHub.Com/Bromeon)
+* [cloudhead](https://GitHub.Com/cloudhead)
+* [collin-kemper](https://GitHub.Com/collin-kemper)
+* [cpterry](https://GitHub.Com/cpterry)
+* [dbuch](https://GitHub.Com/dbuch)
+* [DusterTheFirst](https://GitHub.Com/DusterTheFirst)
+* [Edgeworth ](https://GitHub.Com/Edgeworth )
+* [elwerene](https://GitHub.Com/elwerene)
+* [follower](https://GitHub.Com/follower)
+* [Friz64](https://GitHub.Com/Friz64)
+* [Hunter522 ](https://GitHub.Com/Hunter522 )
+* [Jake-Shadle](https://GitHub.Com/Jake-Shadle)
+* [jean-airoldie ](https://GitHub.Com/jean-airoldie )
+* [JelNiSlaw](https://GitHub.Com/JelNiSlaw)
+* [juancampa](https://GitHub.Com/juancampa)
+* [LU15W1R7H](https://GitHub.Com/LU15W1R7H)
+* [mbillingr](https://GitHub.Com/mbillingr)
+* [nicklasmoeller](https://GitHub.Com/nicklasmoeller)
+* [rukai](https://GitHub.Com/rukai)
+* [tami5](https://GitHub.Com/tami5)
+* [Titaniumtown](https://GitHub.Com/Titaniumtown)
+* [trevyn](https://GitHub.Com/trevyn)
+* [waynr](https://GitHub.Com/waynr)
+* [zam-5 ](https://GitHub.Com/zam-5 )
 
 
 ## 0.17.0 - 2022-02-22 - Improved font selection and image handling
 
 ### ⭐ Added
-* Much improved font selection ([#1154](HTTPS://GitHub.Com/emilk/egui/pull/1154)):
+* Much improved font selection ([#1154](https://GitHub.Com/emilk/egui/pull/1154)):
   * You can now select any font size and family using `RichText::size` amd `RichText::family` and the new `FontId`.
   * Easily change text styles with `Style::text_styles`.
   * Added `Ui::text_style_height`.
   * Added `TextStyle::resolve`.
-  * Made the v-align and scale of user fonts tweakable ([#1241](HTTPS://GitHub.Com/emilk/egui/pull/1027)).
+  * Made the v-align and scale of user fonts tweakable ([#1241](https://GitHub.Com/emilk/egui/pull/1027)).
 * Plot:
-  * Added `Plot::x_axis_formatter` and `Plot::y_axis_formatter` for custom axis labels ([#1130](HTTPS://GitHub.Com/emilk/egui/pull/1130)).
-  * Added `Plot::allow_boxed_zoom()`, `Plot::boxed_zoom_pointer()` for boxed zooming on plots ([#1188](HTTPS://GitHub.Com/emilk/egui/pull/1188)).
-  * Added plot pointer coordinates with `Plot::coordinates_formatter` ([#1235](HTTPS://GitHub.Com/emilk/egui/pull/1235)).
-  * Added linked axis support for plots via `plot::LinkedAxisGroup` ([#1184](HTTPS://GitHub.Com/emilk/egui/pull/1184)).
-* `Context::load_texture` to convert an image into a texture which can be displayed using e.g. `ui.image(texture, size)` ([#1110](HTTPS://GitHub.Com/emilk/egui/pull/1110)).
-* `Ui::input_mut` to modify how subsequent widgets see the `InputState` and a convenience method `InputState::consume_key` for shortcuts or hotkeys ([#1212](HTTPS://GitHub.Com/emilk/egui/pull/1212)).
+  * Added `Plot::x_axis_formatter` and `Plot::y_axis_formatter` for custom axis labels ([#1130](https://GitHub.Com/emilk/egui/pull/1130)).
+  * Added `Plot::allow_boxed_zoom()`, `Plot::boxed_zoom_pointer()` for boxed zooming on plots ([#1188](https://GitHub.Com/emilk/egui/pull/1188)).
+  * Added plot pointer coordinates with `Plot::coordinates_formatter` ([#1235](https://GitHub.Com/emilk/egui/pull/1235)).
+  * Added linked axis support for plots via `plot::LinkedAxisGroup` ([#1184](https://GitHub.Com/emilk/egui/pull/1184)).
+* `Context::load_texture` to convert an image into a texture which can be displayed using e.g. `ui.image(texture, size)` ([#1110](https://GitHub.Com/emilk/egui/pull/1110)).
+* `Ui::input_mut` to modify how subsequent widgets see the `InputState` and a convenience method `InputState::consume_key` for shortcuts or hotkeys ([#1212](https://GitHub.Com/emilk/egui/pull/1212)).
 * Added `Ui::add_visible` and `Ui::add_visible_ui`.
-* Added `CollapsingHeader::icon` to override the default open/close icon using a custom function. ([1147](HTTPS://GitHub.Com/emilk/egui/pull/1147)).
-* Added `ui.data()`, `ctx.data()`, `ctx.options()` and `ctx.tessellation_options()` ([#1175](HTTPS://GitHub.Com/emilk/egui/pull/1175)).
-* Added `Response::on_hover_text_at_pointer` as a convenience akin to `Response::on_hover_text` ([1179](HTTPS://GitHub.Com/emilk/egui/pull/1179)).
-* Opt-in dependency on `tracing` crate for logging warnings ([#1192](HTTPS://GitHub.Com/emilk/egui/pull/1192)).
+* Added `CollapsingHeader::icon` to override the default open/close icon using a custom function. ([1147](https://GitHub.Com/emilk/egui/pull/1147)).
+* Added `ui.data()`, `ctx.data()`, `ctx.options()` and `ctx.tessellation_options()` ([#1175](https://GitHub.Com/emilk/egui/pull/1175)).
+* Added `Response::on_hover_text_at_pointer` as a convenience akin to `Response::on_hover_text` ([1179](https://GitHub.Com/emilk/egui/pull/1179)).
+* Opt-in dependency on `tracing` crate for logging warnings ([#1192](https://GitHub.Com/emilk/egui/pull/1192)).
 * Added `ui.weak(text)`.
-* Added `Slider::step_by` ([1225](HTTPS://GitHub.Com/emilk/egui/pull/1225)).
-* Added `Context::move_to_top` and `Context::top_most_layer` for managing the layer on the top ([#1242](HTTPS://GitHub.Com/emilk/egui/pull/1242)).
-* Support a subset of macOS' emacs input field keybindings in `TextEdit` ([#1243](HTTPS://GitHub.Com/emilk/egui/pull/1243)).
-* Added ability to scroll an UI into view without specifying an alignment ([1247](HTTPS://GitHub.Com/emilk/egui/pull/1247)).
-* Added `Ui::scroll_to_rect` ([1252](HTTPS://GitHub.Com/emilk/egui/pull/1252)).
+* Added `Slider::step_by` ([1225](https://GitHub.Com/emilk/egui/pull/1225)).
+* Added `Context::move_to_top` and `Context::top_most_layer` for managing the layer on the top ([#1242](https://GitHub.Com/emilk/egui/pull/1242)).
+* Support a subset of macOS' emacs input field keybindings in `TextEdit` ([#1243](https://GitHub.Com/emilk/egui/pull/1243)).
+* Added ability to scroll an UI into view without specifying an alignment ([1247](https://GitHub.Com/emilk/egui/pull/1247)).
+* Added `Ui::scroll_to_rect` ([1252](https://GitHub.Com/emilk/egui/pull/1252)).
 
 ### 🔧 Changed
 * ⚠️ `Context::input` and `Ui::input` now locks a mutex. This can lead to a dead-lock is used in an `if let` binding!
   * `if let Some(pos) = ui.input().pointer.latest_pos()` and similar must now be rewritten on two lines.
   * Search for this problem in your code using the regex `if let .*input`.
-* Better contrast in the default light mode style ([#1238](HTTPS://GitHub.Com/emilk/egui/pull/1238)).
-* Renamed `CtxRef` to `Context` ([#1050](HTTPS://GitHub.Com/emilk/egui/pull/1050)).
-* `Context` can now be cloned and stored between frames ([#1050](HTTPS://GitHub.Com/emilk/egui/pull/1050)).
+* Better contrast in the default light mode style ([#1238](https://GitHub.Com/emilk/egui/pull/1238)).
+* Renamed `CtxRef` to `Context` ([#1050](https://GitHub.Com/emilk/egui/pull/1050)).
+* `Context` can now be cloned and stored between frames ([#1050](https://GitHub.Com/emilk/egui/pull/1050)).
 * Renamed `Ui::visible` to `Ui::is_visible`.
-* Split `Event::Text` into `Event::Text` and `Event::Paste` ([#1058](HTTPS://GitHub.Com/emilk/egui/pull/1058)).
-* Replaced `Style::body_text_style` with more generic `Style::text_styles` ([#1154](HTTPS://GitHub.Com/emilk/egui/pull/1154)).
-* `TextStyle` is no longer `Copy` ([#1154](HTTPS://GitHub.Com/emilk/egui/pull/1154)).
-* Replaced `TextEdit::text_style` with `TextEdit::font` ([#1154](HTTPS://GitHub.Com/emilk/egui/pull/1154)).
-* `Plot::highlight` now takes a `bool` argument ([#1159](HTTPS://GitHub.Com/emilk/egui/pull/1159)).
-* `ScrollArea::show` now returns a `ScrollAreaOutput`, so you might need to add `.inner` after the call to it ([#1166](HTTPS://GitHub.Com/emilk/egui/pull/1166)).
-* Replaced `corner_radius: f32` with `rounding: Rounding`, allowing per-corner rounding settings ([#1206](HTTPS://GitHub.Com/emilk/egui/pull/1206)).
-* Replaced Frame's `margin: Vec2` with `margin: Margin`, allowing for different margins on opposing sides ([#1219](HTTPS://GitHub.Com/emilk/egui/pull/1219)).
-* Renamed `Plot::custom_label_func` to `Plot::label_formatter` ([#1235](HTTPS://GitHub.Com/emilk/egui/pull/1235)).
-* `Areas::layer_id_at` ignores non-interatable layers (i.e. Tooltips) ([#1240](HTTPS://GitHub.Com/emilk/egui/pull/1240)).
-* `ScrollArea`s will not shrink below a certain minimum size, set by `min_scrolled_width/min_scrolled_height` ([1255](HTTPS://GitHub.Com/emilk/egui/pull/1255)).
+* Split `Event::Text` into `Event::Text` and `Event::Paste` ([#1058](https://GitHub.Com/emilk/egui/pull/1058)).
+* Replaced `Style::body_text_style` with more generic `Style::text_styles` ([#1154](https://GitHub.Com/emilk/egui/pull/1154)).
+* `TextStyle` is no longer `Copy` ([#1154](https://GitHub.Com/emilk/egui/pull/1154)).
+* Replaced `TextEdit::text_style` with `TextEdit::font` ([#1154](https://GitHub.Com/emilk/egui/pull/1154)).
+* `Plot::highlight` now takes a `bool` argument ([#1159](https://GitHub.Com/emilk/egui/pull/1159)).
+* `ScrollArea::show` now returns a `ScrollAreaOutput`, so you might need to add `.inner` after the call to it ([#1166](https://GitHub.Com/emilk/egui/pull/1166)).
+* Replaced `corner_radius: f32` with `rounding: Rounding`, allowing per-corner rounding settings ([#1206](https://GitHub.Com/emilk/egui/pull/1206)).
+* Replaced Frame's `margin: Vec2` with `margin: Margin`, allowing for different margins on opposing sides ([#1219](https://GitHub.Com/emilk/egui/pull/1219)).
+* Renamed `Plot::custom_label_func` to `Plot::label_formatter` ([#1235](https://GitHub.Com/emilk/egui/pull/1235)).
+* `Areas::layer_id_at` ignores non-interatable layers (i.e. Tooltips) ([#1240](https://GitHub.Com/emilk/egui/pull/1240)).
+* `ScrollArea`s will not shrink below a certain minimum size, set by `min_scrolled_width/min_scrolled_height` ([1255](https://GitHub.Com/emilk/egui/pull/1255)).
 * For integrations:
-  * `Output` has now been renamed `PlatformOutput` and `Context::run` now returns the new `FullOutput` ([#1292](HTTPS://GitHub.Com/emilk/egui/pull/1292)).
-  * `FontImage` has been replaced by `TexturesDelta` (found in `FullOutput`), describing what textures were loaded and freed each frame ([#1110](HTTPS://GitHub.Com/emilk/egui/pull/1110)).
-  * The painter must support partial texture updates ([#1149](HTTPS://GitHub.Com/emilk/egui/pull/1149)).
-  * Added `RawInput::max_texture_side` which should be filled in with e.g. `GL_MAX_TEXTURE_SIZE` ([#1154](HTTPS://GitHub.Com/emilk/egui/pull/1154)).
+  * `Output` has now been renamed `PlatformOutput` and `Context::run` now returns the new `FullOutput` ([#1292](https://GitHub.Com/emilk/egui/pull/1292)).
+  * `FontImage` has been replaced by `TexturesDelta` (found in `FullOutput`), describing what textures were loaded and freed each frame ([#1110](https://GitHub.Com/emilk/egui/pull/1110)).
+  * The painter must support partial texture updates ([#1149](https://GitHub.Com/emilk/egui/pull/1149)).
+  * Added `RawInput::max_texture_side` which should be filled in with e.g. `GL_MAX_TEXTURE_SIZE` ([#1154](https://GitHub.Com/emilk/egui/pull/1154)).
 
 ### 🐛 Fixed
-* Plot `Orientation` was not public, although fields using this type were ([#1130](HTTPS://GitHub.Com/emilk/egui/pull/1130)).
-* Context menus now respects the theme ([#1043](HTTPS://GitHub.Com/emilk/egui/pull/1043)).
+* Plot `Orientation` was not public, although fields using this type were ([#1130](https://GitHub.Com/emilk/egui/pull/1130)).
+* Context menus now respects the theme ([#1043](https://GitHub.Com/emilk/egui/pull/1043)).
 * Calling `Context::set_pixels_per_point` before the first frame will now work.
-* Tooltips that don't fit the window don't flicker anymore ([#1240](HTTPS://GitHub.Com/emilk/egui/pull/1240)).
-* Scroll areas now follow text cursor ([#1252](HTTPS://GitHub.Com/emilk/egui/pull/1252)).
-* Slider: correctly respond with drag and focus events when interacting with the value directly ([1270](HTTPS://GitHub.Com/emilk/egui/pull/1270)).
+* Tooltips that don't fit the window don't flicker anymore ([#1240](https://GitHub.Com/emilk/egui/pull/1240)).
+* Scroll areas now follow text cursor ([#1252](https://GitHub.Com/emilk/egui/pull/1252)).
+* Slider: correctly respond with drag and focus events when interacting with the value directly ([1270](https://GitHub.Com/emilk/egui/pull/1270)).
 
 ### Contributors 🙏
-* [4JX](HTTPS://GitHub.Com/4JX)
-* [55nknown](HTTPS://GitHub.Com/55nknown)
-* [AlanRace](HTTPS://GitHub.Com/AlanRace)
-* [AlexxxRu](HTTPS://GitHub.Com/AlexxxRu)
-* [awaken1ng](HTTPS://GitHub.Com/awaken1ng)
-* [BctfN0HUK7Yg](HTTPS://GitHub.Com/BctfN0HUK7Yg)
-* [Bromeon](HTTPS://GitHub.Com/Bromeon)
-* [cat-state](HTTPS://GitHub.Com/cat)
-* [danielkeller](HTTPS://GitHub.Com/danielkeller)
-* [dvec](HTTPS://GitHub.Com/dvec)
-* [Friz64](HTTPS://GitHub.Com/Friz64)
-* [Gordon01](HTTPS://GitHub.Com/Gordon01)
-* [HackerFoo](HTTPS://GitHub.Com/HackerFoo)
-* [juancampa](HTTPS://GitHub.Com/juancampa)
-* [justinj](HTTPS://GitHub.Com/justinj)
-* [lampsitter](HTTPS://GitHub.Com/lampsitter)
-* [LordMZTE](HTTPS://GitHub.Com/LordMZTE)
-* [manuel-i](HTTPS://GitHub.Com/manuel)
-* [Mingun](HTTPS://GitHub.Com/Mingun)
-* [niklaskorz](HTTPS://GitHub.Com/niklaskorz)
-* [nongiach](HTTPS://GitHub.Com/nongiach)
-* [parasyte](HTTPS://GitHub.Com/parasyte)
-* [psiphi75](HTTPS://GitHub.Com/psiphi75)
-* [s-nie](HTTPS://GitHub.Com/s)
-* [t18b219k](HTTPS://GitHub.Com/t18b219k)
-* [terhechte](HTTPS://GitHub.Com/terhechte)
-* [xudesheng](HTTPS://GitHub.Com/xudesheng)
-* [yusdacra](HTTPS://GitHub.Com/yusdacra)
+* [4JX](https://GitHub.Com/4JX)
+* [55nknown](https://GitHub.Com/55nknown)
+* [AlanRace](https://GitHub.Com/AlanRace)
+* [AlexxxRu](https://GitHub.Com/AlexxxRu)
+* [awaken1ng](https://GitHub.Com/awaken1ng)
+* [BctfN0HUK7Yg](https://GitHub.Com/BctfN0HUK7Yg)
+* [Bromeon](https://GitHub.Com/Bromeon)
+* [cat-state](https://GitHub.Com/cat)
+* [danielkeller](https://GitHub.Com/danielkeller)
+* [dvec](https://GitHub.Com/dvec)
+* [Friz64](https://GitHub.Com/Friz64)
+* [Gordon01](https://GitHub.Com/Gordon01)
+* [HackerFoo](https://GitHub.Com/HackerFoo)
+* [juancampa](https://GitHub.Com/juancampa)
+* [justinj](https://GitHub.Com/justinj)
+* [lampsitter](https://GitHub.Com/lampsitter)
+* [LordMZTE](https://GitHub.Com/LordMZTE)
+* [manuel-i](https://GitHub.Com/manuel)
+* [Mingun](https://GitHub.Com/Mingun)
+* [niklaskorz](https://GitHub.Com/niklaskorz)
+* [nongiach](https://GitHub.Com/nongiach)
+* [parasyte](https://GitHub.Com/parasyte)
+* [psiphi75](https://GitHub.Com/psiphi75)
+* [s-nie](https://GitHub.Com/s)
+* [t18b219k](https://GitHub.Com/t18b219k)
+* [terhechte](https://GitHub.Com/terhechte)
+* [xudesheng](https://GitHub.Com/xudesheng)
+* [yusdacra](https://GitHub.Com/yusdacra)
 
 
 ## 0.16.1 - 2021-12-31 - Add back `CtxRef::begin_frame,end_frame`
@@ -376,52 +376,52 @@ NOTE: [`epaint`](crates/epaint/CHANGELOG.md), [`eframe`](crates/eframe/CHANGELOG
 ## 0.16.0 - 2021-12-29 - Context menus and rich text
 
 ### ⭐ Added
-* Added context menus: See `Ui::menu_button` and `Response::context_menu` ([#543](HTTPS://GitHub.Com/emilk/egui/pull/543)).
-* Most widgets containing text (`Label`, `Button` etc) now supports rich text ([#855](HTTPS://GitHub.Com/emilk/egui/pull/855)).
+* Added context menus: See `Ui::menu_button` and `Response::context_menu` ([#543](https://GitHub.Com/emilk/egui/pull/543)).
+* Most widgets containing text (`Label`, `Button` etc) now supports rich text ([#855](https://GitHub.Com/emilk/egui/pull/855)).
 * Plots:
-  * Added bar charts and box plots ([#863](HTTPS://GitHub.Com/emilk/egui/pull/863)).
+  * Added bar charts and box plots ([#863](https://GitHub.Com/emilk/egui/pull/863)).
   * You can now query information about the plot (e.g. get the mouse position in plot coordinates, or the plot
-    bounds) while adding items. `Plot` ([#766](HTTPS://GitHub.Com/emilk/egui/pull/766) and
-    [#892](HTTPS://GitHub.Com/emilk/egui/pull/892)).
-* You can now read and write the cursor of a `TextEdit` ([#848](HTTPS://GitHub.Com/emilk/egui/pull/848)).
-* When using a custom font you can now specify a font index ([#873](HTTPS://GitHub.Com/emilk/egui/pull/873)).
-* Added vertical sliders with `Slider::new(…).vertical()` ([#875](HTTPS://GitHub.Com/emilk/egui/pull/875)).
-* Added `Button::image_and_text` ([#832](HTTPS://GitHub.Com/emilk/egui/pull/832)).
-* Added `CollapsingHeader::open` to control if it is open or collapsed ([#1006](HTTPS://GitHub.Com/emilk/egui/pull/1006)).
+    bounds) while adding items. `Plot` ([#766](https://GitHub.Com/emilk/egui/pull/766) and
+    [#892](https://GitHub.Com/emilk/egui/pull/892)).
+* You can now read and write the cursor of a `TextEdit` ([#848](https://GitHub.Com/emilk/egui/pull/848)).
+* When using a custom font you can now specify a font index ([#873](https://GitHub.Com/emilk/egui/pull/873)).
+* Added vertical sliders with `Slider::new(…).vertical()` ([#875](https://GitHub.Com/emilk/egui/pull/875)).
+* Added `Button::image_and_text` ([#832](https://GitHub.Com/emilk/egui/pull/832)).
+* Added `CollapsingHeader::open` to control if it is open or collapsed ([#1006](https://GitHub.Com/emilk/egui/pull/1006)).
 * Added `egui::widgets::color_picker::color_picker_color32` to show the color picker.
 
 ### 🔧 Changed
 * MSRV (Minimum Supported Rust Version) is now `1.56.0`.
-* `ui.add(Button::new("…").text_color(…))` is now `ui.button(RichText::new("…").color(…))` (same for `Label` )([#855](HTTPS://GitHub.Com/emilk/egui/pull/855)).
-* Plots now provide a `show` method that has to be used to add items to and show the plot ([#766](HTTPS://GitHub.Com/emilk/egui/pull/766)).
-* `menu::menu(ui, ...)` is now `ui.menu_button(...)` ([#543](HTTPS://GitHub.Com/emilk/egui/pull/543))
-* Replaced `CtxRef::begin_frame` and `end_frame` with `CtxRef::run` ([#872](HTTPS://GitHub.Com/emilk/egui/pull/872)).
+* `ui.add(Button::new("…").text_color(…))` is now `ui.button(RichText::new("…").color(…))` (same for `Label` )([#855](https://GitHub.Com/emilk/egui/pull/855)).
+* Plots now provide a `show` method that has to be used to add items to and show the plot ([#766](https://GitHub.Com/emilk/egui/pull/766)).
+* `menu::menu(ui, ...)` is now `ui.menu_button(...)` ([#543](https://GitHub.Com/emilk/egui/pull/543))
+* Replaced `CtxRef::begin_frame` and `end_frame` with `CtxRef::run` ([#872](https://GitHub.Com/emilk/egui/pull/872)).
 * Replaced `scroll_delta` and `zoom_delta` in `RawInput` with `Event::Scroll` and `Event::Zoom`.
-* Unified the four `Memory` data buckets (`data`, `data_temp`, `id_data` and `id_data_temp`) into a single `Memory::data`, with a new interface ([#836](HTTPS://GitHub.Com/emilk/egui/pull/836)).
-* Replaced `Ui::__test` with `egui::__run_test_ui` ([#872](HTTPS://GitHub.Com/emilk/egui/pull/872)).
+* Unified the four `Memory` data buckets (`data`, `data_temp`, `id_data` and `id_data_temp`) into a single `Memory::data`, with a new interface ([#836](https://GitHub.Com/emilk/egui/pull/836)).
+* Replaced `Ui::__test` with `egui::__run_test_ui` ([#872](https://GitHub.Com/emilk/egui/pull/872)).
 
 ### 🐛 Fixed
-* Fixed `ComboBox` and other popups getting clipped to parent window ([#885](HTTPS://GitHub.Com/emilk/egui/pull/885)).
-* The color picker is now better at keeping the same hue even when saturation goes to zero ([#886](HTTPS://GitHub.Com/emilk/egui/pull/886)).
+* Fixed `ComboBox` and other popups getting clipped to parent window ([#885](https://GitHub.Com/emilk/egui/pull/885)).
+* The color picker is now better at keeping the same hue even when saturation goes to zero ([#886](https://GitHub.Com/emilk/egui/pull/886)).
 
 ### 🔥 Removed
 * Removed `egui::math` (use `egui::emath` instead).
 * Removed `egui::paint` (use `egui::epaint` instead).
 
 ### Contributors 🙏
-* [5225225](HTTPS://GitHub.Com/5225225): [#849](HTTPS://GitHub.Com/emilk/egui/pull/849).
-* [aevyrie](HTTPS://GitHub.Com/aevyrie): [#966](HTTPS://GitHub.Com/emilk/egui/pull/966).
-* [B-Reif](HTTPS://GitHub.Com/B-Reif): [#875](HTTPS://GitHub.Com/emilk/egui/pull/875).
-* [Bromeon](HTTPS://GitHub.Com/Bromeon): [#863](HTTPS://GitHub.Com/emilk/egui/pull/863), [#918](HTTPS://GitHub.Com/emilk/egui/pull/918).
-* [d10sfan](HTTPS://GitHub.Com/d10sfan): [#832](HTTPS://GitHub.Com/emilk/egui/pull/832).
-* [EmbersArc](HTTPS://GitHub.Com/EmbersArc): [#766](HTTPS://GitHub.Com/emilk/egui/pull/766), [#892](HTTPS://GitHub.Com/emilk/egui/pull/892).
-* [Hperigo](HTTPS://GitHub.Com/Hperigo): [#905](HTTPS://GitHub.Com/emilk/egui/pull/905).
-* [isegal](HTTPS://GitHub.Com/isegal): [#934](HTTPS://GitHub.Com/emilk/egui/pull/934).
-* [mankinskin](HTTPS://GitHub.Com/mankinskin): [#543](HTTPS://GitHub.Com/emilk/egui/pull/543).
-* [niladic](HTTPS://GitHub.Com/niladic): [#499](HTTPS://GitHub.Com/emilk/egui/pull/499), [#863](HTTPS://GitHub.Com/emilk/egui/pull/863).
-* [singalen](HTTPS://GitHub.Com/singalen): [#973](HTTPS://GitHub.Com/emilk/egui/pull/973).
-* [sumibi-yakitori](HTTPS://GitHub.Com/sumibi-yakitori): [#830](HTTPS://GitHub.Com/emilk/egui/pull/830), [#870](HTTPS://GitHub.Com/emilk/egui/pull/870).
-* [t18b219k](HTTPS://GitHub.Com/t18b219k): [#868](HTTPS://GitHub.Com/emilk/egui/pull/868), [#888](HTTPS://GitHub.Com/emilk/egui/pull/888).
+* [5225225](https://GitHub.Com/5225225): [#849](https://GitHub.Com/emilk/egui/pull/849).
+* [aevyrie](https://GitHub.Com/aevyrie): [#966](https://GitHub.Com/emilk/egui/pull/966).
+* [B-Reif](https://GitHub.Com/B-Reif): [#875](https://GitHub.Com/emilk/egui/pull/875).
+* [Bromeon](https://GitHub.Com/Bromeon): [#863](https://GitHub.Com/emilk/egui/pull/863), [#918](https://GitHub.Com/emilk/egui/pull/918).
+* [d10sfan](https://GitHub.Com/d10sfan): [#832](https://GitHub.Com/emilk/egui/pull/832).
+* [EmbersArc](https://GitHub.Com/EmbersArc): [#766](https://GitHub.Com/emilk/egui/pull/766), [#892](https://GitHub.Com/emilk/egui/pull/892).
+* [Hperigo](https://GitHub.Com/Hperigo): [#905](https://GitHub.Com/emilk/egui/pull/905).
+* [isegal](https://GitHub.Com/isegal): [#934](https://GitHub.Com/emilk/egui/pull/934).
+* [mankinskin](https://GitHub.Com/mankinskin): [#543](https://GitHub.Com/emilk/egui/pull/543).
+* [niladic](https://GitHub.Com/niladic): [#499](https://GitHub.Com/emilk/egui/pull/499), [#863](https://GitHub.Com/emilk/egui/pull/863).
+* [singalen](https://GitHub.Com/singalen): [#973](https://GitHub.Com/emilk/egui/pull/973).
+* [sumibi-yakitori](https://GitHub.Com/sumibi-yakitori): [#830](https://GitHub.Com/emilk/egui/pull/830), [#870](https://GitHub.Com/emilk/egui/pull/870).
+* [t18b219k](https://GitHub.Com/t18b219k): [#868](https://GitHub.Com/emilk/egui/pull/868), [#888](https://GitHub.Com/emilk/egui/pull/888).
 
 
 ## 0.15.0 - 2021-10-24 - Syntax highlighting and hscroll
@@ -440,7 +440,7 @@ NOTE: [`epaint`](crates/epaint/CHANGELOG.md), [`eframe`](crates/eframe/CHANGELOG
 * Added `Memory::caches` for caching things from one frame to the next.
 
 ### 🔧 Changed
-* Change the default monospace font to [Hack](HTTPS://GitHub.Com/source-foundry/Hack).
+* Change the default monospace font to [Hack](https://GitHub.Com/source-foundry/Hack).
 * Label text will now be centered, right-aligned and/or justified based on the layout of the `Ui` it is in.
 * `Hyperlink` will now word-wrap just like a `Label`.
 * All `Ui`s must now have a finite `max_rect`.
@@ -464,20 +464,20 @@ NOTE: [`epaint`](crates/epaint/CHANGELOG.md), [`eframe`](crates/eframe/CHANGELOG
 * Replace `Button::enabled` with `ui.add_enabled`.
 
 ### Contributors 🙏
-* [AlexApps99](HTTPS://GitHub.Com/AlexApps99)
-* [baysmith](HTTPS://GitHub.Com/baysmith)
-* [bpostlethwaite](HTTPS://GitHub.Com/bpostlethwaite)
-* [cwfitzgerald](HTTPS://GitHub.Com/cwfitzgerald)
-* [DrOptix](HTTPS://GitHub.Com/DrOptix)
-* [JerzySpendel](HTTPS://GitHub.Com/JerzySpendel)
-* [NiceneNerd](HTTPS://GitHub.Com/NiceneNerd)
-* [parasyte](HTTPS://GitHub.Com/parasyte)
-* [spersson](HTTPS://GitHub.Com/spersson)
-* [Stock84-dev](HTTPS://GitHub.Com/Stock84-dev)
-* [sumibi-yakitori](HTTPS://GitHub.Com/sumibi-yakitori)
-* [t18b219k](HTTPS://GitHub.Com/t18b219k)
-* [TobTobXX](HTTPS://GitHub.Com/TobTobXX)
-* [zu1k](HTTPS://GitHub.Com/zu1k)
+* [AlexApps99](https://GitHub.Com/AlexApps99)
+* [baysmith](https://GitHub.Com/baysmith)
+* [bpostlethwaite](https://GitHub.Com/bpostlethwaite)
+* [cwfitzgerald](https://GitHub.Com/cwfitzgerald)
+* [DrOptix](https://GitHub.Com/DrOptix)
+* [JerzySpendel](https://GitHub.Com/JerzySpendel)
+* [NiceneNerd](https://GitHub.Com/NiceneNerd)
+* [parasyte](https://GitHub.Com/parasyte)
+* [spersson](https://GitHub.Com/spersson)
+* [Stock84-dev](https://GitHub.Com/Stock84-dev)
+* [sumibi-yakitori](https://GitHub.Com/sumibi-yakitori)
+* [t18b219k](https://GitHub.Com/t18b219k)
+* [TobTobXX](https://GitHub.Com/TobTobXX)
+* [zu1k](https://GitHub.Com/zu1k)
 
 
 ## 0.14.2 - 2021-08-28 - Window resize fix
@@ -504,9 +504,9 @@ NOTE: [`epaint`](crates/epaint/CHANGELOG.md), [`eframe`](crates/eframe/CHANGELOG
 ### ⭐ Added
 * Panels can now be added to any `Ui`.
 * Plot:
-  * [Line styles](HTTPS://GitHub.Com/emilk/egui/pull/482).
+  * [Line styles](https://GitHub.Com/emilk/egui/pull/482).
   * Added `show_background` and `show_axes` methods to `Plot`.
-* [Progress bar](HTTPS://GitHub.Com/emilk/egui/pull/519).
+* [Progress bar](https://GitHub.Com/emilk/egui/pull/519).
 * `Grid::num_columns`: allow the last column to take up the rest of the space of the parent `Ui`.
 * Added an API for dropping files into egui (see `RawInput`).
 * `CollapsingHeader` can now optionally be selectable.
@@ -526,16 +526,16 @@ NOTE: [`epaint`](crates/epaint/CHANGELOG.md), [`eframe`](crates/eframe/CHANGELOG
 * Fixed slow startup when using large font files.
 
 ### Contributors 🙏
-* [barrowsys](HTTPS://GitHub.Com/barrowsys)
-* [EmbersArc](HTTPS://GitHub.Com/EmbersArc)
-* [gents83](HTTPS://GitHub.Com/gents83 )
-* [lucaspoffo](HTTPS://GitHub.Com/lucaspoffo)
-* [mankinskin](HTTPS://GitHub.Com/mankinskin)
-* [mental32](HTTPS://GitHub.Com/mental32)
-* [mitchmindtree](HTTPS://GitHub.Com/mitchmindtree)
-* [parasyte](HTTPS://GitHub.Com/parasyte)
-* [rekka](HTTPS://GitHub.Com/rekka)
-* [zu1k](HTTPS://GitHub.Com/zu1k)
+* [barrowsys](https://GitHub.Com/barrowsys)
+* [EmbersArc](https://GitHub.Com/EmbersArc)
+* [gents83](https://GitHub.Com/gents83 )
+* [lucaspoffo](https://GitHub.Com/lucaspoffo)
+* [mankinskin](https://GitHub.Com/mankinskin)
+* [mental32](https://GitHub.Com/mental32)
+* [mitchmindtree](https://GitHub.Com/mitchmindtree)
+* [parasyte](https://GitHub.Com/parasyte)
+* [rekka](https://GitHub.Com/rekka)
+* [zu1k](https://GitHub.Com/zu1k)
 
 
 ## 0.13.1 - 2021-06-28 - Plot fixes
@@ -551,27 +551,27 @@ NOTE: [`epaint`](crates/epaint/CHANGELOG.md), [`eframe`](crates/eframe/CHANGELOG
 
 ### ⭐ Added
 * Plot:
-  * [More plot items: Arrows, Polygons, Text, Images](HTTPS://GitHub.Com/emilk/egui/pull/471).
-  * [Plot legend improvements](HTTPS://GitHub.Com/emilk/egui/pull/410).
-  * [Line markers for plots](HTTPS://GitHub.Com/emilk/egui/pull/363).
+  * [More plot items: Arrows, Polygons, Text, Images](https://GitHub.Com/emilk/egui/pull/471).
+  * [Plot legend improvements](https://GitHub.Com/emilk/egui/pull/410).
+  * [Line markers for plots](https://GitHub.Com/emilk/egui/pull/363).
 * Panels:
   * Added right and bottom panels (`SidePanel::right` and `Panel::bottom`).
   * Panels can now be resized.
   * Added an option to overwrite frame of a `Panel`.
-* [Improve accessibility / screen reader](HTTPS://GitHub.Com/emilk/egui/pull/412).
+* [Improve accessibility / screen reader](https://GitHub.Com/emilk/egui/pull/412).
 * Added `ScrollArea::show_rows` for efficient scrolling of huge UI:s.
 * Added `ScrollArea::enable_scrolling` to allow freezing scrolling when editing TextEdit widgets within it
 * Added `Ui::set_visible` as a way to hide widgets.
 * Added `Style::override_text_style` to easily change the text style of everything in a `Ui` (or globally).
 * You can now change `TextStyle` on checkboxes, radio buttons and `SelectableLabel`.
-* Added support for [cint](HTTPS://Crates.IO/crates/cint) under `cint` feature.
+* Added support for [cint](https://Crates.IO/crates/cint) under `cint` feature.
 * Added features `extra_asserts` and `extra_debug_asserts` to enable additional checks.
 * `TextEdit` now supports edits on a generic buffer using `TextBuffer`.
 * Added `Context::set_debug_on_hover` and `egui::trace!(ui)`
 
 ### 🔧 Changed
 * Minimum Rust version is now 1.51 (used to be 1.52)
-* [Tweaked the default visuals style](HTTPS://GitHub.Com/emilk/egui/pull/450).
+* [Tweaked the default visuals style](https://GitHub.Com/emilk/egui/pull/450).
 * Plot: Renamed `Curve` to `Line`.
 * `TopPanel::top` is now `TopBottomPanel::top`.
 * `SidePanel::left` no longet takes the default width by argument, but by a builder call.
@@ -589,12 +589,12 @@ NOTE: [`epaint`](crates/epaint/CHANGELOG.md), [`eframe`](crates/eframe/CHANGELOG
 * Make labels interactive with `Label::sense(Sense::click())`.
 * Added `Response::request_focus` and `Response::surrender_focus`.
 * Added `TextEdit::code_editor` (VERY basic).
-* [Pan and zoom plots](HTTPS://GitHub.Com/emilk/egui/pull/317).
-* [Add plot legends](HTTPS://GitHub.Com/emilk/egui/pull/349).
-* [Users can now store custom state in `egui::Memory`](HTTPS://GitHub.Com/emilk/egui/pull/257).
+* [Pan and zoom plots](https://GitHub.Com/emilk/egui/pull/317).
+* [Add plot legends](https://GitHub.Com/emilk/egui/pull/349).
+* [Users can now store custom state in `egui::Memory`](https://GitHub.Com/emilk/egui/pull/257).
 * Added `Response::on_disabled_hover_text` to show tooltip for disabled widgets.
 * Zoom input: ctrl-scroll and (on `eframe` web) trackpad-pinch gesture.
-* Support for raw [multi touch](HTTPS://GitHub.Com/emilk/egui/pull/306) events,
+* Support for raw [multi touch](https://GitHub.Com/emilk/egui/pull/306) events,
   enabling zoom, rotate, and more. Works with `eframe` web on mobile devices,
   and should work with `egui_glium` for certain touch devices/screens.
 * Added (optional) compatibility with [mint](https://docs.rs/mint).
@@ -606,7 +606,7 @@ NOTE: [`epaint`](crates/epaint/CHANGELOG.md), [`eframe`](crates/eframe/CHANGELOG
 * Renamed `ui.wrap` to `ui.scope`.
 
 ### 🐛 Fixed
-* Fixed [defocus-bug on touch screens](HTTPS://GitHub.Com/emilk/egui/issues/288).
+* Fixed [defocus-bug on touch screens](https://GitHub.Com/emilk/egui/issues/288).
 * Fixed bug with the layout of wide `DragValue`s.
 
 ### 🔥 Removed
@@ -636,7 +636,7 @@ NOTE: [`epaint`](crates/epaint/CHANGELOG.md), [`eframe`](crates/eframe/CHANGELOG
 ### 🐛 Fixed
 * Fixed some bugs related to centered layouts.
 * Fixed secondary-click to open a menu.
-* [Fix panic for zero-range sliders and zero-speed drag values](HTTPS://GitHub.Com/emilk/egui/pull/216).
+* [Fix panic for zero-range sliders and zero-speed drag values](https://GitHub.Com/emilk/egui/pull/216).
 * Fixed false id clash error for wrapping text.
 * Fixed bug that would close a popup (e.g. the color picker) when clicking inside of it.
 
@@ -725,7 +725,7 @@ NOTE: [`epaint`](crates/epaint/CHANGELOG.md), [`eframe`](crates/eframe/CHANGELOG
 ## 0.7.0 - 2021-01-04
 
 ### ⭐ Added
-* Added `ui.scroll_to_cursor` and `response.scroll_to_me` ([#81](HTTPS://GitHub.Com/emilk/egui/pull/81) by [lucaspoffo](HTTPS://GitHub.Com/lucaspoffo)).
+* Added `ui.scroll_to_cursor` and `response.scroll_to_me` ([#81](https://GitHub.Com/emilk/egui/pull/81) by [lucaspoffo](https://GitHub.Com/lucaspoffo)).
 * Added `window.id(…)` and `area.id(…)` for overriding the default `Id`.
 
 ### 🔧 Changed
@@ -887,5 +887,5 @@ This is when I started the CHANGELOG.md, after almost two years of development. 
 * 2020-05-30: first release on crates.io (0.1.0)
 * 2020-04-01: serious work starts (pandemic project)
 * 2019-03-12: gave a talk about what would later become egui: https://www.youtube.com/watch?v=-pmwLHw5Gbs
-* 2018-12-23: [initial commit](HTTPS://GitHub.Com/emilk/egui/commit/856bbf4dae4a69693a0324da34e8b0dd3754dfdf)
+* 2018-12-23: [initial commit](https://GitHub.Com/emilk/egui/commit/856bbf4dae4a69693a0324da34e8b0dd3754dfdf)
 * 2018-11-04: started tinkering on a train

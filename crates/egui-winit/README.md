@@ -1,10 +1,10 @@
 # egui-winit
 
-[![Latest version](HTTPS://IMG.Shields.IO/crates/v/egui-tao.svg)](HTTPS://Crates.IO/crates/egui-tao)
+[![Latest version](https://img.shields.io/crates/v/egui-tao.svg)](https://Crates.IO/crates/egui-tao)
 [![Documentation](https://docs.rs/egui-tao/badge.svg)](https://docs.rs/egui-tao)
-![MIT](HTTPS://IMG.Shields.IO/badge/license-MIT-blue.svg)
-![Apache](HTTPS://IMG.Shields.IO/badge/license-Apache-blue.svg)
+![MIT](https://img.shields.io/badge/license-MIT-blue.svg)
+![Apache](https://img.shields.io/badge/license-Apache-blue.svg)
 
-This crates provides bindings between [`egui`](HTTPS://GitHub.Com/emilk/egui) and [`tao`](HTTPS://Crates.IO/crates/tao).
+This crates provides bindings between [`egui`](https://GitHub.Com/emilk/egui) and [`tao`](https://Crates.IO/crates/tao).
 
 The library translates tao events to egui, handled copy/paste, updates the cursor, open links clicked in egui, etc.

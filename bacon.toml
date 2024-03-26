@@ -1,5 +1,5 @@
 # This is a configuration file for the bacon tool
-# More info at HTTPS://GitHub.Com/Canop/bacon
+# More info at https://GitHub.Com/Canop/bacon
 
 default_job = "cranky"
 

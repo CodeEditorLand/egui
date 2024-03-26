@@ -68,7 +68,7 @@ pub struct CreationContext<'s> {
 
 // ----------------------------------------------------------------------------
 
-/// Implement this trait to write apps that can be compiled for both web/wasm and desktop/native using [`eframe`](HTTPS://GitHub.Com/emilk/egui/tree/master/crates/eframe).
+/// Implement this trait to write apps that can be compiled for both web/wasm and desktop/native using [`eframe`](https://GitHub.Com/emilk/egui/tree/master/crates/eframe).
 pub trait App {
     /// Called each time the UI needs repainting, which may be many times per second.
     ///
@@ -119,7 +119,7 @@ pub trait App {
     ///
     /// A scenario where this method will be run is after pressing the close button on a native
     /// window, which allows you to ask the user whether they want to do something before exiting.
-    /// See the example at <HTTPS://GitHub.Com/emilk/egui/blob/master/examples/confirm_exit/> for practical usage.
+    /// See the example at <https://GitHub.Com/emilk/egui/blob/master/examples/confirm_exit/> for practical usage.
     ///
     /// It will _not_ be called on the web or when the window is forcefully closed.
     #[cfg(not(target_arch = "wasm32"))]
@@ -333,7 +333,7 @@ pub struct NativeOptions {
     ///
     /// The theme will automatically change when the dark vs light mode preference is changed.
     ///
-    /// Does not work on Linux (see <HTTPS://GitHub.Com/rust-windowing/winit/issues/1549>).
+    /// Does not work on Linux (see <https://GitHub.Com/rust-windowing/winit/issues/1549>).
     ///
     /// See also [`Self::default_theme`].
     pub follow_system_theme: bool,
@@ -352,7 +352,7 @@ pub struct NativeOptions {
     /// This is `true` by default, and the `false` option is only there
     /// so we can revert if we find any bugs.
     ///
-    /// This feature was introduced in <HTTPS://GitHub.Com/emilk/egui/pull/1889>.
+    /// This feature was introduced in <https://GitHub.Com/emilk/egui/pull/1889>.
     ///
     /// When `true`, [`winit::platform::run_return::EventLoopExtRunReturn::run_return`] is used.
     /// When `false`, [`winit::event_loop::EventLoop::run`] is used.
@@ -368,7 +368,7 @@ pub struct NativeOptions {
     // pub event_loop_builder: Option<EventLoopBuilderHook>,
     #[cfg(feature = "glow")]
     /// Needed for cross compiling for VirtualBox VMSVGA driver with OpenGL ES 2.0 and OpenGL 2.1 which doesn't support SRGB texture.
-    /// See <HTTPS://GitHub.Com/emilk/egui/pull/1993>.
+    /// See <https://GitHub.Com/emilk/egui/pull/1993>.
     ///
     /// For OpenGL ES 2.0: set this to [`egui_glow::ShaderVersion::Es100`] to solve blank texture problem (by using the "fallback shader").
     pub shader_version: Option<egui_glow::ShaderVersion>,
@@ -609,11 +609,11 @@ pub enum WebGlContextOption {
 #[cfg_attr(feature = "serde", derive(serde::Deserialize, serde::Serialize))]
 #[cfg_attr(feature = "serde", serde(rename_all = "snake_case"))]
 pub enum Renderer {
-    /// Use [`egui_glow`] renderer for [`glow`](HTTPS://GitHub.Com/grovesNL/glow).
+    /// Use [`egui_glow`] renderer for [`glow`](https://GitHub.Com/grovesNL/glow).
     #[cfg(feature = "glow")]
     Glow,
 
-    /// Use [`egui_wgpu`] renderer for [`wgpu`](HTTPS://GitHub.Com/gfx-rs/wgpu).
+    /// Use [`egui_wgpu`] renderer for [`wgpu`](https://GitHub.Com/gfx-rs/wgpu).
     #[cfg(feature = "wgpu")]
     Wgpu,
 }
@@ -1096,7 +1096,7 @@ impl Storage for DummyStorage {
     fn flush(&mut self) {}
 }
 
-/// Get and deserialize the [RON](HTTPS://GitHub.Com/ron-rs/ron) stored at the given key.
+/// Get and deserialize the [RON](https://GitHub.Com/ron-rs/ron) stored at the given key.
 #[cfg(feature = "ron")]
 pub fn get_value<T: serde::de::DeserializeOwned>(storage: &dyn Storage, key: &str) -> Option<T> {
     storage
@@ -1110,7 +1110,7 @@ pub fn get_value<T: serde::de::DeserializeOwned>(storage: &dyn Storage, key: &st
         })
 }
 
-/// Serialize the given value as [RON](HTTPS://GitHub.Com/ron-rs/ron) and store with the given key.
+/// Serialize the given value as [RON](https://GitHub.Com/ron-rs/ron) and store with the given key.
 #[cfg(feature = "ron")]
 pub fn set_value<T: serde::Serialize>(storage: &mut dyn Storage, key: &str, value: &T) {
     match ron::ser::to_string(value) {

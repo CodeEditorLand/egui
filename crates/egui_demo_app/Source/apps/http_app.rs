@@ -47,7 +47,7 @@ pub struct HttpApp {
 impl Default for HttpApp {
     fn default() -> Self {
         Self {
-            url: "HTTPS://Raw.GitHubUserContent.Com/emilk/egui/master/README.md".to_owned(),
+            url: "https://Raw.GitHubUserContent.Com/emilk/egui/master/README.md".to_owned(),
             promise: Default::default(),
         }
     }
@@ -68,7 +68,7 @@ impl eframe::App for HttpApp {
             ui.horizontal_wrapped(|ui| {
                 ui.spacing_mut().item_spacing.x = 0.0;
                 ui.label("HTTP requests made using ");
-                ui.hyperlink_to("ehttp", "HTTPS://WWW.GitHub.Com/emilk/ehttp");
+                ui.hyperlink_to("ehttp", "https://WWW.GitHub.Com/emilk/ehttp");
                 ui.label(".");
             });
 
@@ -125,7 +125,7 @@ fn ui_url(ui: &mut egui::Ui, frame: &mut eframe::Frame, url: &mut String) -> boo
     ui.horizontal(|ui| {
         if ui.button("Source code for this example").clicked() {
             *url = format!(
-                "HTTPS://Raw.GitHubUserContent.Com/emilk/egui/master/{}",
+                "https://Raw.GitHubUserContent.Com/emilk/egui/master/{}",
                 file!()
             );
             trigger_fetch = true;

@@ -142,7 +142,7 @@ fn init_webgl2(canvas: &HtmlCanvasElement) -> Option<(glow::Context, &'static st
 }
 
 fn webgl1_requires_brightening(gl: &web_sys::WebGlRenderingContext) -> bool {
-    // See HTTPS://GitHub.Com/emilk/egui/issues/794
+    // See https://GitHub.Com/emilk/egui/issues/794
 
     // detect WebKitGTK
 

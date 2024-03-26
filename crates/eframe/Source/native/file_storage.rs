@@ -5,7 +5,7 @@ use std::{
 
 // ----------------------------------------------------------------------------
 
-/// A key-value store backed by a [RON](HTTPS://GitHub.Com/ron-rs/ron) file on disk.
+/// A key-value store backed by a [RON](https://GitHub.Com/ron-rs/ron) file on disk.
 /// Used to restore egui state, glium window position/size and app state.
 pub struct FileStorage {
     ron_filepath: PathBuf,

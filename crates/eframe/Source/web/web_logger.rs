@@ -39,7 +39,7 @@ impl log::Log for WebLogger {
             log::Level::Warn => console::warn(&msg),
 
             // Using console.error causes crashes for unknown reason
-            // HTTPS://GitHub.Com/emilk/egui/pull/2961
+            // https://GitHub.Com/emilk/egui/pull/2961
             // log::Level::Error => console::error(&msg),
             log::Level::Error => console::warn(&format!("ERROR: {msg}")),
         }
@@ -71,7 +71,7 @@ mod console {
         pub fn warn(s: &str);
 
         // Using console.error causes crashes for unknown reason
-        // HTTPS://GitHub.Com/emilk/egui/pull/2961
+        // https://GitHub.Com/emilk/egui/pull/2961
         // /// `console.error`
         // #[wasm_bindgen(js_namespace = console)]
         // pub fn error(s: &str);

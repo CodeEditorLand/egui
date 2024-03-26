@@ -1,7 +1,7 @@
 # This is used by `scripts/clippy_wasm.sh` so we can forbid some methods that are not available in wasm.
 #
 # We cannot forbid all these methods in the main `clippy.toml` because of
-# HTTPS://GitHub.Com/rust-lang/rust-clippy/issues/10406
+# https://GitHub.Com/rust-lang/rust-clippy/issues/10406
 
 msrv = "1.65"
 

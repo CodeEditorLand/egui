@@ -1,4 +1,4 @@
-//! [`egui`] bindings for [`winit`](HTTPS://GitHub.Com/rust-windowing/winit).
+//! [`egui`] bindings for [`winit`](https://GitHub.Com/rust-windowing/winit).
 //!
 //! The library translates winit events to egui, handled copy/paste,
 //! updates the cursor, open links clicked in egui, etc.
@@ -169,7 +169,7 @@ impl State {
         self.egui_input.time = Some(self.start_time.elapsed().as_secs_f64());
 
         // On Windows, a minimized window will have 0 width and height.
-        // See: HTTPS://GitHub.Com/rust-windowing/winit/issues/208
+        // See: https://GitHub.Com/rust-windowing/winit/issues/208
         // This solves an issue where egui window positions would be changed when minimizing on Windows.
         let screen_size_in_pixels = screen_size_in_pixels(window);
         let screen_size_in_points = screen_size_in_pixels / pixels_per_point;
@@ -548,7 +548,7 @@ impl State {
         }
         let delta = match delta {
             winit::event::MouseScrollDelta::LineDelta(x, y) => {
-                let points_per_scroll_line = 50.0; // Scroll speed decided by consensus: HTTPS://GitHub.Com/emilk/egui/issues/461
+                let points_per_scroll_line = 50.0; // Scroll speed decided by consensus: https://GitHub.Com/emilk/egui/issues/461
                 egui::vec2(x, y) * points_per_scroll_line
             }
             winit::event::MouseScrollDelta::PixelDelta(delta) => {

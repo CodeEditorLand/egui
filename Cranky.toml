@@ -1,4 +1,4 @@
-# HTTPS://GitHub.Com/ericseppanen/cargo-cranky
+# https://GitHub.Com/ericseppanen/cargo-cranky
 # cargo install cargo-cranky && cargo cranky
 
 deny = ["unsafe_code"]
@@ -119,6 +119,6 @@ allow = [
   "clippy::type_complexity",
   "clippy::undocumented_unsafe_blocks",
   "trivial_casts",
-  "unsafe_op_in_unsafe_fn",             # `unsafe_op_in_unsafe_fn` may become the default in future Rust versions: HTTPS://GitHub.Com/rust-lang/rust/issues/71668
+  "unsafe_op_in_unsafe_fn",             # `unsafe_op_in_unsafe_fn` may become the default in future Rust versions: https://GitHub.Com/rust-lang/rust/issues/71668
   "unused_qualifications",
 ]

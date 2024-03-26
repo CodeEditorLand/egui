@@ -9,12 +9,12 @@ set -x
 # Checks all tests, lints etc.
 # Basically does what the CI does.
 
-cargo install cargo-cranky # Uses lints defined in Cranky.toml. See HTTPS://GitHub.Com/ericseppanen/cargo-cranky
+cargo install cargo-cranky # Uses lints defined in Cranky.toml. See https://GitHub.Com/ericseppanen/cargo-cranky
 
 # web_sys_unstable_apis is required to enable the web_sys clipboard API which eframe web uses,
 # as well as by the wasm32-backend of the wgpu crate.
 export RUSTFLAGS="--cfg=web_sys_unstable_apis -D warnings"
-export RUSTDOCFLAGS="-D warnings" # HTTPS://GitHub.Com/emilk/egui/pull/1454
+export RUSTDOCFLAGS="-D warnings" # https://GitHub.Com/emilk/egui/pull/1454
 
 cargo check --all-targets
 cargo check --all-targets --all-features
@@ -57,14 +57,14 @@ cargo cranky --target wasm32-unknown-unknown --all-features -p egui_demo_app --l
 
 ./scripts/cargo_deny.sh
 
-# TODO(emilk): consider using HTTPS://GitHub.Com/taiki-e/cargo-hack or HTTPS://GitHub.Com/frewsxcv/cargo-all-features
+# TODO(emilk): consider using https://GitHub.Com/taiki-e/cargo-hack or https://GitHub.Com/frewsxcv/cargo-all-features
 
 # ------------------------------------------------------------
 #
 
 # For finding bloat:
 # cargo bloat --release --bin egui_demo_app -n 200 | rg egui
-# Also try HTTPS://GitHub.Com/google/bloaty
+# Also try https://GitHub.Com/google/bloaty
 
 # what compiles slowly?
 # cargo clean && time cargo build -p eframe --timings

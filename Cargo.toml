@@ -18,7 +18,7 @@ opt-level = 2 # fast and small wasm, basically same as `opt-level = 's'`
 
 
 [profile.dev]
-# Can't leave this on by default, because it breaks the Windows build. Related: HTTPS://GitHub.Com/rust-lang/cargo/issues/4897
+# Can't leave this on by default, because it breaks the Windows build. Related: https://GitHub.Com/rust-lang/cargo/issues/4897
 # split-debuginfo = "unpacked" # faster debug builds on mac
 # opt-level = 1                # Make debug builds run faster
 

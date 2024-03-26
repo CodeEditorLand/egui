@@ -30,7 +30,7 @@ impl GlutinWindowContext {
                 width: 800.0,
                 height: 600.0,
             })
-            .with_title("egui_glow example") // Keep hidden until we've painted something. See HTTPS://GitHub.Com/emilk/egui/pull/2279
+            .with_title("egui_glow example") // Keep hidden until we've painted something. See https://GitHub.Com/emilk/egui/pull/2279
             .with_visible(false);
 
         let config_template_builder = glutin::config::ConfigTemplateBuilder::new()
@@ -42,7 +42,7 @@ impl GlutinWindowContext {
         log::debug!("trying to get gl_config");
         let (mut window, gl_config) =
             glutin_winit::DisplayBuilder::new() // let glutin-winit helper crate handle the complex parts of opengl context creation
-                .with_preference(glutin_winit::ApiPreference::FallbackEgl) // HTTPS://GitHub.Com/emilk/egui/issues/2520#issuecomment-1367841150
+                .with_preference(glutin_winit::ApiPreference::FallbackEgl) // https://GitHub.Com/emilk/egui/issues/2520#issuecomment-1367841150
                 .with_window_builder(Some(winit_window_builder.clone()))
                 .build(
                     event_loop,
@@ -198,8 +198,8 @@ fn main() {
 
         match event {
             // Platform-dependent event handlers to workaround a winit bug
-            // See: HTTPS://GitHub.Com/rust-windowing/winit/issues/987
-            // See: HTTPS://GitHub.Com/rust-windowing/winit/issues/1619
+            // See: https://GitHub.Com/rust-windowing/winit/issues/987
+            // See: https://GitHub.Com/rust-windowing/winit/issues/1619
             winit::event::Event::RedrawEventsCleared if cfg!(windows) => redraw(),
             winit::event::Event::RedrawRequested(_) if !cfg!(windows) => redraw(),
 
