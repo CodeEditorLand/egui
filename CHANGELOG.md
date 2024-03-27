@@ -564,7 +564,7 @@ NOTE: [`epaint`](crates/epaint/CHANGELOG.md), [`eframe`](crates/eframe/CHANGELOG
 * Added `Ui::set_visible` as a way to hide widgets.
 * Added `Style::override_text_style` to easily change the text style of everything in a `Ui` (or globally).
 * You can now change `TextStyle` on checkboxes, radio buttons and `SelectableLabel`.
-* Added support for [cint](https://Crates.IO/crates/cint) under `cint` feature.
+* Added support for [cint](https://crates.io/crates/cint) under `cint` feature.
 * Added features `extra_asserts` and `extra_debug_asserts` to enable additional checks.
 * `TextEdit` now supports edits on a generic buffer using `TextBuffer`.
 * Added `Context::set_debug_on_hover` and `egui::trace!(ui)`

@@ -4,7 +4,7 @@
 >
 > egui aims to be the easiest-to-use Rust GUI library, and the simplest way to make a web app in Rust.
 
-[![](https://img.shields.io/crates/v/egui.svg)](https://Crates.IO/crates/egui)
+[![](https://img.shields.io/crates/v/egui.svg)](https://crates.io/crates/egui)
 [![Docs.rs](https://docs.rs/egui/badge.svg)](https://docs.rs/egui)
 
 ```
@@ -28,7 +28,7 @@ Demo app uses [`eframe_tao`](https://GitHub.Com/tauri-apps/egui/tree/master/crat
 
 To test the demo app locally, run `cargo run --release -p egui_demo_app`.
 
-The native backend is [`egui_glow_tao`](https://GitHub.Com/tauri-apps/egui/tree/master/crates/egui_glow) (using [`glow`](https://Crates.IO/crates/glow)) and should work out-of-the-box on Mac and Windows, but on Linux you need to first run:
+The native backend is [`egui_glow_tao`](https://GitHub.Com/tauri-apps/egui/tree/master/crates/egui_glow) (using [`glow`](https://crates.io/crates/glow)) and should work out-of-the-box on Mac and Windows, but on Linux you need to first run:
 
 `sudo apt-get install -y libclang-dev libgtk-3-dev libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev libxkbcommon-dev libssl-dev`
 
