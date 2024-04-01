@@ -141,7 +141,7 @@ impl BackendPanel {
             ui.label("egui running inside ");
             ui.hyperlink_to(
                 "eframe",
-                "https://GitHub.Com/emilk/egui/tree/master/crates/eframe",
+                "https://github.com/emilk/egui/tree/master/crates/eframe",
             );
             ui.label(".");
         });

@@ -85,7 +85,7 @@ impl WebPainterWgpu {
         let surface = if false {
             instance.create_surface_from_canvas(canvas.clone())
         } else {
-            // Workaround for https://GitHub.Com/gfx-rs/wgpu/issues/3710:
+            // Workaround for https://github.com/gfx-rs/wgpu/issues/3710:
             // Don't use `create_surface_from_canvas`, but `create_surface` instead!
             let raw_window =
                 EguiWebWindow(egui::util::hash(&format!("egui on wgpu {canvas_id}")) as u32);

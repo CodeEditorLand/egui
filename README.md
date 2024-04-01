@@ -14,7 +14,7 @@ egui = "0.22.0"
 
 This repository provides binding for egui to use tao instead. Currently only `glow` backend is supported.
 
-For more information on how to use egui, please check out [egui repository](https://GitHub.Com/emilk/egui) for both [simple examples](https://GitHub.Com/emilk/egui/tree/master/examples) and [detailed documents](https://docs.rs/egui).
+For more information on how to use egui, please check out [egui repository](https://github.com/emilk/egui) for both [simple examples](https://github.com/emilk/egui/tree/master/examples) and [detailed documents](https://docs.rs/egui).
 
 ## Who is egui for?
 
@@ -24,11 +24,11 @@ Quoting from egui repository:
 
 ## Demo
 
-Demo app uses [`eframe_tao`](https://GitHub.Com/tauri-apps/egui/tree/master/crates/eframe).
+Demo app uses [`eframe_tao`](https://github.com/tauri-apps/egui/tree/master/crates/eframe).
 
 To test the demo app locally, run `cargo run --release -p egui_demo_app`.
 
-The native backend is [`egui_glow_tao`](https://GitHub.Com/tauri-apps/egui/tree/master/crates/egui_glow) (using [`glow`](https://crates.io/crates/glow)) and should work out-of-the-box on Mac and Windows, but on Linux you need to first run:
+The native backend is [`egui_glow_tao`](https://github.com/tauri-apps/egui/tree/master/crates/egui_glow) (using [`glow`](https://crates.io/crates/glow)) and should work out-of-the-box on Mac and Windows, but on Linux you need to first run:
 
 `sudo apt-get install -y libclang-dev libgtk-3-dev libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev libxkbcommon-dev libssl-dev`
 

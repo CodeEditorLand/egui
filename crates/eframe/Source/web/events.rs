@@ -113,7 +113,7 @@ pub fn install_document_events(runner_ref: &WebRunner) -> Result<(), JsValue> {
                 matches!(
                     event.key().as_str(),
                     "Backspace" // so we don't go back to previous page when deleting text
-                    | "ArrowDown" | "ArrowLeft" | "ArrowRight" | "ArrowUp" // cmd-left is "back" on Mac (https://GitHub.Com/emilk/egui/issues/58)
+                    | "ArrowDown" | "ArrowLeft" | "ArrowRight" | "ArrowUp" // cmd-left is "back" on Mac (https://github.com/emilk/egui/issues/58)
                 )
             } else {
                 // We never want to prevent:

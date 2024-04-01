@@ -1,7 +1,7 @@
 # https://embarkstudios.github.io/cargo-deny/
 
 # Note: running just `cargo deny check` without a `--target` can result in
-# false positives due to https://GitHub.Com/EmbarkStudios/cargo-deny/issues/324
+# false positives due to https://github.com/EmbarkStudios/cargo-deny/issues/324
 targets = [
     { triple = "aarch64-apple-darwin" },
     { triple = "i686-pc-windows-gnu" },
@@ -26,7 +26,7 @@ ignore = [
 
 [bans]
 multiple-versions = "deny"
-wildcards = "allow" # at least until https://GitHub.Com/EmbarkStudios/cargo-deny/issues/241 is fixed
+wildcards = "allow" # at least until https://github.com/EmbarkStudios/cargo-deny/issues/241 is fixed
 deny = [
     { name = "cmake" },       # Lord no
     { name = "openssl-sys" }, # prefer rustls
@@ -65,7 +65,7 @@ allow = [
     "BSL-1.0",                        # https://tldrlegal.com/license/boost-software-license-1.0-explained
     "CC0-1.0",                        # https://creativecommons.org/publicdomain/zero/1.0/
     "ISC",                            # https://tldrlegal.com/license/-isc-license
-    "LicenseRef-UFL-1.0",             # https://tldrlegal.com/license/ubuntu-font-license,-1.0 - no official SPDX, see https://GitHub.Com/emilk/egui/issues/2321
+    "LicenseRef-UFL-1.0",             # https://tldrlegal.com/license/ubuntu-font-license,-1.0 - no official SPDX, see https://github.com/emilk/egui/issues/2321
     "MIT",                            # https://tldrlegal.com/license/mit-license
     "MPL-2.0",                        # https://www.mozilla.org/en-US/MPL/2.0/FAQ/ - see Q11
     "OFL-1.1",                        # https://spdx.org/licenses/OFL-1.1.html

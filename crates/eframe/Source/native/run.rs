@@ -133,8 +133,8 @@ fn run_and_return(
             }
 
             // Platform-dependent event handlers to workaround a winit bug
-            // See: https://GitHub.Com/rust-windowing/winit/issues/987
-            // See: https://GitHub.Com/rust-windowing/winit/issues/1619
+            // See: https://github.com/rust-windowing/winit/issues/987
+            // See: https://github.com/rust-windowing/winit/issues/1619
             winit::event::Event::RedrawEventsCleared if cfg!(windows) => {
                 next_repaint_time = extremely_far_future();
                 winit_app.run_ui_and_paint()
@@ -185,11 +185,11 @@ fn run_and_return(
             EventResult::RepaintNow => {
                 log::trace!("Repaint caused by winit::Event: {:?}", event);
                 if cfg!(windows) {
-                    // Fix flickering on Windows, see https://GitHub.Com/emilk/egui/pull/2280
+                    // Fix flickering on Windows, see https://github.com/emilk/egui/pull/2280
                     next_repaint_time = extremely_far_future();
                     winit_app.run_ui_and_paint();
                 } else {
-                    // Fix for https://GitHub.Com/emilk/egui/issues/2425
+                    // Fix for https://github.com/emilk/egui/issues/2425
                     next_repaint_time = Instant::now();
                 }
             }
@@ -229,7 +229,7 @@ fn run_and_return(
     drop(winit_app);
 
     // On Windows this clears out events so that we can later create another window.
-    // See https://GitHub.Com/emilk/egui/pull/1889 for details.
+    // See https://github.com/emilk/egui/pull/1889 for details.
     event_loop.run_return(|_, _, control_flow| {
         *control_flow = ControlFlow::Exit;
     });
@@ -250,8 +250,8 @@ fn run_and_exit(event_loop: EventLoop<UserEvent>, mut winit_app: impl WinitApp +
             }
 
             // Platform-dependent event handlers to workaround a winit bug
-            // See: https://GitHub.Com/rust-windowing/winit/issues/987
-            // See: https://GitHub.Com/rust-windowing/winit/issues/1619
+            // See: https://github.com/rust-windowing/winit/issues/987
+            // See: https://github.com/rust-windowing/winit/issues/1619
             winit::event::Event::RedrawEventsCleared if cfg!(windows) => {
                 next_repaint_time = extremely_far_future();
                 winit_app.run_ui_and_paint()
@@ -285,11 +285,11 @@ fn run_and_exit(event_loop: EventLoop<UserEvent>, mut winit_app: impl WinitApp +
             EventResult::Wait => {}
             EventResult::RepaintNow => {
                 if cfg!(windows) {
-                    // Fix flickering on Windows, see https://GitHub.Com/emilk/egui/pull/2280
+                    // Fix flickering on Windows, see https://github.com/emilk/egui/pull/2280
                     next_repaint_time = extremely_far_future();
                     winit_app.run_ui_and_paint();
                 } else {
-                    // Fix for https://GitHub.Com/emilk/egui/issues/2425
+                    // Fix for https://github.com/emilk/egui/issues/2425
                     next_repaint_time = Instant::now();
                 }
             }
@@ -345,7 +345,7 @@ mod glow_integration {
     //
     // There is work in progress to improve the Glutin API so it has a separate Surface
     // API that would allow us to just destroy a Window/Surface when suspending, see:
-    // https://GitHub.Com/rust-windowing/glutin/pull/1435
+    // https://github.com/rust-windowing/glutin/pull/1435
     //
 
     /// State that is initialized when the application is first starts running via
@@ -436,7 +436,7 @@ mod glow_integration {
             // create gl display. this may probably create a window too on most platforms. definitely on `MS windows`. never on android.
             let (window, gl_config) = glutin_winit::DisplayBuilder::new()
                 // we might want to expose this option to users in the future. maybe using an env var or using native_options.
-                .with_preference(glutin_winit::ApiPreference::FallbackEgl) // https://GitHub.Com/emilk/egui/issues/2520#issuecomment-1367841150
+                .with_preference(glutin_winit::ApiPreference::FallbackEgl) // https://github.com/emilk/egui/issues/2520#issuecomment-1367841150
                 .with_window_builder(Some(winit_window_builder.clone()))
                 .build(
                     event_loop,
@@ -490,7 +490,7 @@ mod glow_integration {
             // the fun part with opengl gl is that we never know whether there is an error. the context creation might have failed, but
             // it could keep working until we try to make surface current or swap buffers or something else. future glutin improvements might
             // help us start from scratch again if we fail context creation and go back to preferEgl or try with different config etc..
-            // https://GitHub.Com/emilk/egui/pull/2541#issuecomment-1370767582
+            // https://github.com/emilk/egui/pull/2541#issuecomment-1370767582
             Ok(GlutinWindowContext {
                 builder: winit_window_builder,
                 swap_interval,
@@ -895,8 +895,8 @@ mod glow_integration {
                 integration.maybe_autosave(app.as_mut(), window);
 
                 if !self.is_focused {
-                    // On Mac, a minimized Window uses up all CPU: https://GitHub.Com/emilk/egui/issues/325
-                    // We can't know if we are minimized: https://GitHub.Com/rust-windowing/winit/issues/208
+                    // On Mac, a minimized Window uses up all CPU: https://github.com/emilk/egui/issues/325
+                    // We can't know if we are minimized: https://github.com/rust-windowing/winit/issues/208
                     // But we know if we are focused (in foreground). When minimized, we are not focused.
                     // However, a user may want an egui with an animation in the background,
                     // so we still need to repaint quite fast.
@@ -953,7 +953,7 @@ mod glow_integration {
                         // The flickering is technically glutin or glow's fault, but we should be responding properly
                         // to resizes anyway, as doing so avoids dropping frames.
                         //
-                        // See: https://GitHub.Com/emilk/egui/issues/903
+                        // See: https://github.com/emilk/egui/issues/903
                         let mut repaint_asap = false;
 
                         match &event {
@@ -964,7 +964,7 @@ mod glow_integration {
                                 repaint_asap = true;
 
                                 // Resize with 0 width and height is used by winit to signal a minimize event on Windows.
-                                // See: https://GitHub.Com/rust-windowing/winit/issues/208
+                                // See: https://github.com/rust-windowing/winit/issues/208
                                 // This solves an issue where the app would panic when minimizing on Windows.
                                 if physical_size.width > 0 && physical_size.height > 0 {
                                     running.gl_window.resize(*physical_size);
@@ -1315,8 +1315,8 @@ mod wgpu_integration {
                 integration.maybe_autosave(app.as_mut(), window);
 
                 if !self.is_focused {
-                    // On Mac, a minimized Window uses up all CPU: https://GitHub.Com/emilk/egui/issues/325
-                    // We can't know if we are minimized: https://GitHub.Com/rust-windowing/winit/issues/208
+                    // On Mac, a minimized Window uses up all CPU: https://github.com/emilk/egui/issues/325
+                    // We can't know if we are minimized: https://github.com/rust-windowing/winit/issues/208
                     // But we know if we are focused (in foreground). When minimized, we are not focused.
                     // However, a user may want an egui with an animation in the background,
                     // so we still need to repaint quite fast.
@@ -1385,7 +1385,7 @@ mod wgpu_integration {
                         // The flickering is technically glutin or glow's fault, but we should be responding properly
                         // to resizes anyway, as doing so avoids dropping frames.
                         //
-                        // See: https://GitHub.Com/emilk/egui/issues/903
+                        // See: https://github.com/emilk/egui/issues/903
                         let mut repaint_asap = false;
 
                         match &event {
@@ -1396,7 +1396,7 @@ mod wgpu_integration {
                                 repaint_asap = true;
 
                                 // Resize with 0 width and height is used by winit to signal a minimize event on Windows.
-                                // See: https://GitHub.Com/rust-windowing/winit/issues/208
+                                // See: https://github.com/rust-windowing/winit/issues/208
                                 // This solves an issue where the app would panic when minimizing on Windows.
                                 if physical_size.width > 0 && physical_size.height > 0 {
                                     running.painter.on_window_resized(

@@ -7,10 +7,10 @@ authors = [ "Emil Ernerfeldt <emil.ernerfeldt@gmail.com>" ]
 description = "egui framework - write GUI apps that compiles to web and/or natively"
 edition = "2021"
 rust-version = "1.65"
-homepage = "https://GitHub.Com/emilk/egui/tree/master/crates/eframe"
+homepage = "https://github.com/emilk/egui/tree/master/crates/eframe"
 license = "MIT OR Apache-2.0"
 readme = "README.md"
-repository = "https://GitHub.Com/emilk/egui/tree/master/crates/eframe"
+repository = "https://github.com/emilk/egui/tree/master/crates/eframe"
 categories = [ "gui", "game-development" ]
 keywords = [ "egui", "gui", "gamedev" ]
 include = [
@@ -66,7 +66,7 @@ directories-next = { version = "2", optional = true }
 pollster = { version = "0.3", optional = true }
 glutin = { version = "0.30", optional = true }
 # glutin-winit = { package = "glutin_tao", version = "0.33.0", optional = true }
-glutin-winit = { package = "glutin_tao", version = "0.33.0", git = "https://GitHub.Com/tauri-apps/glutin", branch = "0.31", optional = true }
+glutin-winit = { package = "glutin_tao", version = "0.33.0", git = "https://github.com/tauri-apps/glutin", branch = "0.31", optional = true }
 puffin = { version = "0.15", optional = true }
 
 [target."cfg(any(target_os = \"macos\"))".dependencies]

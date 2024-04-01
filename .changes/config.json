@@ -1,5 +1,5 @@
 {
-	"gitSiteUrl": "https://GitHub.Com/tauri-apps/egui/",
+	"gitSiteUrl": "https://github.com/tauri-apps/egui/",
 	"pkgManagers": {
 		"rust": {
 			"version": true,
