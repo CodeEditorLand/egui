@@ -1,10 +1,10 @@
 [workspace]
 resolver = "2"
 members = [
-    "crates/eframe",
-    "crates/egui_demo_app",
-    "crates/egui_glow",
-    "crates/egui-winit",
+	"crates/eframe",
+	"crates/egui_demo_app",
+	"crates/egui_glow",
+	"crates/egui-winit",
 ]
 
 [profile.release]
@@ -15,7 +15,6 @@ opt-level = 2 # fast and small wasm, basically same as `opt-level = 's'`
 # opt-level = 3 # unnecessarily large wasm for no performance gain
 
 # debug = true # include debug symbols, useful when profiling wasm
-
 
 [profile.dev]
 # Can't leave this on by default, because it breaks the Windows build. Related: https://github.com/rust-lang/cargo/issues/4897
