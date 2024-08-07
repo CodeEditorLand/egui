@@ -13,12 +13,6 @@ members = [
 # opt-level = 1 # very slow and big wasm. Don't do this.
 # opt-level = 3 # unnecessarily large wasm for no performance gain
 # debug = true # include debug symbols, useful when profiling wasm
-opt-level = 3
-codegen-units = 1
-debug = false
-lto = true
-panic = "abort"
-strip = true
 
 [profile.dev]
 # Can't leave this on by default, because it breaks the Windows build. Related: https://github.com/rust-lang/cargo/issues/4897
