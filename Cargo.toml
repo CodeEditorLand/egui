@@ -24,4 +24,4 @@ members = [
 opt-level = 2
 
 [workspace.dependencies]
-thiserror = "1.0.37"
+thiserror = "1.0.63"
