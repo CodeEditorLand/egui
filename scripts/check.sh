@@ -2,7 +2,10 @@
 # This scripts runs various CI-like checks in a convenient way.
 
 set -eu
-script_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+script_path=$(
+	cd "$(dirname "${BASH_SOURCE[0]}")"
+	pwd -P
+)
 cd "$script_path/.."
 set -x
 
