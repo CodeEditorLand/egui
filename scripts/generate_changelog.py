@@ -56,9 +56,7 @@ def get_github_token() -> str:
     except Exception:
         pass
 
-    print(
-        "ERROR: expected a GitHub token in the environment variable GH_ACCESS_TOKEN or in ~/.githubtoken"
-    )
+    print("ERROR: expected a GitHub token in the environment variable GH_ACCESS_TOKEN or in ~/.githubtoken")
     sys.exit(1)
 
 
@@ -91,18 +89,14 @@ def fetch_pr_info(pr_number: int) -> Optional[PrInfo]:
 def get_commit_info(commit: Any) -> CommitInfo:
     match = re.match(r"(.*) \(#(\d+)\)", commit.summary)
     if match:
-        return CommitInfo(
-            hexsha=commit.hexsha,
-            title=str(match.group(1)),
-            pr_number=int(match.group(2)),
-        )
+        return CommitInfo(hexsha=commit.hexsha, title=str(match.group(1)), pr_number=int(match.group(2)))
     else:
         return CommitInfo(hexsha=commit.hexsha, title=commit.summary, pr_number=None)
 
 
 def remove_prefix(text, prefix):
     if text.startswith(prefix):
-        return text[len(prefix) :]
+        return text[len(prefix):]
     return text  # or whatever
 
 
@@ -157,9 +151,7 @@ def main() -> None:
             summary = f"{title} [{hexsha[:7]}](https://github.com/{OWNER}/{REPO}/commit/{hexsha})"
             unsorted_commits.append(summary)
         else:
-            title = (
-                pr_info.pr_title if pr_info else title
-            )  # We prefer the PR title if available
+            title = pr_info.pr_title if pr_info else title  # We prefer the PR title if available
             labels = pr_info.labels if pr_info else []
 
             summary = f"{title} [#{pr_number}](https://github.com/{OWNER}/{REPO}/pull/{pr_number})"
