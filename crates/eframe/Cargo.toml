@@ -1,9 +1,9 @@
-lib = { }
+lib = {}
 
 [package]
 name = "eframe_tao"
 version = "0.23.0"
-authors = [ "Emil Ernerfeldt <emil.ernerfeldt@gmail.com>" ]
+authors = ["Emil Ernerfeldt <emil.ernerfeldt@gmail.com>"]
 description = "egui framework - write GUI apps that compiles to web and/or natively"
 edition = "2021"
 rust-version = "1.65"
@@ -11,55 +11,56 @@ homepage = "https://github.com/emilk/egui/tree/master/crates/eframe"
 license = "MIT OR Apache-2.0"
 readme = "README.md"
 repository = "https://github.com/emilk/egui/tree/master/crates/eframe"
-categories = [ "gui", "game-development" ]
-keywords = [ "egui", "gui", "gamedev" ]
+categories = ["gui", "game-development"]
+keywords = ["egui", "gui", "gamedev"]
 include = [
-  "../LICENSE-APACHE",
-  "../LICENSE-MIT",
-  "**/*.rs",
-  "Cargo.toml",
-  "data/icon.png"
+	"../LICENSE-APACHE",
+	"../LICENSE-MIT",
+	"**/*.rs",
+	"Cargo.toml",
+	"data/icon.png",
 ]
 
 [package.metadata.docs.rs]
 all-features = true
-targets = [ "x86_64-unknown-linux-gnu", "wasm32-unknown-unknown" ]
+targets = ["x86_64-unknown-linux-gnu", "wasm32-unknown-unknown"]
 
 [features]
-default = [ "default_fonts", "glow" ]
-default_fonts = [ "egui/default_fonts" ]
-glow = [
-  "dep:glow",
-  "dep:egui_glow",
-  "dep:glutin",
-  "dep:glutin-winit"
-]
+default = ["default_fonts", "glow"]
+default_fonts = ["egui/default_fonts"]
+glow = ["dep:glow", "dep:egui_glow", "dep:glutin", "dep:glutin-winit"]
 persistence = [
-  "directories-next",
-  "egui-winit/serde",
-  "egui/persistence",
-  "ron",
-  "serde"
+	"directories-next",
+	"egui-winit/serde",
+	"egui/persistence",
+	"ron",
+	"serde",
 ]
-puffin = [ "dep:puffin", "egui_glow?/puffin" ]
-web_screen_reader = [ "tts" ]
-__screenshot = [ ]
+puffin = ["dep:puffin", "egui_glow?/puffin"]
+web_screen_reader = ["tts"]
+__screenshot = []
 
 [dependencies]
-egui = { version = "0.22.0", default-features = false, features = [ "bytemuck", "log" ] }
-log = { version = "0.4", features = [ "std" ] }
+egui = { version = "0.22.0", default-features = false, features = [
+	"bytemuck",
+	"log",
+] }
+log = { version = "0.4", features = ["std"] }
 document-features = { version = "0.2", optional = true }
 egui_glow = { package = "egui_glow_tao", version = "0.23.0", path = "../egui_glow", optional = true, default-features = false }
 glow = { version = "0.12", optional = true }
-ron = { version = "0.8", optional = true, features = [ "integer128" ] }
-serde = { version = "1", optional = true, features = [ "derive" ] }
+ron = { version = "0.8", optional = true, features = ["integer128"] }
+serde = { version = "1", optional = true, features = ["derive"] }
 
-  [dependencies.thiserror]
-  workspace = true
+[dependencies.thiserror]
+workspace = true
 
 [target."cfg(not(target_arch = \"wasm32\"))".dependencies]
-egui-winit = { package = "egui-tao", version = "0.23.0", path = "../egui-winit", default-features = false, features = [ "clipboard", "links" ] }
-image = { version = "0.24", default-features = false, features = [ "png" ] }
+egui-winit = { package = "egui-tao", version = "0.23.0", path = "../egui-winit", default-features = false, features = [
+	"clipboard",
+	"links",
+] }
+image = { version = "0.24", default-features = false, features = ["png"] }
 raw-window-handle = { version = "0.5.0" }
 winit = { package = "tao", version = "0.19.0" }
 directories-next = { version = "2", optional = true }
@@ -83,47 +84,47 @@ percent-encoding = "2.1"
 wasm-bindgen = "0.2.86"
 wasm-bindgen-futures = "0.4"
 web-sys = { version = "0.3.58", features = [
-  "BinaryType",
-  "Blob",
-  "Clipboard",
-  "ClipboardEvent",
-  "CompositionEvent",
-  "console",
-  "CssStyleDeclaration",
-  "DataTransfer",
-  "DataTransferItem",
-  "DataTransferItemList",
-  "Document",
-  "DomRect",
-  "DragEvent",
-  "Element",
-  "Event",
-  "EventListener",
-  "EventTarget",
-  "ExtSRgb",
-  "File",
-  "FileList",
-  "FocusEvent",
-  "HtmlCanvasElement",
-  "HtmlElement",
-  "HtmlInputElement",
-  "InputEvent",
-  "KeyboardEvent",
-  "Location",
-  "MediaQueryList",
-  "MediaQueryListEvent",
-  "MouseEvent",
-  "Navigator",
-  "Performance",
-  "Storage",
-  "Touch",
-  "TouchEvent",
-  "TouchList",
-  "WebGl2RenderingContext",
-  "WebglDebugRendererInfo",
-  "WebGlRenderingContext",
-  "WheelEvent",
-  "Window"
+	"BinaryType",
+	"Blob",
+	"Clipboard",
+	"ClipboardEvent",
+	"CompositionEvent",
+	"console",
+	"CssStyleDeclaration",
+	"DataTransfer",
+	"DataTransferItem",
+	"DataTransferItemList",
+	"Document",
+	"DomRect",
+	"DragEvent",
+	"Element",
+	"Event",
+	"EventListener",
+	"EventTarget",
+	"ExtSRgb",
+	"File",
+	"FileList",
+	"FocusEvent",
+	"HtmlCanvasElement",
+	"HtmlElement",
+	"HtmlInputElement",
+	"InputEvent",
+	"KeyboardEvent",
+	"Location",
+	"MediaQueryList",
+	"MediaQueryListEvent",
+	"MouseEvent",
+	"Navigator",
+	"Performance",
+	"Storage",
+	"Touch",
+	"TouchEvent",
+	"TouchList",
+	"WebGl2RenderingContext",
+	"WebglDebugRendererInfo",
+	"WebGlRenderingContext",
+	"WheelEvent",
+	"Window",
 ] }
 raw-window-handle = { version = "0.5.2", optional = true }
 tts = { version = "0.25", optional = true, default-features = false }
