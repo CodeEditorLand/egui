@@ -68,7 +68,7 @@ impl Clipboard {
 				Err(err) => {
 					log::error!("smithay paste error: {err}");
 					None
-				}
+				},
 			};
 		}
 
@@ -79,7 +79,7 @@ impl Clipboard {
 				Err(err) => {
 					log::error!("arboard paste error: {err}");
 					None
-				}
+				},
 			};
 		}
 
@@ -122,7 +122,7 @@ fn init_arboard() -> Option<arboard::Clipboard> {
 		Err(err) => {
 			log::warn!("Failed to initialize arboard clipboard: {err}");
 			None
-		}
+		},
 	}
 }
 
@@ -140,13 +140,17 @@ fn init_smithay_clipboard(
 	_display_target: &dyn HasRawDisplayHandle,
 ) -> Option<smithay_clipboard::Clipboard> {
 	use raw_window_handle::RawDisplayHandle;
-	if let RawDisplayHandle::Wayland(display) = _display_target.raw_display_handle() {
+	if let RawDisplayHandle::Wayland(display) =
+		_display_target.raw_display_handle()
+	{
 		log::debug!("Initializing smithay clipboard…");
 		#[allow(unsafe_code)]
 		Some(unsafe { smithay_clipboard::Clipboard::new(display.display) })
 	} else {
 		#[cfg(feature = "wayland")]
-		log::debug!("Cannot init smithay clipboard without a Wayland display handle");
+		log::debug!(
+			"Cannot init smithay clipboard without a Wayland display handle"
+		);
 		#[cfg(not(feature = "wayland"))]
 		log::debug!(
 			"Cannot init smithay clipboard: the 'wayland' feature of 'egui-winit' is not enabled"

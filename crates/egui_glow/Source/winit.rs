@@ -35,7 +35,10 @@ impl EguiGlow {
 		}
 	}
 
-	pub fn on_event(&mut self, event: &winit::event::WindowEvent<'_>) -> EventResponse {
+	pub fn on_event(
+		&mut self,
+		event: &winit::event::WindowEvent<'_>,
+	) -> EventResponse {
 		self.egui_winit.on_event(&self.egui_ctx, event)
 	}
 
@@ -48,10 +51,18 @@ impl EguiGlow {
 		run_ui: impl FnMut(&egui::Context),
 	) -> std::time::Duration {
 		let raw_input = self.egui_winit.take_egui_input(window);
-		let egui::FullOutput { platform_output, repaint_after, textures_delta, shapes } =
-			self.egui_ctx.run(raw_input, run_ui);
+		let egui::FullOutput {
+			platform_output,
+			repaint_after,
+			textures_delta,
+			shapes,
+		} = self.egui_ctx.run(raw_input, run_ui);
 
-		self.egui_winit.handle_platform_output(window, &self.egui_ctx, platform_output);
+		self.egui_winit.handle_platform_output(
+			window,
+			&self.egui_ctx,
+			platform_output,
+		);
 
 		self.shapes = shapes;
 		self.textures_delta.append(textures_delta);

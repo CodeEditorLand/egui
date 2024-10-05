@@ -120,7 +120,10 @@ fn supports_vao(gl: &glow::Context) -> bool {
 		if version_str.contains("1.0") {
 			// need to test OES_vertex_array_object .
 			let supported_extensions = gl.supported_extensions();
-			log::debug!("Supported OpenGL extensions: {:?}", supported_extensions);
+			log::debug!(
+				"Supported OpenGL extensions: {:?}",
+				supported_extensions
+			);
 			supported_extensions.contains("OES_vertex_array_object")
 				|| supported_extensions.contains("GL_OES_vertex_array_object")
 		} else {
@@ -131,7 +134,10 @@ fn supports_vao(gl: &glow::Context) -> bool {
 		if version_string.contains("2.0") {
 			// need to test OES_vertex_array_object .
 			let supported_extensions = gl.supported_extensions();
-			log::debug!("Supported OpenGL extensions: {:?}", supported_extensions);
+			log::debug!(
+				"Supported OpenGL extensions: {:?}",
+				supported_extensions
+			);
 			supported_extensions.contains("OES_vertex_array_object")
 				|| supported_extensions.contains("GL_OES_vertex_array_object")
 		} else {
@@ -143,7 +149,10 @@ fn supports_vao(gl: &glow::Context) -> bool {
 			// I found APPLE_vertex_array_object , GL_ATI_vertex_array_object ,ARB_vertex_array_object
 			// but APPLE's and ATI's very old extension.
 			let supported_extensions = gl.supported_extensions();
-			log::debug!("Supported OpenGL extensions: {:?}", supported_extensions);
+			log::debug!(
+				"Supported OpenGL extensions: {:?}",
+				supported_extensions
+			);
 			supported_extensions.contains("ARB_vertex_array_object")
 				|| supported_extensions.contains("GL_ARB_vertex_array_object")
 		} else {

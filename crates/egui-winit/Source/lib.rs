@@ -163,7 +163,10 @@ impl State {
 
 	/// Prepare for a new frame by extracting the accumulated input,
 	/// as well as setting [the time](egui::RawInput::time) and [screen rectangle](egui::RawInput::screen_rect).
-	pub fn take_egui_input(&mut self, window: &winit::window::Window) -> egui::RawInput {
+	pub fn take_egui_input(
+		&mut self,
+		window: &winit::window::Window,
+	) -> egui::RawInput {
 		let pixels_per_point = self.pixels_per_point();
 
 		self.egui_input.time = Some(self.start_time.elapsed().as_secs_f64());
@@ -175,7 +178,10 @@ impl State {
 		let screen_size_in_points = screen_size_in_pixels / pixels_per_point;
 		self.egui_input.screen_rect =
 			if screen_size_in_points.x > 0.0 && screen_size_in_points.y > 0.0 {
-				Some(egui::Rect::from_min_size(egui::Pos2::ZERO, screen_size_in_points))
+				Some(egui::Rect::from_min_size(
+					egui::Pos2::ZERO,
+					screen_size_in_points,
+				))
 			} else {
 				None
 			};
@@ -377,8 +383,13 @@ impl State {
 	///
 	/// The result can be found in [`Self::egui_input`] and be extracted with [`Self::take_egui_input`].
 	#[cfg(feature = "accesskit")]
-	pub fn on_accesskit_action_request(&mut self, request: accesskit::ActionRequest) {
-		self.egui_input.events.push(egui::Event::AccessKitActionRequest(request));
+	pub fn on_accesskit_action_request(
+		&mut self,
+		request: accesskit::ActionRequest,
+	) {
+		self.egui_input
+			.events
+			.push(egui::Event::AccessKitActionRequest(request));
 	}
 
 	fn on_mouse_button_input(
@@ -426,7 +437,10 @@ impl State {
 		}
 	}
 
-	fn on_cursor_moved(&mut self, pos_in_pixels: winit::dpi::PhysicalPosition<f64>) {
+	fn on_cursor_moved(
+		&mut self,
+		pos_in_pixels: winit::dpi::PhysicalPosition<f64>,
+	) {
 		let pos_in_points = egui::pos2(
 			pos_in_pixels.x as f32 / self.pixels_per_point(),
 			pos_in_pixels.y as f32 / self.pixels_per_point(),
@@ -435,7 +449,9 @@ impl State {
 
 		if self.simulate_touch_screen {
 			if self.any_pointer_button_down {
-				self.egui_input.events.push(egui::Event::PointerMoved(pos_in_points));
+				self.egui_input
+					.events
+					.push(egui::Event::PointerMoved(pos_in_points));
 
 				self.egui_input.events.push(egui::Event::Touch {
 					device_id: egui::TouchDeviceId(0),
@@ -446,14 +462,18 @@ impl State {
 				});
 			}
 		} else {
-			self.egui_input.events.push(egui::Event::PointerMoved(pos_in_points));
+			self.egui_input
+				.events
+				.push(egui::Event::PointerMoved(pos_in_points));
 		}
 	}
 
 	fn on_touch(&mut self, touch: &winit::event::Touch) {
 		// Emit touch event
 		self.egui_input.events.push(egui::Event::Touch {
-			device_id: egui::TouchDeviceId(egui::epaint::util::hash(touch.device_id)),
+			device_id: egui::TouchDeviceId(egui::epaint::util::hash(
+				touch.device_id,
+			)),
 			id: egui::TouchId::from(touch.id),
 			phase: match touch.phase {
 				winit::event::TouchPhase::Started => egui::TouchPhase::Start,
@@ -468,16 +488,20 @@ impl State {
 			),
 			force: match touch.force {
 				Some(winit::event::Force::Normalized(force)) => force as f32,
-				Some(winit::event::Force::Calibrated { force, max_possible_force, .. }) => {
-					(force / max_possible_force) as f32
-				}
+				Some(winit::event::Force::Calibrated {
+					force,
+					max_possible_force,
+					..
+				}) => (force / max_possible_force) as f32,
 				None => 0_f32,
 				_ => unreachable!(),
 			},
 		});
 		// If we're not yet translating a touch or we're translating this very
 		// touch …
-		if self.pointer_touch_id.is_none() || self.pointer_touch_id.unwrap() == touch.id {
+		if self.pointer_touch_id.is_none()
+			|| self.pointer_touch_id.unwrap() == touch.id
+		{
 			// … emit PointerButton resp. PointerMoved events to emulate mouse
 			match touch.phase {
 				winit::event::TouchPhase::Started => {
@@ -488,10 +512,10 @@ impl State {
 						winit::event::ElementState::Pressed,
 						winit::event::MouseButton::Left,
 					);
-				}
+				},
 				winit::event::TouchPhase::Moved => {
 					self.on_cursor_moved(touch.location);
-				}
+				},
 				winit::event::TouchPhase::Ended => {
 					self.pointer_touch_id = None;
 					self.on_mouse_button_input(
@@ -502,12 +526,12 @@ impl State {
 					// hover effects
 					self.pointer_pos_in_points = None;
 					self.egui_input.events.push(egui::Event::PointerGone);
-				}
+				},
 				winit::event::TouchPhase::Cancelled => {
 					self.pointer_touch_id = None;
 					self.pointer_pos_in_points = None;
 					self.egui_input.events.push(egui::Event::PointerGone);
-				}
+				},
 				_ => unreachable!(),
 			}
 		}
@@ -518,27 +542,31 @@ impl State {
 			let (unit, delta) = match delta {
 				winit::event::MouseScrollDelta::LineDelta(x, y) => {
 					(egui::MouseWheelUnit::Line, egui::vec2(x, y))
-				}
-				winit::event::MouseScrollDelta::PixelDelta(winit::dpi::PhysicalPosition {
-					x,
-					y,
-				}) => (
+				},
+				winit::event::MouseScrollDelta::PixelDelta(
+					winit::dpi::PhysicalPosition { x, y },
+				) => (
 					egui::MouseWheelUnit::Point,
 					egui::vec2(x as f32, y as f32) / self.pixels_per_point(),
 				),
 				_ => unreachable!(),
 			};
 			let modifiers = self.egui_input.modifiers;
-			self.egui_input.events.push(egui::Event::MouseWheel { unit, delta, modifiers });
+			self.egui_input.events.push(egui::Event::MouseWheel {
+				unit,
+				delta,
+				modifiers,
+			});
 		}
 		let delta = match delta {
 			winit::event::MouseScrollDelta::LineDelta(x, y) => {
 				let points_per_scroll_line = 50.0; // Scroll speed decided by consensus: https://github.com/emilk/egui/issues/461
 				egui::vec2(x, y) * points_per_scroll_line
-			}
+			},
 			winit::event::MouseScrollDelta::PixelDelta(delta) => {
-				egui::vec2(delta.x as f32, delta.y as f32) / self.pixels_per_point()
-			}
+				egui::vec2(delta.x as f32, delta.y as f32)
+					/ self.pixels_per_point()
+			},
 			_ => unreachable!(),
 		};
 
@@ -549,7 +577,9 @@ impl State {
 		} else if self.egui_input.modifiers.shift {
 			// Treat as horizontal scrolling.
 			// Note: one Mac we already get horizontal scroll events when shift is down.
-			self.egui_input.events.push(egui::Event::Scroll(egui::vec2(delta.x + delta.y, 0.0)));
+			self.egui_input
+				.events
+				.push(egui::Event::Scroll(egui::vec2(delta.x + delta.y, 0.0)));
 		} else {
 			self.egui_input.events.push(egui::Event::Scroll(delta));
 		}
@@ -570,7 +600,9 @@ impl State {
 				if let Some(contents) = self.clipboard.get() {
 					let contents = contents.replace("\r\n", "\n");
 					if !contents.is_empty() {
-						self.egui_input.events.push(egui::Event::Paste(contents));
+						self.egui_input
+							.events
+							.push(egui::Event::Paste(contents));
 					}
 				}
 			}
@@ -634,7 +666,11 @@ impl State {
 		}
 	}
 
-	fn set_cursor_icon(&mut self, window: &winit::window::Window, cursor_icon: egui::CursorIcon) {
+	fn set_cursor_icon(
+		&mut self,
+		window: &winit::window::Window,
+		cursor_icon: egui::CursorIcon,
+	) {
 		if self.current_cursor_icon == Some(cursor_icon) {
 			// Prevent flickering near frame boundary when Windows OS tries to control cursor icon for window resizing.
 			// On other platforms: just early-out to save CPU.
@@ -682,40 +718,59 @@ fn is_printable_char(chr: char) -> bool {
 	!is_in_private_use_area && !chr.is_ascii_control()
 }
 
-fn is_cut_command(modifiers: egui::Modifiers, keycode: winit::keyboard::KeyCode) -> bool {
+fn is_cut_command(
+	modifiers: egui::Modifiers,
+	keycode: winit::keyboard::KeyCode,
+) -> bool {
 	(modifiers.command && keycode == winit::keyboard::KeyCode::KeyX)
 		|| (cfg!(target_os = "windows")
 			&& modifiers.shift
 			&& keycode == winit::keyboard::KeyCode::Delete)
 }
 
-fn is_copy_command(modifiers: egui::Modifiers, keycode: winit::keyboard::KeyCode) -> bool {
+fn is_copy_command(
+	modifiers: egui::Modifiers,
+	keycode: winit::keyboard::KeyCode,
+) -> bool {
 	(modifiers.command && keycode == winit::keyboard::KeyCode::KeyC)
 		|| (cfg!(target_os = "windows")
 			&& modifiers.ctrl
 			&& keycode == winit::keyboard::KeyCode::Insert)
 }
 
-fn is_paste_command(modifiers: egui::Modifiers, keycode: winit::keyboard::KeyCode) -> bool {
+fn is_paste_command(
+	modifiers: egui::Modifiers,
+	keycode: winit::keyboard::KeyCode,
+) -> bool {
 	(modifiers.command && keycode == winit::keyboard::KeyCode::KeyV)
 		|| (cfg!(target_os = "windows")
 			&& modifiers.shift
 			&& keycode == winit::keyboard::KeyCode::Insert)
 }
 
-fn translate_mouse_button(button: winit::event::MouseButton) -> Option<egui::PointerButton> {
+fn translate_mouse_button(
+	button: winit::event::MouseButton,
+) -> Option<egui::PointerButton> {
 	match button {
 		winit::event::MouseButton::Left => Some(egui::PointerButton::Primary),
-		winit::event::MouseButton::Right => Some(egui::PointerButton::Secondary),
+		winit::event::MouseButton::Right => {
+			Some(egui::PointerButton::Secondary)
+		},
 		winit::event::MouseButton::Middle => Some(egui::PointerButton::Middle),
-		winit::event::MouseButton::Other(1) => Some(egui::PointerButton::Extra1),
-		winit::event::MouseButton::Other(2) => Some(egui::PointerButton::Extra2),
+		winit::event::MouseButton::Other(1) => {
+			Some(egui::PointerButton::Extra1)
+		},
+		winit::event::MouseButton::Other(2) => {
+			Some(egui::PointerButton::Extra2)
+		},
 		winit::event::MouseButton::Other(_) => None,
 		_ => unreachable!(),
 	}
 }
 
-fn translate_virtual_key_code(key: winit::keyboard::KeyCode) -> Option<egui::Key> {
+fn translate_virtual_key_code(
+	key: winit::keyboard::KeyCode,
+) -> Option<egui::Key> {
 	use egui::Key;
 	use winit::keyboard::KeyCode;
 
@@ -804,48 +859,88 @@ fn translate_virtual_key_code(key: winit::keyboard::KeyCode) -> Option<egui::Key
 
 		_ => {
 			return None;
-		}
+		},
 	})
 }
 
-fn translate_cursor(cursor_icon: egui::CursorIcon) -> Option<winit::window::CursorIcon> {
+fn translate_cursor(
+	cursor_icon: egui::CursorIcon,
+) -> Option<winit::window::CursorIcon> {
 	match cursor_icon {
 		egui::CursorIcon::None => None,
 
 		egui::CursorIcon::Alias => Some(winit::window::CursorIcon::Alias),
-		egui::CursorIcon::AllScroll => Some(winit::window::CursorIcon::AllScroll),
+		egui::CursorIcon::AllScroll => {
+			Some(winit::window::CursorIcon::AllScroll)
+		},
 		egui::CursorIcon::Cell => Some(winit::window::CursorIcon::Cell),
-		egui::CursorIcon::ContextMenu => Some(winit::window::CursorIcon::ContextMenu),
+		egui::CursorIcon::ContextMenu => {
+			Some(winit::window::CursorIcon::ContextMenu)
+		},
 		egui::CursorIcon::Copy => Some(winit::window::CursorIcon::Copy),
-		egui::CursorIcon::Crosshair => Some(winit::window::CursorIcon::Crosshair),
+		egui::CursorIcon::Crosshair => {
+			Some(winit::window::CursorIcon::Crosshair)
+		},
 		egui::CursorIcon::Default => Some(winit::window::CursorIcon::Default),
 		egui::CursorIcon::Grab => Some(winit::window::CursorIcon::Grab),
 		egui::CursorIcon::Grabbing => Some(winit::window::CursorIcon::Grabbing),
 		egui::CursorIcon::Help => Some(winit::window::CursorIcon::Help),
 		egui::CursorIcon::Move => Some(winit::window::CursorIcon::Move),
 		egui::CursorIcon::NoDrop => Some(winit::window::CursorIcon::NoDrop),
-		egui::CursorIcon::NotAllowed => Some(winit::window::CursorIcon::NotAllowed),
+		egui::CursorIcon::NotAllowed => {
+			Some(winit::window::CursorIcon::NotAllowed)
+		},
 		egui::CursorIcon::PointingHand => Some(winit::window::CursorIcon::Hand),
 		egui::CursorIcon::Progress => Some(winit::window::CursorIcon::Progress),
 
-		egui::CursorIcon::ResizeHorizontal => Some(winit::window::CursorIcon::EwResize),
-		egui::CursorIcon::ResizeNeSw => Some(winit::window::CursorIcon::NeswResize),
-		egui::CursorIcon::ResizeNwSe => Some(winit::window::CursorIcon::NwseResize),
-		egui::CursorIcon::ResizeVertical => Some(winit::window::CursorIcon::NsResize),
+		egui::CursorIcon::ResizeHorizontal => {
+			Some(winit::window::CursorIcon::EwResize)
+		},
+		egui::CursorIcon::ResizeNeSw => {
+			Some(winit::window::CursorIcon::NeswResize)
+		},
+		egui::CursorIcon::ResizeNwSe => {
+			Some(winit::window::CursorIcon::NwseResize)
+		},
+		egui::CursorIcon::ResizeVertical => {
+			Some(winit::window::CursorIcon::NsResize)
+		},
 
-		egui::CursorIcon::ResizeEast => Some(winit::window::CursorIcon::EResize),
-		egui::CursorIcon::ResizeSouthEast => Some(winit::window::CursorIcon::SeResize),
-		egui::CursorIcon::ResizeSouth => Some(winit::window::CursorIcon::SResize),
-		egui::CursorIcon::ResizeSouthWest => Some(winit::window::CursorIcon::SwResize),
-		egui::CursorIcon::ResizeWest => Some(winit::window::CursorIcon::WResize),
-		egui::CursorIcon::ResizeNorthWest => Some(winit::window::CursorIcon::NwResize),
-		egui::CursorIcon::ResizeNorth => Some(winit::window::CursorIcon::NResize),
-		egui::CursorIcon::ResizeNorthEast => Some(winit::window::CursorIcon::NeResize),
-		egui::CursorIcon::ResizeColumn => Some(winit::window::CursorIcon::ColResize),
-		egui::CursorIcon::ResizeRow => Some(winit::window::CursorIcon::RowResize),
+		egui::CursorIcon::ResizeEast => {
+			Some(winit::window::CursorIcon::EResize)
+		},
+		egui::CursorIcon::ResizeSouthEast => {
+			Some(winit::window::CursorIcon::SeResize)
+		},
+		egui::CursorIcon::ResizeSouth => {
+			Some(winit::window::CursorIcon::SResize)
+		},
+		egui::CursorIcon::ResizeSouthWest => {
+			Some(winit::window::CursorIcon::SwResize)
+		},
+		egui::CursorIcon::ResizeWest => {
+			Some(winit::window::CursorIcon::WResize)
+		},
+		egui::CursorIcon::ResizeNorthWest => {
+			Some(winit::window::CursorIcon::NwResize)
+		},
+		egui::CursorIcon::ResizeNorth => {
+			Some(winit::window::CursorIcon::NResize)
+		},
+		egui::CursorIcon::ResizeNorthEast => {
+			Some(winit::window::CursorIcon::NeResize)
+		},
+		egui::CursorIcon::ResizeColumn => {
+			Some(winit::window::CursorIcon::ColResize)
+		},
+		egui::CursorIcon::ResizeRow => {
+			Some(winit::window::CursorIcon::RowResize)
+		},
 
 		egui::CursorIcon::Text => Some(winit::window::CursorIcon::Text),
-		egui::CursorIcon::VerticalText => Some(winit::window::CursorIcon::VerticalText),
+		egui::CursorIcon::VerticalText => {
+			Some(winit::window::CursorIcon::VerticalText)
+		},
 		egui::CursorIcon::Wait => Some(winit::window::CursorIcon::Wait),
 		egui::CursorIcon::ZoomIn => Some(winit::window::CursorIcon::ZoomIn),
 		egui::CursorIcon::ZoomOut => Some(winit::window::CursorIcon::ZoomOut),

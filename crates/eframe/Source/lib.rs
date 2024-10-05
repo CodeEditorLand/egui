@@ -218,13 +218,13 @@ pub fn run_native(
 		Renderer::Glow => {
 			log::debug!("Using the glow renderer");
 			native::run::run_glow(app_name, native_options, app_creator)
-		}
+		},
 
 		#[cfg(feature = "wgpu")]
 		Renderer::Wgpu => {
 			log::debug!("Using the wgpu renderer");
 			native::run::run_wgpu(app_name, native_options, app_creator)
-		}
+		},
 	}
 }
 
@@ -278,7 +278,11 @@ pub fn run_simple_native(
 		}
 	}
 
-	run_native(app_name, native_options, Box::new(|_cc| Box::new(SimpleApp { update_fun })))
+	run_native(
+		app_name,
+		native_options,
+		Box::new(|_cc| Box::new(SimpleApp { update_fun })),
+	)
 }
 
 // ----------------------------------------------------------------------------
@@ -295,7 +299,9 @@ pub enum Error {
 	Glutin(#[from] glutin::error::Error),
 
 	#[cfg(all(feature = "glow", not(target_arch = "wasm32")))]
-	#[error("Found no glutin configs matching the template: {0:?}. error: {1:?}")]
+	#[error(
+		"Found no glutin configs matching the template: {0:?}. error: {1:?}"
+	)]
 	NoGlutinConfigs(glutin::config::ConfigTemplate, Box<dyn std::error::Error>),
 
 	#[cfg(feature = "wgpu")]

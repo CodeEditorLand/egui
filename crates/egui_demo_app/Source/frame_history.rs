@@ -31,20 +31,22 @@ impl FrameHistory {
 	}
 
 	pub fn ui(&mut self, ui: &mut egui::Ui) {
-		ui.label(format!("Mean CPU usage: {:.2} ms / frame", 1e3 * self.mean_frame_time()))
-			.on_hover_text(
-				"Includes egui layout and tessellation time.\n\
+		ui.label(format!(
+			"Mean CPU usage: {:.2} ms / frame",
+			1e3 * self.mean_frame_time()
+		))
+		.on_hover_text(
+			"Includes egui layout and tessellation time.\n\
             Does not include GPU usage, nor overhead for sending data to GPU.",
-			);
+		);
 		egui::warn_if_debug_build(ui);
 
 		if !cfg!(target_arch = "wasm32") {
-			egui::CollapsingHeader::new("📊 CPU usage history").default_open(false).show(
-				ui,
-				|ui| {
+			egui::CollapsingHeader::new("📊 CPU usage history")
+				.default_open(false)
+				.show(ui, |ui| {
 					self.graph(ui);
-				},
-			);
+				});
 		}
 	}
 
@@ -62,7 +64,10 @@ impl FrameHistory {
 		let style = ui.style().noninteractive();
 
 		let graph_top_cpu_usage = 0.010;
-		let graph_rect = Rect::from_x_y_ranges(history.max_age()..=0.0, graph_top_cpu_usage..=0.0);
+		let graph_rect = Rect::from_x_y_ranges(
+			history.max_age()..=0.0,
+			graph_top_cpu_usage..=0.0,
+		);
 		let to_screen = emath::RectTransform::from_to(graph_rect, rect);
 
 		let mut shapes = Vec::with_capacity(3 + 2 * history.len());
@@ -103,9 +108,13 @@ impl FrameHistory {
 
 		for (time, cpu_usage) in history.iter() {
 			let age = (right_side_time - time) as f32;
-			let pos = to_screen.transform_pos_clamped(Pos2::new(age, cpu_usage));
+			let pos =
+				to_screen.transform_pos_clamped(Pos2::new(age, cpu_usage));
 
-			shapes.push(Shape::line_segment([pos2(pos.x, rect.bottom()), pos], line_stroke));
+			shapes.push(Shape::line_segment(
+				[pos2(pos.x, rect.bottom()), pos],
+				line_stroke,
+			));
 
 			if cpu_usage < graph_top_cpu_usage {
 				shapes.push(Shape::circle_filled(pos, radius, circle_color));

@@ -42,12 +42,12 @@ pub struct FractalClockApp {
 
 impl eframe::App for FractalClockApp {
 	fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-		egui::CentralPanel::default().frame(egui::Frame::dark_canvas(&ctx.style())).show(
-			ctx,
-			|ui| {
-				self.fractal_clock.ui(ui, Some(crate::seconds_since_midnight()));
-			},
-		);
+		egui::CentralPanel::default()
+			.frame(egui::Frame::dark_canvas(&ctx.style()))
+			.show(ctx, |ui| {
+				self.fractal_clock
+					.ui(ui, Some(crate::seconds_since_midnight()));
+			});
 	}
 }
 
@@ -172,22 +172,40 @@ impl WrapApp {
 		slf
 	}
 
-	fn apps_iter_mut(&mut self) -> impl Iterator<Item = (&str, Anchor, &mut dyn eframe::App)> {
+	fn apps_iter_mut(
+		&mut self,
+	) -> impl Iterator<Item = (&str, Anchor, &mut dyn eframe::App)> {
 		let mut vec = vec![
-			("✨ Demos", Anchor::Demo, &mut self.state.demo as &mut dyn eframe::App),
+			(
+				"✨ Demos",
+				Anchor::Demo,
+				&mut self.state.demo as &mut dyn eframe::App,
+			),
 			(
 				"🖹 EasyMark editor",
 				Anchor::EasyMarkEditor,
 				&mut self.state.easy_mark_editor as &mut dyn eframe::App,
 			),
 			#[cfg(feature = "http")]
-			("⬇ HTTP", Anchor::Http, &mut self.state.http as &mut dyn eframe::App),
-			("🕑 Fractal Clock", Anchor::Clock, &mut self.state.clock as &mut dyn eframe::App),
+			(
+				"⬇ HTTP",
+				Anchor::Http,
+				&mut self.state.http as &mut dyn eframe::App,
+			),
+			(
+				"🕑 Fractal Clock",
+				Anchor::Clock,
+				&mut self.state.clock as &mut dyn eframe::App,
+			),
 		];
 
 		#[cfg(any(feature = "glow", feature = "wgpu"))]
 		if let Some(custom3d) = &mut self.custom3d {
-			vec.push(("🔺 3D painting", Anchor::Custom3d, custom3d as &mut dyn eframe::App));
+			vec.push((
+				"🔺 3D painting",
+				Anchor::Custom3d,
+				custom3d as &mut dyn eframe::App,
+			));
 		}
 
 		vec.push((
@@ -212,15 +230,20 @@ impl eframe::App for WrapApp {
 
 	fn update(&mut self, ctx: &egui::Context, frame: &mut eframe::Frame) {
 		#[cfg(target_arch = "wasm32")]
-		if let Some(anchor) = frame.info().web_info.location.hash.strip_prefix('#') {
-			let anchor = Anchor::all().into_iter().find(|x| x.to_string() == anchor);
+		if let Some(anchor) =
+			frame.info().web_info.location.hash.strip_prefix('#')
+		{
+			let anchor =
+				Anchor::all().into_iter().find(|x| x.to_string() == anchor);
 			if let Some(v) = anchor {
 				self.state.selected_anchor = v;
 			}
 		}
 
 		#[cfg(not(target_arch = "wasm32"))]
-		if ctx.input_mut(|i| i.consume_key(egui::Modifiers::NONE, egui::Key::F11)) {
+		if ctx
+			.input_mut(|i| i.consume_key(egui::Modifiers::NONE, egui::Key::F11))
+		{
 			frame.set_fullscreen(!frame.info().window_info.fullscreen);
 		}
 
@@ -246,7 +269,10 @@ impl eframe::App for WrapApp {
 
 		// On web, the browser controls `pixels_per_point`.
 		if !frame.is_web() {
-			egui::gui_zoom::zoom_with_keyboard_shortcuts(ctx, frame.info().native_pixels_per_point);
+			egui::gui_zoom::zoom_with_keyboard_shortcuts(
+				ctx,
+				frame.info().native_pixels_per_point,
+			);
 		}
 	}
 
@@ -264,23 +290,35 @@ impl eframe::App for WrapApp {
 }
 
 impl WrapApp {
-	fn backend_panel(&mut self, ctx: &egui::Context, frame: &mut eframe::Frame) {
+	fn backend_panel(
+		&mut self,
+		ctx: &egui::Context,
+		frame: &mut eframe::Frame,
+	) {
 		// The backend-panel can be toggled on/off.
 		// We show a little animation when the user switches it.
-		let is_open =
-			self.state.backend_panel.open || ctx.memory(|mem| mem.everything_is_visible());
+		let is_open = self.state.backend_panel.open
+			|| ctx.memory(|mem| mem.everything_is_visible());
 
-		egui::SidePanel::left("backend_panel").resizable(false).show_animated(ctx, is_open, |ui| {
-			ui.vertical_centered(|ui| {
-				ui.heading("💻 Backend");
-			});
+		egui::SidePanel::left("backend_panel").resizable(false).show_animated(
+			ctx,
+			is_open,
+			|ui| {
+				ui.vertical_centered(|ui| {
+					ui.heading("💻 Backend");
+				});
 
-			ui.separator();
-			self.backend_panel_contents(ui, frame);
-		});
+				ui.separator();
+				self.backend_panel_contents(ui, frame);
+			},
+		);
 	}
 
-	fn backend_panel_contents(&mut self, ui: &mut egui::Ui, frame: &mut eframe::Frame) {
+	fn backend_panel_contents(
+		&mut self,
+		ui: &mut egui::Ui,
+		frame: &mut eframe::Frame,
+	) {
 		self.state.backend_panel.ui(ui, frame);
 
 		ui.separator();
@@ -303,10 +341,16 @@ impl WrapApp {
 		});
 	}
 
-	fn show_selected_app(&mut self, ctx: &egui::Context, frame: &mut eframe::Frame) {
+	fn show_selected_app(
+		&mut self,
+		ctx: &egui::Context,
+		frame: &mut eframe::Frame,
+	) {
 		let selected_anchor = self.state.selected_anchor;
 		for (_name, anchor, app) in self.apps_iter_mut() {
-			if anchor == selected_anchor || ctx.memory(|mem| mem.everything_is_visible()) {
+			if anchor == selected_anchor
+				|| ctx.memory(|mem| mem.everything_is_visible())
+			{
 				app.update(ctx, frame);
 			}
 		}
@@ -339,19 +383,24 @@ impl WrapApp {
 		}
 		self.state.selected_anchor = selected_anchor;
 
-		ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-			if false {
-				// TODO(emilk): fix the overlap on small screens
-				if clock_button(ui, crate::seconds_since_midnight()).clicked() {
-					self.state.selected_anchor = Anchor::Clock;
-					if frame.is_web() {
-						ui.output_mut(|o| o.open_url("#clock"));
+		ui.with_layout(
+			egui::Layout::right_to_left(egui::Align::Center),
+			|ui| {
+				if false {
+					// TODO(emilk): fix the overlap on small screens
+					if clock_button(ui, crate::seconds_since_midnight())
+						.clicked()
+					{
+						self.state.selected_anchor = Anchor::Clock;
+						if frame.is_web() {
+							ui.output_mut(|o| o.open_url("#clock"));
+						}
 					}
 				}
-			}
 
-			egui::warn_if_debug_build(ui);
-		});
+				egui::warn_if_debug_build(ui);
+			},
+		);
 	}
 
 	fn ui_file_drag_and_drop(&mut self, ctx: &egui::Context) {
@@ -374,11 +423,17 @@ impl WrapApp {
 				text
 			});
 
-			let painter =
-				ctx.layer_painter(LayerId::new(Order::Foreground, Id::new("file_drop_target")));
+			let painter = ctx.layer_painter(LayerId::new(
+				Order::Foreground,
+				Id::new("file_drop_target"),
+			));
 
 			let screen_rect = ctx.screen_rect();
-			painter.rect_filled(screen_rect, 0.0, Color32::from_black_alpha(192));
+			painter.rect_filled(
+				screen_rect,
+				0.0,
+				Color32::from_black_alpha(192),
+			);
 			painter.text(
 				screen_rect.center(),
 				Align2::CENTER_CENTER,
@@ -398,21 +453,24 @@ impl WrapApp {
 		// Show dropped files (if any):
 		if !self.dropped_files.is_empty() {
 			let mut open = true;
-			egui::Window::new("Dropped files").open(&mut open).show(ctx, |ui| {
-				for file in &self.dropped_files {
-					let mut info = if let Some(path) = &file.path {
-						path.display().to_string()
-					} else if !file.name.is_empty() {
-						file.name.clone()
-					} else {
-						"???".to_owned()
-					};
-					if let Some(bytes) = &file.bytes {
-						write!(info, " ({} bytes)", bytes.len()).ok();
+			egui::Window::new("Dropped files").open(&mut open).show(
+				ctx,
+				|ui| {
+					for file in &self.dropped_files {
+						let mut info = if let Some(path) = &file.path {
+							path.display().to_string()
+						} else if !file.name.is_empty() {
+							file.name.clone()
+						} else {
+							"???".to_owned()
+						};
+						if let Some(bytes) = &file.bytes {
+							write!(info, " ({} bytes)", bytes.len()).ok();
+						}
+						ui.label(info);
 					}
-					ui.label(info);
-				}
-			});
+				},
+			);
 			if !open {
 				self.dropped_files.clear();
 			}
@@ -420,7 +478,10 @@ impl WrapApp {
 	}
 }
 
-fn clock_button(ui: &mut egui::Ui, seconds_since_midnight: f64) -> egui::Response {
+fn clock_button(
+	ui: &mut egui::Ui,
+	seconds_since_midnight: f64,
+) -> egui::Response {
 	let time = seconds_since_midnight;
 	let time = format!(
 		"{:02}:{:02}:{:02}.{:02}",

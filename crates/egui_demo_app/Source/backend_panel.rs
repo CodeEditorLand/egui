@@ -63,16 +63,17 @@ pub struct BackendPanel {
 
 impl BackendPanel {
 	pub fn update(&mut self, ctx: &egui::Context, frame: &mut eframe::Frame) {
-		self.frame_history.on_new_frame(ctx.input(|i| i.time), frame.info().cpu_usage);
+		self.frame_history
+			.on_new_frame(ctx.input(|i| i.time), frame.info().cpu_usage);
 
 		match self.run_mode {
 			RunMode::Continuous => {
 				// Tell the backend to repaint as soon as possible
 				ctx.request_repaint();
-			}
+			},
 			RunMode::Reactive => {
 				// let the computer rest for a bit
-			}
+			},
 		}
 	}
 
@@ -103,7 +104,9 @@ impl BackendPanel {
 		{
 			let mut debug_on_hover = ui.ctx().debug_on_hover();
 			ui.checkbox(&mut debug_on_hover, "🐛 Debug on hover")
-				.on_hover_text("Show structure of the ui when you hover with the mouse");
+				.on_hover_text(
+					"Show structure of the ui when you hover with the mouse",
+				);
 			ui.ctx().set_debug_on_hover(debug_on_hover);
 		}
 
@@ -138,7 +141,10 @@ impl BackendPanel {
 		ui.horizontal(|ui| {
 			ui.spacing_mut().item_spacing.x = 0.0;
 			ui.label("egui running inside ");
-			ui.hyperlink_to("eframe", "https://github.com/emilk/egui/tree/master/crates/eframe");
+			ui.hyperlink_to(
+				"eframe",
+				"https://github.com/emilk/egui/tree/master/crates/eframe",
+			);
 			ui.label(".");
 		});
 
@@ -170,7 +176,9 @@ impl BackendPanel {
 
 				if ui
 					.button("📱 Phone Size")
-					.on_hover_text("Resize the window to be small like a phone.")
+					.on_hover_text(
+						"Resize the window to be small like a phone.",
+					)
 					.clicked()
 				{
 					// frame.set_window_size(egui::vec2(375.0, 812.0)); // iPhone 12 mini
@@ -181,7 +189,9 @@ impl BackendPanel {
 			});
 
 			if !frame.info().window_info.fullscreen
-				&& ui.button("Drag me to drag window").is_pointer_button_down_on()
+				&& ui
+					.button("Drag me to drag window")
+					.is_pointer_button_down_on()
 			{
 				frame.drag_window();
 			}
@@ -192,9 +202,14 @@ impl BackendPanel {
 		}
 	}
 
-	fn pixels_per_point_ui(&mut self, ui: &mut egui::Ui, info: &eframe::IntegrationInfo) {
-		let pixels_per_point =
-			self.pixels_per_point.get_or_insert_with(|| ui.ctx().pixels_per_point());
+	fn pixels_per_point_ui(
+		&mut self,
+		ui: &mut egui::Ui,
+		info: &eframe::IntegrationInfo,
+	) {
+		let pixels_per_point = self
+			.pixels_per_point
+			.get_or_insert_with(|| ui.ctx().pixels_per_point());
 
 		let mut reset = false;
 
@@ -219,8 +234,10 @@ impl BackendPanel {
 				reset = true;
 			}
 
-			if let Some(native_pixels_per_point) = info.native_pixels_per_point {
-				let enabled = ui.ctx().pixels_per_point() != native_pixels_per_point;
+			if let Some(native_pixels_per_point) = info.native_pixels_per_point
+			{
+				let enabled =
+					ui.ctx().pixels_per_point() != native_pixels_per_point;
 				if ui
 					.add_enabled(enabled, egui::Button::new("Reset"))
 					.on_hover_text(format!(
@@ -250,9 +267,14 @@ impl BackendPanel {
 		});
 
 		if self.run_mode == RunMode::Continuous {
-			ui.label(format!("Repainting the UI each frame. FPS: {:.1}", self.frame_history.fps()));
+			ui.label(format!(
+				"Repainting the UI each frame. FPS: {:.1}",
+				self.frame_history.fps()
+			));
 		} else {
-			ui.label("Only running UI code when there are animations or input.");
+			ui.label(
+				"Only running UI code when there are animations or input.",
+			);
 
 			// Add a test for `request_repaint_after`, but only in debug
 			// builds to keep the noise down in the official demo.
@@ -262,13 +284,23 @@ impl BackendPanel {
 						ui.label("Frame number:");
 						ui.monospace(ui.ctx().frame_nr().to_string());
 					});
-					if ui.button("Wait 2s, then request repaint after another 3s").clicked() {
+					if ui
+						.button(
+							"Wait 2s, then request repaint after another 3s",
+						)
+						.clicked()
+					{
 						log::info!("Waiting 2s before requesting repaint...");
 						let ctx = ui.ctx().clone();
-						call_after_delay(std::time::Duration::from_secs(2), move || {
-							log::info!("Request a repaint in 3s...");
-							ctx.request_repaint_after(std::time::Duration::from_secs(3));
-						});
+						call_after_delay(
+							std::time::Duration::from_secs(2),
+							move || {
+								log::info!("Request a repaint in 3s...");
+								ctx.request_repaint_after(
+									std::time::Duration::from_secs(3),
+								);
+							},
+						);
 					}
 				});
 			}
@@ -355,7 +387,13 @@ impl EguiWindows {
 	}
 
 	fn checkboxes(&mut self, ui: &mut egui::Ui) {
-		let Self { settings, inspection, memory, output_events, output_event_history: _ } = self;
+		let Self {
+			settings,
+			inspection,
+			memory,
+			output_events,
+			output_event_history: _,
+		} = self;
 
 		ui.checkbox(settings, "🔧 Settings");
 		ui.checkbox(inspection, "🔍 Inspection");
@@ -364,7 +402,13 @@ impl EguiWindows {
 	}
 
 	fn windows(&mut self, ctx: &egui::Context) {
-		let Self { settings, inspection, memory, output_events, output_event_history } = self;
+		let Self {
+			settings,
+			inspection,
+			memory,
+			output_events,
+			output_event_history,
+		} = self;
 
 		ctx.output(|o| {
 			for event in &o.events {
@@ -375,17 +419,26 @@ impl EguiWindows {
 			output_event_history.pop_front();
 		}
 
-		egui::Window::new("🔧 Settings").open(settings).vscroll(true).show(ctx, |ui| {
-			ctx.settings_ui(ui);
-		});
+		egui::Window::new("🔧 Settings").open(settings).vscroll(true).show(
+			ctx,
+			|ui| {
+				ctx.settings_ui(ui);
+			},
+		);
 
-		egui::Window::new("🔍 Inspection").open(inspection).vscroll(true).show(ctx, |ui| {
-			ctx.inspection_ui(ui);
-		});
+		egui::Window::new("🔍 Inspection").open(inspection).vscroll(true).show(
+			ctx,
+			|ui| {
+				ctx.inspection_ui(ui);
+			},
+		);
 
-		egui::Window::new("📝 Memory").open(memory).resizable(false).show(ctx, |ui| {
-			ctx.memory_ui(ui);
-		});
+		egui::Window::new("📝 Memory").open(memory).resizable(false).show(
+			ctx,
+			|ui| {
+				ctx.memory_ui(ui);
+			},
+		);
 
 		egui::Window::new("📤 Output Events")
 			.open(output_events)
@@ -412,7 +465,10 @@ impl EguiWindows {
 // ----------------------------------------------------------------------------
 
 #[cfg(not(target_arch = "wasm32"))]
-fn call_after_delay(delay: std::time::Duration, f: impl FnOnce() + Send + 'static) {
+fn call_after_delay(
+	delay: std::time::Duration,
+	f: impl FnOnce() + Send + 'static,
+) {
 	std::thread::spawn(move || {
 		std::thread::sleep(delay);
 		f();
@@ -420,7 +476,10 @@ fn call_after_delay(delay: std::time::Duration, f: impl FnOnce() + Send + 'stati
 }
 
 #[cfg(target_arch = "wasm32")]
-fn call_after_delay(delay: std::time::Duration, f: impl FnOnce() + Send + 'static) {
+fn call_after_delay(
+	delay: std::time::Duration,
+	f: impl FnOnce() + Send + 'static,
+) {
 	use wasm_bindgen::prelude::*;
 	let window = web_sys::window().unwrap();
 	let closure = Closure::once(f);

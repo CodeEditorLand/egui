@@ -24,7 +24,11 @@ impl ShaderVersion {
 		let shading_lang_string =
 			unsafe { gl.get_parameter_string(glow::SHADING_LANGUAGE_VERSION) };
 		let shader_version = Self::parse(&shading_lang_string);
-		log::debug!("Shader version: {:?} ({:?}).", shader_version, shading_lang_string);
+		log::debug!(
+			"Shader version: {:?} ({:?}).",
+			shader_version,
+			shading_lang_string
+		);
 		shader_version
 	}
 
@@ -32,7 +36,9 @@ impl ShaderVersion {
 	pub(crate) fn parse(glsl_ver: &str) -> Self {
 		let start = glsl_ver.find(|c| char::is_ascii_digit(&c)).unwrap();
 		let es = glsl_ver[..start].contains(" ES ");
-		let ver = glsl_ver[start..].split_once(' ').map_or(&glsl_ver[start..], |x| x.0);
+		let ver = glsl_ver[start..]
+			.split_once(' ')
+			.map_or(&glsl_ver[start..], |x| x.0);
 		let [maj, min]: [u8; 2] = ver
 			.splitn(3, '.')
 			.take(2)

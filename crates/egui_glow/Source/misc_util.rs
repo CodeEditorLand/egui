@@ -20,7 +20,10 @@ pub(crate) unsafe fn compile_shader(
 	}
 }
 
-pub(crate) unsafe fn link_program<'a, T: IntoIterator<Item = &'a glow::Shader>>(
+pub(crate) unsafe fn link_program<
+	'a,
+	T: IntoIterator<Item = &'a glow::Shader>,
+>(
 	gl: &glow::Context,
 	shaders: T,
 ) -> Result<glow::Program, String> {
