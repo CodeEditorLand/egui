@@ -6,7 +6,7 @@ use crate::WrapApp;
 #[derive(Clone)]
 #[wasm_bindgen]
 pub struct WebHandle {
-	runner: eframe::WebRunner,
+	runner:eframe::WebRunner,
 }
 
 #[wasm_bindgen]
@@ -18,15 +18,12 @@ impl WebHandle {
 		// Redirect [`log`] message to `console.log` and friends:
 		eframe::WebLogger::init(log::LevelFilter::Debug).ok();
 
-		Self { runner: eframe::WebRunner::new() }
+		Self { runner:eframe::WebRunner::new() }
 	}
 
 	/// Call this once from JavaScript to start your app.
 	#[wasm_bindgen]
-	pub async fn start(
-		&self,
-		canvas_id: &str,
-	) -> Result<(), wasm_bindgen::JsValue> {
+	pub async fn start(&self, canvas_id:&str) -> Result<(), wasm_bindgen::JsValue> {
 		self.runner
 			.start(
 				canvas_id,
@@ -37,9 +34,7 @@ impl WebHandle {
 	}
 
 	#[wasm_bindgen]
-	pub fn destroy(&self) {
-		self.runner.destroy();
-	}
+	pub fn destroy(&self) { self.runner.destroy(); }
 
 	/// Example on how to call into your app from JavaScript.
 	#[wasm_bindgen]
@@ -51,9 +46,7 @@ impl WebHandle {
 
 	/// The JavaScript can check whether or not your app has crashed:
 	#[wasm_bindgen]
-	pub fn has_panicked(&self) -> bool {
-		self.runner.has_panicked()
-	}
+	pub fn has_panicked(&self) -> bool { self.runner.has_panicked() }
 
 	#[wasm_bindgen]
 	pub fn panic_message(&self) -> Option<String> {

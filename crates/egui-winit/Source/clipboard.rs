@@ -3,10 +3,11 @@ use raw_window_handle::HasRawDisplayHandle;
 /// Handles interfacing with the OS clipboard.
 ///
 /// If the "clipboard" feature is off, or we cannot connect to the OS clipboard,
-/// then a fallback clipboard that just works works within the same app is used instead.
+/// then a fallback clipboard that just works works within the same app is used
+/// instead.
 pub struct Clipboard {
 	#[cfg(all(feature = "arboard", not(target_os = "android")))]
-	arboard: Option<arboard::Clipboard>,
+	arboard:Option<arboard::Clipboard>,
 
 	#[cfg(all(
 		any(
@@ -18,10 +19,10 @@ pub struct Clipboard {
 		),
 		feature = "smithay-clipboard"
 	))]
-	smithay: Option<smithay_clipboard::Clipboard>,
+	smithay:Option<smithay_clipboard::Clipboard>,
 
 	/// Fallback manual clipboard.
-	clipboard: String,
+	clipboard:String,
 }
 
 impl Clipboard {
@@ -30,10 +31,10 @@ impl Clipboard {
 	/// # Safety
 	///
 	/// The returned `Clipboard` must not outlive the input `_display_target`.
-	pub fn new(_display_target: &dyn HasRawDisplayHandle) -> Self {
+	pub fn new(_display_target:&dyn HasRawDisplayHandle) -> Self {
 		Self {
 			#[cfg(all(feature = "arboard", not(target_os = "android")))]
-			arboard: init_arboard(),
+			arboard:init_arboard(),
 
 			#[cfg(all(
 				any(
@@ -45,9 +46,9 @@ impl Clipboard {
 				),
 				feature = "smithay-clipboard"
 			))]
-			smithay: init_smithay_clipboard(_display_target),
+			smithay:init_smithay_clipboard(_display_target),
 
-			clipboard: Default::default(),
+			clipboard:Default::default(),
 		}
 	}
 
@@ -86,7 +87,7 @@ impl Clipboard {
 		Some(self.clipboard.clone())
 	}
 
-	pub fn set(&mut self, text: String) {
+	pub fn set(&mut self, text:String) {
 		#[cfg(all(
 			any(
 				target_os = "linux",
@@ -137,20 +138,16 @@ fn init_arboard() -> Option<arboard::Clipboard> {
 	feature = "smithay-clipboard"
 ))]
 fn init_smithay_clipboard(
-	_display_target: &dyn HasRawDisplayHandle,
+	_display_target:&dyn HasRawDisplayHandle,
 ) -> Option<smithay_clipboard::Clipboard> {
 	use raw_window_handle::RawDisplayHandle;
-	if let RawDisplayHandle::Wayland(display) =
-		_display_target.raw_display_handle()
-	{
+	if let RawDisplayHandle::Wayland(display) = _display_target.raw_display_handle() {
 		log::debug!("Initializing smithay clipboard…");
 		#[allow(unsafe_code)]
 		Some(unsafe { smithay_clipboard::Clipboard::new(display.display) })
 	} else {
 		#[cfg(feature = "wayland")]
-		log::debug!(
-			"Cannot init smithay clipboard without a Wayland display handle"
-		);
+		log::debug!("Cannot init smithay clipboard without a Wayland display handle");
 		#[cfg(not(feature = "wayland"))]
 		log::debug!(
 			"Cannot init smithay clipboard: the 'wayland' feature of 'egui-winit' is not enabled"

@@ -1,26 +1,23 @@
-/// Implements [`log::Log`] to log messages to `console.log`, `console.warn`, etc.
+/// Implements [`log::Log`] to log messages to `console.log`, `console.warn`,
+/// etc.
 pub struct WebLogger {
-	filter: log::LevelFilter,
+	filter:log::LevelFilter,
 }
 
 impl WebLogger {
 	/// Pipe all [`log`] events to the web console.
-	pub fn init(filter: log::LevelFilter) -> Result<(), log::SetLoggerError> {
+	pub fn init(filter:log::LevelFilter) -> Result<(), log::SetLoggerError> {
 		log::set_max_level(filter);
 		log::set_boxed_logger(Box::new(WebLogger::new(filter)))
 	}
 
-	pub fn new(filter: log::LevelFilter) -> Self {
-		Self { filter }
-	}
+	pub fn new(filter:log::LevelFilter) -> Self { Self { filter } }
 }
 
 impl log::Log for WebLogger {
-	fn enabled(&self, metadata: &log::Metadata<'_>) -> bool {
-		metadata.level() <= self.filter
-	}
+	fn enabled(&self, metadata:&log::Metadata<'_>) -> bool { metadata.level() <= self.filter }
 
-	fn log(&self, record: &log::Record<'_>) {
+	fn log(&self, record:&log::Record<'_>) {
 		if !self.enabled(record.metadata()) {
 			return;
 		}
@@ -56,19 +53,19 @@ mod console {
 	extern {
 		/// `console.trace`
 		#[wasm_bindgen(js_namespace = console)]
-		pub fn trace(s: &str);
+		pub fn trace(s:&str);
 
 		/// `console.debug`
 		#[wasm_bindgen(js_namespace = console)]
-		pub fn debug(s: &str);
+		pub fn debug(s:&str);
 
 		/// `console.info`
 		#[wasm_bindgen(js_namespace = console)]
-		pub fn info(s: &str);
+		pub fn info(s:&str);
 
 		/// `console.warn`
 		#[wasm_bindgen(js_namespace = console)]
-		pub fn warn(s: &str);
+		pub fn warn(s:&str);
 
 		// Using console.error causes crashes for unknown reason
 		// https://github.com/emilk/egui/pull/2961
@@ -81,16 +78,18 @@ mod console {
 /// Shorten a path to a Rust source file.
 ///
 /// Example input:
-/// * `/Users/emilk/.cargo/registry/src/github.com-1ecc6299db9ec823/tokio-1.24.1/src/runtime/runtime.rs`
+/// * `/Users/emilk/.cargo/registry/src/github.com-1ecc6299db9ec823/tokio-1.24.
+///   1/src/runtime/runtime.rs`
 /// * `crates/rerun/src/main.rs`
-/// * `/rustc/d5a82bbd26e1ad8b7401f6a718a9c57c96905483/library/core/src/ops/function.rs`
+/// * `/rustc/d5a82bbd26e1ad8b7401f6a718a9c57c96905483/library/core/src/ops/
+///   function.rs`
 ///
 /// Example output:
 /// * `tokio-1.24.1/src/runtime/runtime.rs`
 /// * `rerun/src/main.rs`
 /// * `core/src/ops/function.rs`
 #[allow(dead_code)] // only used on web and in tests
-fn shorten_file_path(file_path: &str) -> &str {
+fn shorten_file_path(file_path:&str) -> &str {
 	if let Some(i) = file_path.rfind("/src/") {
 		if let Some(prev_slash) = file_path[..i].rfind('/') {
 			&file_path[prev_slash + 1..]
@@ -105,12 +104,18 @@ fn shorten_file_path(file_path: &str) -> &str {
 #[test]
 fn test_shorten_file_path() {
 	for (before, after) in [
-        ("/Users/emilk/.cargo/registry/src/github.com-1ecc6299db9ec823/tokio-1.24.1/src/runtime/runtime.rs", "tokio-1.24.1/src/runtime/runtime.rs"),
-        ("crates/rerun/src/main.rs", "rerun/src/main.rs"),
-        ("/rustc/d5a82bbd26e1ad8b7401f6a718a9c57c96905483/library/core/src/ops/function.rs", "core/src/ops/function.rs"),
-        ("/weird/path/file.rs", "/weird/path/file.rs"),
-        ]
-    {
-        assert_eq!(shorten_file_path(before), after);
-    }
+		(
+			"/Users/emilk/.cargo/registry/src/github.com-1ecc6299db9ec823/tokio-1.24.1/src/\
+			 runtime/runtime.rs",
+			"tokio-1.24.1/src/runtime/runtime.rs",
+		),
+		("crates/rerun/src/main.rs", "rerun/src/main.rs"),
+		(
+			"/rustc/d5a82bbd26e1ad8b7401f6a718a9c57c96905483/library/core/src/ops/function.rs",
+			"core/src/ops/function.rs",
+		),
+		("/weird/path/file.rs", "/weird/path/file.rs"),
+	] {
+		assert_eq!(shorten_file_path(before), after);
+	}
 }

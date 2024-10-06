@@ -3,19 +3,20 @@ use poll_promise::Promise;
 
 struct Resource {
 	/// HTTP response
-	response: ehttp::Response,
+	response:ehttp::Response,
 
-	text: Option<String>,
+	text:Option<String>,
 
 	/// If set, the response was an image.
-	image: Option<RetainedImage>,
+	image:Option<RetainedImage>,
 
-	/// If set, the response was text with some supported syntax highlighting (e.g. ".rs" or ".md").
-	colored_text: Option<ColoredText>,
+	/// If set, the response was text with some supported syntax highlighting
+	/// (e.g. ".rs" or ".md").
+	colored_text:Option<ColoredText>,
 }
 
 impl Resource {
-	fn from_response(ctx: &egui::Context, response: ehttp::Response) -> Self {
+	fn from_response(ctx:&egui::Context, response:ehttp::Response) -> Self {
 		let content_type = response.content_type().unwrap_or_default();
 		let image = if content_type.starts_with("image/") {
 			RetainedImage::from_image_bytes(&response.url, &response.bytes).ok()
@@ -33,23 +34,23 @@ impl Resource {
 
 #[cfg_attr(feature = "serde", derive(serde::Deserialize, serde::Serialize))]
 pub struct HttpApp {
-	url: String,
+	url:String,
 
 	#[cfg_attr(feature = "serde", serde(skip))]
-	promise: Option<Promise<ehttp::Result<Resource>>>,
+	promise:Option<Promise<ehttp::Result<Resource>>>,
 }
 
 impl Default for HttpApp {
 	fn default() -> Self {
 		Self {
-			url: "https://raw.githubusercontent.com/emilk/egui/master/README.md".to_owned(),
-			promise: Default::default(),
+			url:"https://raw.githubusercontent.com/emilk/egui/master/README.md".to_owned(),
+			promise:Default::default(),
 		}
 	}
 }
 
 impl eframe::App for HttpApp {
-	fn update(&mut self, ctx: &egui::Context, frame: &mut eframe::Frame) {
+	fn update(&mut self, ctx:&egui::Context, frame:&mut eframe::Frame) {
 		egui::TopBottomPanel::bottom("http_bottom").show(ctx, |ui| {
 			let layout = egui::Layout::top_down(egui::Align::Center).with_main_justify(true);
 			ui.allocate_ui_with_layout(ui.available_size(), layout, |ui| {
@@ -86,14 +87,15 @@ impl eframe::App for HttpApp {
 					match result {
 						Ok(resource) => {
 							ui_resource(ui, resource);
-						}
+						},
 						Err(error) => {
-							// This should only happen if the fetch API isn't available or something similar.
+							// This should only happen if the fetch API isn't available or something
+							// similar.
 							ui.colored_label(
 								ui.visuals().error_fg_color,
 								if error.is_empty() { "Error" } else { error },
 							);
-						}
+						},
 					}
 				} else {
 					ui.spinner();
@@ -103,13 +105,14 @@ impl eframe::App for HttpApp {
 	}
 }
 
-fn ui_url(ui: &mut egui::Ui, frame: &mut eframe::Frame, url: &mut String) -> bool {
+fn ui_url(ui:&mut egui::Ui, frame:&mut eframe::Frame, url:&mut String) -> bool {
 	let mut trigger_fetch = false;
 
 	ui.horizontal(|ui| {
 		ui.label("URL:");
-		trigger_fetch |=
-			ui.add(egui::TextEdit::singleline(url).desired_width(f32::INFINITY)).lost_focus();
+		trigger_fetch |= ui
+			.add(egui::TextEdit::singleline(url).desired_width(f32::INFINITY))
+			.lost_focus();
 	});
 
 	if frame.is_web() {
@@ -132,7 +135,7 @@ fn ui_url(ui: &mut egui::Ui, frame: &mut eframe::Frame, url: &mut String) -> boo
 	trigger_fetch
 }
 
-fn ui_resource(ui: &mut egui::Ui, resource: &Resource) {
+fn ui_resource(ui:&mut egui::Ui, resource:&Resource) {
 	let Resource { response, text, image, colored_text } = resource;
 
 	ui.monospace(format!("url:          {}", response.url));
@@ -143,17 +146,19 @@ fn ui_resource(ui: &mut egui::Ui, resource: &Resource) {
 	ui.separator();
 
 	egui::ScrollArea::vertical().auto_shrink([false; 2]).show(ui, |ui| {
-		egui::CollapsingHeader::new("Response headers").default_open(false).show(ui, |ui| {
-			egui::Grid::new("response_headers")
-				.spacing(egui::vec2(ui.spacing().item_spacing.x * 2.0, 0.0))
-				.show(ui, |ui| {
-					for header in &response.headers {
-						ui.label(header.0);
-						ui.label(header.1);
-						ui.end_row();
-					}
-				})
-		});
+		egui::CollapsingHeader::new("Response headers")
+			.default_open(false)
+			.show(ui, |ui| {
+				egui::Grid::new("response_headers")
+					.spacing(egui::vec2(ui.spacing().item_spacing.x * 2.0, 0.0))
+					.show(ui, |ui| {
+						for header in &response.headers {
+							ui.label(header.0);
+							ui.label(header.1);
+							ui.end_row();
+						}
+					})
+			});
 
 		ui.separator();
 
@@ -179,7 +184,7 @@ fn ui_resource(ui: &mut egui::Ui, resource: &Resource) {
 	});
 }
 
-fn selectable_text(ui: &mut egui::Ui, mut text: &str) {
+fn selectable_text(ui:&mut egui::Ui, mut text:&str) {
 	ui.add(
 		egui::TextEdit::multiline(&mut text)
 			.desired_width(f32::INFINITY)
@@ -192,28 +197,28 @@ fn selectable_text(ui: &mut egui::Ui, mut text: &str) {
 
 #[cfg(feature = "syntect")]
 fn syntax_highlighting(
-	ctx: &egui::Context,
-	response: &ehttp::Response,
-	text: &str,
+	ctx:&egui::Context,
+	response:&ehttp::Response,
+	text:&str,
 ) -> Option<ColoredText> {
-	let extension_and_rest: Vec<&str> = response.url.rsplitn(2, '.').collect();
+	let extension_and_rest:Vec<&str> = response.url.rsplitn(2, '.').collect();
 	let extension = extension_and_rest.get(0)?;
 	let theme = crate::syntax_highlighting::CodeTheme::from_style(&ctx.style());
 	Some(ColoredText(crate::syntax_highlighting::highlight(ctx, &theme, text, extension)))
 }
 
 #[cfg(not(feature = "syntect"))]
-fn syntax_highlighting(_ctx: &egui::Context, _: &ehttp::Response, _: &str) -> Option<ColoredText> {
+fn syntax_highlighting(_ctx:&egui::Context, _:&ehttp::Response, _:&str) -> Option<ColoredText> {
 	None
 }
 
 struct ColoredText(egui::text::LayoutJob);
 
 impl ColoredText {
-	pub fn ui(&self, ui: &mut egui::Ui) {
+	pub fn ui(&self, ui:&mut egui::Ui) {
 		if true {
 			// Selectable text:
-			let mut layouter = |ui: &egui::Ui, _string: &str, wrap_width: f32| {
+			let mut layouter = |ui:&egui::Ui, _string:&str, wrap_width:f32| {
 				let mut layout_job = self.0.clone();
 				layout_job.wrap.max_width = wrap_width;
 				ui.fonts(|f| f.layout_job(layout_job))

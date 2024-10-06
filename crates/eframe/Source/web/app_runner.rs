@@ -1,22 +1,21 @@
 use egui::TexturesDelta;
 use wasm_bindgen::JsValue;
 
+use super::{now_sec, web_painter::WebPainter, NeedRepaint};
 use crate::{epi, App};
 
-use super::{now_sec, web_painter::WebPainter, NeedRepaint};
-
 pub struct AppRunner {
-	pub(crate) frame: epi::Frame,
-	egui_ctx: egui::Context,
-	painter: super::ActiveWebPainter,
-	pub(crate) input: super::WebInput,
-	app: Box<dyn epi::App>,
-	pub(crate) needs_repaint: std::sync::Arc<NeedRepaint>,
-	last_save_time: f64,
-	screen_reader: super::screen_reader::ScreenReader,
-	pub(crate) text_cursor_pos: Option<egui::Pos2>,
-	pub(crate) mutable_text_under_cursor: bool,
-	textures_delta: TexturesDelta,
+	pub(crate) frame:epi::Frame,
+	egui_ctx:egui::Context,
+	painter:super::ActiveWebPainter,
+	pub(crate) input:super::WebInput,
+	app:Box<dyn epi::App>,
+	pub(crate) needs_repaint:std::sync::Arc<NeedRepaint>,
+	last_save_time:f64,
+	screen_reader:super::screen_reader::ScreenReader,
+	pub(crate) text_cursor_pos:Option<egui::Pos2>,
+	pub(crate) mutable_text_under_cursor:bool,
+	textures_delta:TexturesDelta,
 }
 
 impl Drop for AppRunner {
@@ -29,9 +28,9 @@ impl AppRunner {
 	/// # Errors
 	/// Failure to initialize WebGL renderer.
 	pub async fn new(
-		canvas_id: &str,
-		web_options: crate::WebOptions,
-		app_creator: epi::AppCreator,
+		canvas_id:&str,
+		web_options:crate::WebOptions,
+		app_creator:epi::AppCreator,
 	) -> Result<Self, String> {
 		let painter = super::ActiveWebPainter::new(canvas_id, &web_options).await?;
 
@@ -39,13 +38,13 @@ impl AppRunner {
 			if web_options.follow_system_theme { super::system_theme() } else { None };
 
 		let info = epi::IntegrationInfo {
-			web_info: epi::WebInfo {
-				user_agent: super::user_agent().unwrap_or_default(),
-				location: super::web_location(),
+			web_info:epi::WebInfo {
+				user_agent:super::user_agent().unwrap_or_default(),
+				location:super::web_location(),
 			},
 			system_theme,
-			cpu_usage: None,
-			native_pixels_per_point: Some(super::native_pixels_per_point()),
+			cpu_usage:None,
+			native_pixels_per_point:Some(super::native_pixels_per_point()),
 		};
 		let storage = LocalStorage::default();
 
@@ -59,34 +58,34 @@ impl AppRunner {
 		egui_ctx.set_visuals(theme.egui_visuals());
 
 		let app = app_creator(&epi::CreationContext {
-			egui_ctx: egui_ctx.clone(),
-			integration_info: info.clone(),
-			storage: Some(&storage),
+			egui_ctx:egui_ctx.clone(),
+			integration_info:info.clone(),
+			storage:Some(&storage),
 
 			#[cfg(feature = "glow")]
-			gl: Some(painter.gl().clone()),
+			gl:Some(painter.gl().clone()),
 
 			#[cfg(all(feature = "wgpu", not(feature = "glow")))]
-			wgpu_render_state: painter.render_state(),
+			wgpu_render_state:painter.render_state(),
 			#[cfg(all(feature = "wgpu", feature = "glow"))]
-			wgpu_render_state: None,
+			wgpu_render_state:None,
 		});
 
 		let frame = epi::Frame {
 			info,
-			output: Default::default(),
-			storage: Some(Box::new(storage)),
+			output:Default::default(),
+			storage:Some(Box::new(storage)),
 
 			#[cfg(feature = "glow")]
-			gl: Some(painter.gl().clone()),
+			gl:Some(painter.gl().clone()),
 
 			#[cfg(all(feature = "wgpu", not(feature = "glow")))]
-			wgpu_render_state: painter.render_state(),
+			wgpu_render_state:painter.render_state(),
 			#[cfg(all(feature = "wgpu", feature = "glow"))]
-			wgpu_render_state: None,
+			wgpu_render_state:None,
 		};
 
-		let needs_repaint: std::sync::Arc<NeedRepaint> = Default::default();
+		let needs_repaint:std::sync::Arc<NeedRepaint> = Default::default();
 		{
 			let needs_repaint = needs_repaint.clone();
 			egui_ctx.set_request_repaint_callback(move |info| {
@@ -98,14 +97,14 @@ impl AppRunner {
 			frame,
 			egui_ctx,
 			painter,
-			input: Default::default(),
+			input:Default::default(),
 			app,
 			needs_repaint,
-			last_save_time: now_sec(),
-			screen_reader: Default::default(),
-			text_cursor_pos: None,
-			mutable_text_under_cursor: false,
-			textures_delta: Default::default(),
+			last_save_time:now_sec(),
+			screen_reader:Default::default(),
+			text_cursor_pos:None,
+			mutable_text_under_cursor:false,
+			textures_delta:Default::default(),
 		};
 
 		runner.input.raw.max_texture_side = Some(runner.painter.max_texture_side());
@@ -113,14 +112,12 @@ impl AppRunner {
 		Ok(runner)
 	}
 
-	pub fn egui_ctx(&self) -> &egui::Context {
-		&self.egui_ctx
-	}
+	pub fn egui_ctx(&self) -> &egui::Context { &self.egui_ctx }
 
 	/// Get mutable access to the concrete [`App`] we enclose.
 	///
 	/// This will panic if your app does not implement [`App::as_any_mut`].
-	pub fn app_mut<ConcreteApp: 'static + App>(&mut self) -> &mut ConcreteApp {
+	pub fn app_mut<ConcreteApp:'static + App>(&mut self) -> &mut ConcreteApp {
 		self.app
 			.as_any_mut()
 			.expect("Your app must implement `as_any_mut`, but it doesn't")
@@ -145,13 +142,11 @@ impl AppRunner {
 		self.last_save_time = now_sec();
 	}
 
-	pub fn canvas_id(&self) -> &str {
-		self.painter.canvas_id()
-	}
+	pub fn canvas_id(&self) -> &str { self.painter.canvas_id() }
 
 	pub fn warm_up(&mut self) {
 		if self.app.warm_up_enabled() {
-			let saved_memory: egui::Memory = self.egui_ctx.memory(|m| m.clone());
+			let saved_memory:egui::Memory = self.egui_ctx.memory(|m| m.clone());
 			self.egui_ctx.memory_mut(|m| m.set_everything_is_visible(true));
 			self.logic();
 			self.egui_ctx.memory_mut(|m| *m = saved_memory); // We don't want to remember that windows were huge.
@@ -195,7 +190,7 @@ impl AppRunner {
 	}
 
 	/// Paint the results of the last call to [`Self::logic`].
-	pub fn paint(&mut self, clipped_primitives: &[egui::ClippedPrimitive]) -> Result<(), JsValue> {
+	pub fn paint(&mut self, clipped_primitives:&[egui::ClippedPrimitive]) -> Result<(), JsValue> {
 		let textures_delta = std::mem::take(&mut self.textures_delta);
 
 		self.painter.paint_and_update_textures(
@@ -208,7 +203,7 @@ impl AppRunner {
 		Ok(())
 	}
 
-	fn handle_platform_output(&mut self, platform_output: egui::PlatformOutput) {
+	fn handle_platform_output(&mut self, platform_output:egui::PlatformOutput) {
 		if self.egui_ctx.options(|o| o.screen_reader) {
 			self.screen_reader.speak(&platform_output.events_description());
 		}
@@ -252,13 +247,9 @@ impl AppRunner {
 struct LocalStorage {}
 
 impl epi::Storage for LocalStorage {
-	fn get_string(&self, key: &str) -> Option<String> {
-		super::local_storage_get(key)
-	}
+	fn get_string(&self, key:&str) -> Option<String> { super::local_storage_get(key) }
 
-	fn set_string(&mut self, key: &str, value: String) {
-		super::local_storage_set(key, &value);
-	}
+	fn set_string(&mut self, key:&str, value:String) { super::local_storage_set(key, &value); }
 
 	fn flush(&mut self) {}
 }

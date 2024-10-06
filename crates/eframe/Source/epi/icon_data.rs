@@ -5,13 +5,13 @@
 #[derive(Clone)]
 pub struct IconData {
 	/// RGBA pixels, with separate/unmultiplied alpha.
-	pub rgba: Vec<u8>,
+	pub rgba:Vec<u8>,
 
 	/// Image width. This should be a multiple of 4.
-	pub width: u32,
+	pub width:u32,
 
 	/// Image height. This should be a multiple of 4.
-	pub height: u32,
+	pub height:u32,
 }
 
 impl IconData {
@@ -19,15 +19,15 @@ impl IconData {
 	///
 	/// # Errors
 	/// If this is not a valid png.
-	pub fn try_from_png_bytes(png_bytes: &[u8]) -> Result<Self, image::ImageError> {
+	pub fn try_from_png_bytes(png_bytes:&[u8]) -> Result<Self, image::ImageError> {
 		crate::profile_function!();
 		let image = image::load_from_memory(png_bytes)?;
 		Ok(Self::from_image(image))
 	}
 
-	fn from_image(image: image::DynamicImage) -> Self {
+	fn from_image(image:image::DynamicImage) -> Self {
 		let image = image.into_rgba8();
-		Self { width: image.width(), height: image.height(), rgba: image.into_raw() }
+		Self { width:image.width(), height:image.height(), rgba:image.into_raw() }
 	}
 
 	/// Convert into [`image::RgbaImage`]
@@ -47,7 +47,7 @@ impl IconData {
 	pub fn to_png_bytes(&self) -> Result<Vec<u8>, String> {
 		crate::profile_function!();
 		let image = self.to_image()?;
-		let mut png_bytes: Vec<u8> = Vec::new();
+		let mut png_bytes:Vec<u8> = Vec::new();
 		image
 			.write_to(&mut std::io::Cursor::new(&mut png_bytes), image::ImageOutputFormat::Png)
 			.map_err(|err| err.to_string())?;

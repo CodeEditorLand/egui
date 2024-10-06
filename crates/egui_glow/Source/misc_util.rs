@@ -3,9 +3,9 @@
 use glow::HasContext as _;
 
 pub(crate) unsafe fn compile_shader(
-	gl: &glow::Context,
-	shader_type: u32,
-	source: &str,
+	gl:&glow::Context,
+	shader_type:u32,
+	source:&str,
 ) -> Result<glow::Shader, String> {
 	let shader = gl.create_shader(shader_type)?;
 
@@ -20,12 +20,9 @@ pub(crate) unsafe fn compile_shader(
 	}
 }
 
-pub(crate) unsafe fn link_program<
-	'a,
-	T: IntoIterator<Item = &'a glow::Shader>,
->(
-	gl: &glow::Context,
-	shaders: T,
+pub(crate) unsafe fn link_program<'a, T:IntoIterator<Item = &'a glow::Shader>>(
+	gl:&glow::Context,
+	shaders:T,
 ) -> Result<glow::Program, String> {
 	let program = gl.create_program()?;
 

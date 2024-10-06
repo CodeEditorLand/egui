@@ -34,14 +34,12 @@ mod web_painter_wgpu;
 pub(crate) type ActiveWebPainter = web_painter_wgpu::WebPainterWgpu;
 
 pub use backend::*;
-pub use events::*;
-pub use storage::*;
-
 use egui::Vec2;
+pub use events::*;
+use input::*;
+pub use storage::*;
 use wasm_bindgen::prelude::*;
 use web_sys::MediaQueryList;
-
-use input::*;
 
 use crate::Theme;
 
@@ -81,41 +79,40 @@ pub fn system_theme() -> Option<Theme> {
 	Some(theme_from_dark_mode(dark_mode))
 }
 
-fn prefers_color_scheme_dark(window: &web_sys::Window) -> Result<Option<MediaQueryList>, JsValue> {
+fn prefers_color_scheme_dark(window:&web_sys::Window) -> Result<Option<MediaQueryList>, JsValue> {
 	window.match_media("(prefers-color-scheme: dark)")
 }
 
-fn theme_from_dark_mode(dark_mode: bool) -> Theme {
-	if dark_mode {
-		Theme::Dark
-	} else {
-		Theme::Light
-	}
+fn theme_from_dark_mode(dark_mode:bool) -> Theme {
+	if dark_mode { Theme::Dark } else { Theme::Light }
 }
 
-pub fn canvas_element(canvas_id: &str) -> Option<web_sys::HtmlCanvasElement> {
+pub fn canvas_element(canvas_id:&str) -> Option<web_sys::HtmlCanvasElement> {
 	let document = web_sys::window()?.document()?;
 	let canvas = document.get_element_by_id(canvas_id)?;
 	canvas.dyn_into::<web_sys::HtmlCanvasElement>().ok()
 }
 
-pub fn canvas_element_or_die(canvas_id: &str) -> web_sys::HtmlCanvasElement {
+pub fn canvas_element_or_die(canvas_id:&str) -> web_sys::HtmlCanvasElement {
 	canvas_element(canvas_id)
 		.unwrap_or_else(|| panic!("Failed to find canvas with id {:?}", canvas_id))
 }
 
-fn canvas_origin(canvas_id: &str) -> egui::Pos2 {
+fn canvas_origin(canvas_id:&str) -> egui::Pos2 {
 	let rect = canvas_element(canvas_id).unwrap().get_bounding_client_rect();
 	egui::pos2(rect.left() as f32, rect.top() as f32)
 }
 
-pub fn canvas_size_in_points(canvas_id: &str) -> egui::Vec2 {
+pub fn canvas_size_in_points(canvas_id:&str) -> egui::Vec2 {
 	let canvas = canvas_element(canvas_id).unwrap();
 	let pixels_per_point = native_pixels_per_point();
-	egui::vec2(canvas.width() as f32 / pixels_per_point, canvas.height() as f32 / pixels_per_point)
+	egui::vec2(
+		canvas.width() as f32 / pixels_per_point,
+		canvas.height() as f32 / pixels_per_point,
+	)
 }
 
-pub fn resize_canvas_to_screen_size(canvas_id: &str, max_size_points: egui::Vec2) -> Option<()> {
+pub fn resize_canvas_to_screen_size(canvas_id:&str, max_size_points:egui::Vec2) -> Option<()> {
 	let canvas = canvas_element(canvas_id)?;
 	let parent = canvas.parent_element()?;
 
@@ -124,10 +121,15 @@ pub fn resize_canvas_to_screen_size(canvas_id: &str, max_size_points: egui::Vec2
 	let width = parent.client_width();
 	let height = parent.client_height();
 
-	let canvas_real_size = Vec2 { x: width as f32, y: height as f32 };
+	let canvas_real_size = Vec2 { x:width as f32, y:height as f32 };
 
 	if width <= 0 || height <= 0 {
-		log::error!("egui canvas parent size is {}x{}. Try adding `html, body {{ height: 100%; width: 100% }}` to your CSS!", width, height);
+		log::error!(
+			"egui canvas parent size is {}x{}. Try adding `html, body {{ height: 100%; width: \
+			 100% }}` to your CSS!",
+			width,
+			height
+		);
 	}
 
 	let pixels_per_point = native_pixels_per_point();
@@ -141,9 +143,7 @@ pub fn resize_canvas_to_screen_size(canvas_id: &str, max_size_points: egui::Vec2
 	// Make sure that the height and width are always even numbers.
 	// otherwise, the page renders blurry on some platforms.
 	// See https://github.com/emilk/egui/issues/103
-	fn round_to_even(v: f32) -> f32 {
-		(v / 2.0).round() * 2.0
-	}
+	fn round_to_even(v:f32) -> f32 { (v / 2.0).round() * 2.0 }
 
 	canvas
 		.style()
@@ -161,13 +161,13 @@ pub fn resize_canvas_to_screen_size(canvas_id: &str, max_size_points: egui::Vec2
 
 // ----------------------------------------------------------------------------
 
-pub fn set_cursor_icon(cursor: egui::CursorIcon) -> Option<()> {
+pub fn set_cursor_icon(cursor:egui::CursorIcon) -> Option<()> {
 	let document = web_sys::window()?.document()?;
 	document.body()?.style().set_property("cursor", cursor_web_name(cursor)).ok()
 }
 
 #[cfg(web_sys_unstable_apis)]
-pub fn set_clipboard_text(s: &str) {
+pub fn set_clipboard_text(s:&str) {
 	if let Some(window) = web_sys::window() {
 		if let Some(clipboard) = window.navigator().clipboard() {
 			let promise = clipboard.write_text(s);
@@ -182,7 +182,7 @@ pub fn set_clipboard_text(s: &str) {
 	}
 }
 
-fn cursor_web_name(cursor: egui::CursorIcon) -> &'static str {
+fn cursor_web_name(cursor:egui::CursorIcon) -> &'static str {
 	match cursor {
 		egui::CursorIcon::Alias => "alias",
 		egui::CursorIcon::AllScroll => "all-scroll",
@@ -224,7 +224,7 @@ fn cursor_web_name(cursor: egui::CursorIcon) -> &'static str {
 	}
 }
 
-pub fn open_url(url: &str, new_tab: bool) -> Option<()> {
+pub fn open_url(url:&str, new_tab:bool) -> Option<()> {
 	let name = if new_tab { "_blank" } else { "_self" };
 
 	web_sys::window()?.open_with_url_and_target(url, name).ok()?;
@@ -238,6 +238,6 @@ pub fn location_hash() -> String {
 	percent_decode(&web_sys::window().unwrap().location().hash().unwrap_or_default())
 }
 
-pub fn percent_decode(s: &str) -> String {
+pub fn percent_decode(s:&str) -> String {
 	percent_encoding::percent_decode_str(s).decode_utf8_lossy().to_string()
 }

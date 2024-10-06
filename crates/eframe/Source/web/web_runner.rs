@@ -2,9 +2,8 @@ use std::{cell::RefCell, rc::Rc};
 
 use wasm_bindgen::prelude::*;
 
-use crate::{epi, App};
-
 use super::{events, AppRunner, PanicHandler};
+use crate::{epi, App};
 
 /// This is how `eframe` runs your wepp application
 ///
@@ -14,16 +13,16 @@ use super::{events, AppRunner, PanicHandler};
 #[derive(Clone)]
 pub struct WebRunner {
 	/// Have we ever panicked?
-	panic_handler: PanicHandler,
+	panic_handler:PanicHandler,
 
 	/// If we ever panic during running, this RefCell is poisoned.
 	/// So before we use it, we need to check [`Self::panic_handler`].
-	runner: Rc<RefCell<Option<AppRunner>>>,
+	runner:Rc<RefCell<Option<AppRunner>>>,
 
 	/// In case of a panic, unsubscribe these.
 	/// They have to be in a separate `Rc` so that we don't need to pass them to
 	/// the panic handler, since they aren't `Send`.
-	events_to_unsubscribe: Rc<RefCell<Vec<EventToUnsubscribe>>>,
+	events_to_unsubscribe:Rc<RefCell<Vec<EventToUnsubscribe>>>,
 }
 
 impl WebRunner {
@@ -32,15 +31,16 @@ impl WebRunner {
 	pub fn new() -> Self {
 		#[cfg(not(web_sys_unstable_apis))]
 		log::warn!(
-            "eframe compiled without RUSTFLAGS='--cfg=web_sys_unstable_apis'. Copying text won't work."
-        );
+			"eframe compiled without RUSTFLAGS='--cfg=web_sys_unstable_apis'. Copying text won't \
+			 work."
+		);
 
 		let panic_handler = PanicHandler::install();
 
 		Self {
 			panic_handler,
-			runner: Rc::new(RefCell::new(None)),
-			events_to_unsubscribe: Rc::new(RefCell::new(Default::default())),
+			runner:Rc::new(RefCell::new(None)),
+			events_to_unsubscribe:Rc::new(RefCell::new(Default::default())),
 		}
 	}
 
@@ -50,9 +50,9 @@ impl WebRunner {
 	/// Failing to initialize graphics.
 	pub async fn start(
 		&self,
-		canvas_id: &str,
-		web_options: crate::WebOptions,
-		app_creator: epi::AppCreator,
+		canvas_id:&str,
+		web_options:crate::WebOptions,
+		app_creator:epi::AppCreator,
 	) -> Result<(), JsValue> {
 		self.destroy();
 
@@ -79,9 +79,7 @@ impl WebRunner {
 	}
 
 	/// Has there been a panic?
-	pub fn has_panicked(&self) -> bool {
-		self.panic_handler.has_panicked()
-	}
+	pub fn has_panicked(&self) -> bool { self.panic_handler.has_panicked() }
 
 	/// What was the panic message and callstack?
 	pub fn panic_summary(&self) -> Option<super::PanicSummary> {
@@ -89,7 +87,7 @@ impl WebRunner {
 	}
 
 	fn unsubscribe_from_all_events(&self) {
-		let events_to_unsubscribe: Vec<_> =
+		let events_to_unsubscribe:Vec<_> =
 			std::mem::take(&mut *self.events_to_unsubscribe.borrow_mut());
 
 		if !events_to_unsubscribe.is_empty() {
@@ -129,28 +127,26 @@ impl WebRunner {
 	///
 	/// This will panic if your app does not implement [`App::as_any_mut`],
 	/// and return `None` if this  runner has panicked.
-	pub fn app_mut<ConcreteApp: 'static + App>(
-		&self,
-	) -> Option<std::cell::RefMut<'_, ConcreteApp>> {
+	pub fn app_mut<ConcreteApp:'static + App>(&self) -> Option<std::cell::RefMut<'_, ConcreteApp>> {
 		self.try_lock()
 			.map(|lock| std::cell::RefMut::map(lock, |runner| runner.app_mut::<ConcreteApp>()))
 	}
 
-	/// Convenience function to reduce boilerplate and ensure that all event handlers
-	/// are dealt with in the same way.
+	/// Convenience function to reduce boilerplate and ensure that all event
+	/// handlers are dealt with in the same way.
 	///
-	/// All events added with this method will automatically be unsubscribed on panic,
-	/// or when [`Self::destroy`] is called.
-	pub fn add_event_listener<E: wasm_bindgen::JsCast>(
+	/// All events added with this method will automatically be unsubscribed on
+	/// panic, or when [`Self::destroy`] is called.
+	pub fn add_event_listener<E:wasm_bindgen::JsCast>(
 		&self,
-		target: &web_sys::EventTarget,
-		event_name: &'static str,
-		mut closure: impl FnMut(E, &mut AppRunner) + 'static,
+		target:&web_sys::EventTarget,
+		event_name:&'static str,
+		mut closure:impl FnMut(E, &mut AppRunner) + 'static,
 	) -> Result<(), wasm_bindgen::JsValue> {
 		let runner_ref = self.clone();
 
 		// Create a JS closure based on the FnMut provided
-		let closure = Closure::wrap(Box::new(move |event: web_sys::Event| {
+		let closure = Closure::wrap(Box::new(move |event:web_sys::Event| {
 			// Only call the wrapped closure if the egui code has not panicked
 			if let Some(mut runner_lock) = runner_ref.try_lock() {
 				// Cast the event to the expected event type
@@ -163,11 +159,14 @@ impl WebRunner {
 		target.add_event_listener_with_callback(event_name, closure.as_ref().unchecked_ref())?;
 
 		let handle =
-			TargetEvent { target: target.clone(), event_name: event_name.to_owned(), closure };
+			TargetEvent { target:target.clone(), event_name:event_name.to_owned(), closure };
 
 		// Remember it so we unsubscribe on panic.
-		// Otherwise we get calls into `self.runner` after it has been poisoned by a panic.
-		self.events_to_unsubscribe.borrow_mut().push(EventToUnsubscribe::TargetEvent(handle));
+		// Otherwise we get calls into `self.runner` after it has been poisoned by a
+		// panic.
+		self.events_to_unsubscribe
+			.borrow_mut()
+			.push(EventToUnsubscribe::TargetEvent(handle));
 
 		Ok(())
 	}
@@ -176,15 +175,15 @@ impl WebRunner {
 // ----------------------------------------------------------------------------
 
 struct TargetEvent {
-	target: web_sys::EventTarget,
-	event_name: String,
-	closure: Closure<dyn FnMut(web_sys::Event)>,
+	target:web_sys::EventTarget,
+	event_name:String,
+	closure:Closure<dyn FnMut(web_sys::Event)>,
 }
 
 #[allow(unused)]
 struct IntervalHandle {
-	handle: i32,
-	closure: Closure<dyn FnMut()>,
+	handle:i32,
+	closure:Closure<dyn FnMut()>,
 }
 
 enum EventToUnsubscribe {
@@ -203,12 +202,12 @@ impl EventToUnsubscribe {
 					handle.closure.as_ref().unchecked_ref(),
 				)?;
 				Ok(())
-			}
+			},
 			EventToUnsubscribe::IntervalHandle(handle) => {
 				let window = web_sys::window().unwrap();
 				window.clear_interval_with_handle(handle.handle);
 				Ok(())
-			}
+			},
 		}
 	}
 }

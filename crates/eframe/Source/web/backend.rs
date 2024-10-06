@@ -2,9 +2,8 @@ use std::collections::BTreeMap;
 
 use egui::mutex::Mutex;
 
-use crate::epi;
-
 use super::percent_decode;
+use crate::epi;
 
 // ----------------------------------------------------------------------------
 
@@ -12,25 +11,26 @@ use super::percent_decode;
 #[derive(Default)]
 pub struct WebInput {
 	/// Required because we don't get a position on touched
-	pub latest_touch_pos: Option<egui::Pos2>,
+	pub latest_touch_pos:Option<egui::Pos2>,
 
 	/// Required to maintain a stable touch position for multi-touch gestures.
-	pub latest_touch_pos_id: Option<egui::TouchId>,
+	pub latest_touch_pos_id:Option<egui::TouchId>,
 
-	pub raw: egui::RawInput,
+	pub raw:egui::RawInput,
 }
 
 impl WebInput {
-	pub fn new_frame(&mut self, canvas_size: egui::Vec2) -> egui::RawInput {
+	pub fn new_frame(&mut self, canvas_size:egui::Vec2) -> egui::RawInput {
 		egui::RawInput {
-			screen_rect: Some(egui::Rect::from_min_size(Default::default(), canvas_size)),
-			pixels_per_point: Some(super::native_pixels_per_point()), // We ALWAYS use the native pixels-per-point
-			time: Some(super::now_sec()),
+			screen_rect:Some(egui::Rect::from_min_size(Default::default(), canvas_size)),
+			pixels_per_point:Some(super::native_pixels_per_point()), /* We ALWAYS use the native
+			                                                          * pixels-per-point */
+			time:Some(super::now_sec()),
 			..self.raw.take()
 		}
 	}
 
-	pub fn on_web_page_focus_change(&mut self, focused: bool) {
+	pub fn on_web_page_focus_change(&mut self, focused:bool) {
 		self.raw.modifiers = egui::Modifiers::default();
 		self.raw.focused = focused;
 		self.raw.events.push(egui::Event::WindowFocused(focused));
@@ -55,48 +55,34 @@ impl Default for NeedRepaint {
 impl NeedRepaint {
 	/// Returns the time (in [`now_sec`] scale) when
 	/// we should next repaint.
-	pub fn when_to_repaint(&self) -> f64 {
-		*self.0.lock()
-	}
+	pub fn when_to_repaint(&self) -> f64 { *self.0.lock() }
 
 	/// Unschedule repainting.
-	pub fn clear(&self) {
-		*self.0.lock() = f64::INFINITY;
-	}
+	pub fn clear(&self) { *self.0.lock() = f64::INFINITY; }
 
-	pub fn repaint_after(&self, num_seconds: f64) {
+	pub fn repaint_after(&self, num_seconds:f64) {
 		let mut repaint_time = self.0.lock();
 		*repaint_time = repaint_time.min(super::now_sec() + num_seconds);
 	}
 
-	pub fn repaint_asap(&self) {
-		*self.0.lock() = f64::NEG_INFINITY;
-	}
+	pub fn repaint_asap(&self) { *self.0.lock() = f64::NEG_INFINITY; }
 }
 
 pub struct IsDestroyed(std::sync::atomic::AtomicBool);
 
 impl Default for IsDestroyed {
-	fn default() -> Self {
-		Self(false.into())
-	}
+	fn default() -> Self { Self(false.into()) }
 }
 
 impl IsDestroyed {
-	pub fn fetch(&self) -> bool {
-		self.0.load(SeqCst)
-	}
+	pub fn fetch(&self) -> bool { self.0.load(SeqCst) }
 
-	pub fn set_true(&self) {
-		self.0.store(true, SeqCst);
-	}
+	pub fn set_true(&self) { self.0.store(true, SeqCst); }
 }
 
 // ----------------------------------------------------------------------------
 
-pub fn user_agent() -> Option<String> {
-	web_sys::window()?.navigator().user_agent().ok()
-}
+pub fn user_agent() -> Option<String> { web_sys::window()?.navigator().user_agent().ok() }
 
 pub fn web_location() -> epi::Location {
 	let location = web_sys::window().unwrap().location();
@@ -110,23 +96,25 @@ pub fn web_location() -> epi::Location {
 		.map(percent_decode)
 		.unwrap_or_default();
 
-	let query_map =
-		parse_query_map(&query).iter().map(|(k, v)| ((*k).to_owned(), (*v).to_owned())).collect();
+	let query_map = parse_query_map(&query)
+		.iter()
+		.map(|(k, v)| ((*k).to_owned(), (*v).to_owned()))
+		.collect();
 
 	epi::Location {
-		url: percent_decode(&location.href().unwrap_or_default()),
-		protocol: percent_decode(&location.protocol().unwrap_or_default()),
-		host: percent_decode(&location.host().unwrap_or_default()),
-		hostname: percent_decode(&location.hostname().unwrap_or_default()),
-		port: percent_decode(&location.port().unwrap_or_default()),
+		url:percent_decode(&location.href().unwrap_or_default()),
+		protocol:percent_decode(&location.protocol().unwrap_or_default()),
+		host:percent_decode(&location.host().unwrap_or_default()),
+		hostname:percent_decode(&location.hostname().unwrap_or_default()),
+		port:percent_decode(&location.port().unwrap_or_default()),
 		hash,
 		query,
 		query_map,
-		origin: percent_decode(&location.origin().unwrap_or_default()),
+		origin:percent_decode(&location.origin().unwrap_or_default()),
 	}
 }
 
-fn parse_query_map(query: &str) -> BTreeMap<&str, &str> {
+fn parse_query_map(query:&str) -> BTreeMap<&str, &str> {
 	query
 		.split('&')
 		.filter_map(|pair| {

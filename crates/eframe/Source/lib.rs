@@ -7,36 +7,41 @@
 //! To learn how to set up `eframe` for web and native, go to <https://github.com/emilk/eframe_template/> and follow the instructions there!
 //!
 //! In short, you implement [`App`] (especially [`App::update`]) and then
-//! call [`crate::run_native`] from your `main.rs`, and/or call `eframe_tao::start_web` from your `lib.rs`.
+//! call [`crate::run_native`] from your `main.rs`, and/or call
+//! `eframe_tao::start_web` from your `lib.rs`.
 //!
 //! ## Usage, native:
 //! ``` no_run
 //! use eframe_tao::egui;
 //!
 //! fn main() {
-//!     let native_options = eframe_tao::NativeOptions::default();
-//!     eframe_tao::run_native("My egui App", native_options, Box::new(|cc| Box::new(MyEguiApp::new(cc))));
+//! 	let native_options = eframe_tao::NativeOptions::default();
+//! 	eframe_tao::run_native(
+//! 		"My egui App",
+//! 		native_options,
+//! 		Box::new(|cc| Box::new(MyEguiApp::new(cc))),
+//! 	);
 //! }
 //!
 //! #[derive(Default)]
 //! struct MyEguiApp {}
 //!
 //! impl MyEguiApp {
-//!     fn new(cc: &eframe_tao::CreationContext<'_>) -> Self {
-//!         // Customize egui here with cc.egui_ctx.set_fonts and cc.egui_ctx.set_visuals.
-//!         // Restore app state using cc.storage (requires the "persistence" feature).
-//!         // Use the cc.gl (a glow::Context) to create graphics shaders and buffers that you can use
-//!         // for e.g. egui::PaintCallback.
-//!         Self::default()
-//!     }
+//! 	fn new(cc:&eframe_tao::CreationContext<'_>) -> Self {
+//! 		// Customize egui here with cc.egui_ctx.set_fonts and cc.egui_ctx.set_visuals.
+//! 		// Restore app state using cc.storage (requires the "persistence" feature).
+//! 		// Use the cc.gl (a glow::Context) to create graphics shaders and buffers that you can use
+//! 		// for e.g. egui::PaintCallback.
+//! 		Self::default()
+//! 	}
 //! }
 //!
 //! impl eframe_tao::App for MyEguiApp {
-//!    fn update(&mut self, ctx: &egui::Context, frame: &mut eframe_tao::Frame) {
-//!        egui::CentralPanel::default().show(ctx, |ui| {
-//!            ui.heading("Hello World!");
-//!        });
-//!    }
+//! 	fn update(&mut self, ctx:&egui::Context, frame:&mut eframe_tao::Frame) {
+//! 		egui::CentralPanel::default().show(ctx, |ui| {
+//! 			ui.heading("Hello World!");
+//! 		});
+//! 	}
 //! }
 //! ```
 //!
@@ -50,72 +55,67 @@
 //! #[derive(Clone)]
 //! #[wasm_bindgen]
 //! pub struct WebHandle {
-//!     runner: WebRunner,
+//! 	runner:WebRunner,
 //! }
 //!
 //! # #[cfg(target_arch = "wasm32")]
 //! #[wasm_bindgen]
 //! impl WebHandle {
-//!     /// Installs a panic hook, then returns.
-//!     #[allow(clippy::new_without_default)]
-//!     #[wasm_bindgen(constructor)]
-//!     pub fn new() -> Self {
-//!         // Redirect [`log`] message to `console.log` and friends:
-//!         eframe_tao::WebLogger::init(log::LevelFilter::Debug).ok();
+//! 	/// Installs a panic hook, then returns.
+//! 	#[allow(clippy::new_without_default)]
+//! 	#[wasm_bindgen(constructor)]
+//! 	pub fn new() -> Self {
+//! 		// Redirect [`log`] message to `console.log` and friends:
+//! 		eframe_tao::WebLogger::init(log::LevelFilter::Debug).ok();
 //!
-//!         Self {
-//!             runner: WebRunner::new(),
-//!         }
-//!     }
+//! 		Self { runner:WebRunner::new() }
+//! 	}
 //!
-//!     /// Call this once from JavaScript to start your app.
-//!     #[wasm_bindgen]
-//!     pub async fn start(&self, canvas_id: &str) -> Result<(), wasm_bindgen::JsValue> {
-//!         self.runner
-//!             .start(
-//!                 canvas_id,
-//!                 eframe_tao::WebOptions::default(),
-//!                 Box::new(|cc| Box::new(MyEguiApp::new(cc))),
-//!             )
-//!             .await
-//!     }
+//! 	/// Call this once from JavaScript to start your app.
+//! 	#[wasm_bindgen]
+//! 	pub async fn start(&self, canvas_id:&str) -> Result<(), wasm_bindgen::JsValue> {
+//! 		self.runner
+//! 			.start(
+//! 				canvas_id,
+//! 				eframe_tao::WebOptions::default(),
+//! 				Box::new(|cc| Box::new(MyEguiApp::new(cc))),
+//! 			)
+//! 			.await
+//! 	}
 //!
-//!     // The following are optional:
+//! 	// The following are optional:
 //!
-//!     #[wasm_bindgen]
-//!     pub fn destroy(&self) {
-//!         self.runner.destroy();
-//!     }
+//! 	#[wasm_bindgen]
+//! 	pub fn destroy(&self) { self.runner.destroy(); }
 //!
-//!     /// Example on how to call into your app from JavaScript.
-//!     #[wasm_bindgen]
-//!     pub fn example(&self) {
-//!         if let Some(app) = self.runner.app_mut::<MyEguiApp>() {
-//!             app.example();
-//!         }
-//!     }
+//! 	/// Example on how to call into your app from JavaScript.
+//! 	#[wasm_bindgen]
+//! 	pub fn example(&self) {
+//! 		if let Some(app) = self.runner.app_mut::<MyEguiApp>() {
+//! 			app.example();
+//! 		}
+//! 	}
 //!
-//!     /// The JavaScript can check whether or not your app has crashed:
-//!     #[wasm_bindgen]
-//!     pub fn has_panicked(&self) -> bool {
-//!         self.runner.has_panicked()
-//!     }
+//! 	/// The JavaScript can check whether or not your app has crashed:
+//! 	#[wasm_bindgen]
+//! 	pub fn has_panicked(&self) -> bool { self.runner.has_panicked() }
 //!
-//!     #[wasm_bindgen]
-//!     pub fn panic_message(&self) -> Option<String> {
-//!         self.runner.panic_summary().map(|s| s.message())
-//!     }
+//! 	#[wasm_bindgen]
+//! 	pub fn panic_message(&self) -> Option<String> {
+//! 		self.runner.panic_summary().map(|s| s.message())
+//! 	}
 //!
-//!     #[wasm_bindgen]
-//!     pub fn panic_callstack(&self) -> Option<String> {
-//!         self.runner.panic_summary().map(|s| s.callstack())
-//!     }
+//! 	#[wasm_bindgen]
+//! 	pub fn panic_callstack(&self) -> Option<String> {
+//! 		self.runner.panic_summary().map(|s| s.callstack())
+//! 	}
 //! }
 //! ```
 //!
 //! ## Simplified usage
-//! If your app is only for native, and you don't need advanced features like state persistence,
-//! then you can use the simpler function [`run_simple_native`].
+//! If your app is only for native, and you don't need advanced features like
+//! state persistence, then you can use the simpler function
+//! [`run_simple_native`].
 //!
 //! ## Feature flags
 #![cfg_attr(feature = "document-features", doc = document_features::document_features!())]
@@ -124,25 +124,21 @@
 #![allow(clippy::needless_doctest_main)]
 
 // Re-export all useful libraries:
-pub use {egui, egui::emath, egui::epaint};
-
+pub use egui::{self, emath, epaint};
 #[cfg(feature = "glow")]
 pub use {egui_glow, glow};
-
 #[cfg(feature = "wgpu")]
 pub use {egui_wgpu, wgpu};
 
 mod epi;
 
-// Re-export everything in `epi` so `eframe` users don't have to care about what `epi` is:
+// Re-export everything in `epi` so `eframe` users don't have to care about what
+// `epi` is:
 pub use epi::*;
-
 // ----------------------------------------------------------------------------
 // When compiling for web
-
 #[cfg(target_arch = "wasm32")]
 pub use wasm_bindgen;
-
 #[cfg(target_arch = "wasm32")]
 pub use web_sys;
 
@@ -161,37 +157,37 @@ pub mod native;
 
 /// This is how you start a native (desktop) app.
 ///
-/// The first argument is name of your app, used for the title bar of the native window
-/// and the save location of persistence (see [`App::save`]).
+/// The first argument is name of your app, used for the title bar of the native
+/// window and the save location of persistence (see [`App::save`]).
 ///
 /// Call from `fn main` like this:
 /// ``` no_run
 /// use eframe_tao::egui;
 ///
 /// fn main() -> eframe_tao::Result<()> {
-///     let native_options = eframe_tao::NativeOptions::default();
-///     eframe_tao::run_native("MyApp", native_options, Box::new(|cc| Box::new(MyEguiApp::new(cc))))
+/// 	let native_options = eframe_tao::NativeOptions::default();
+/// 	eframe_tao::run_native("MyApp", native_options, Box::new(|cc| Box::new(MyEguiApp::new(cc))))
 /// }
 ///
 /// #[derive(Default)]
 /// struct MyEguiApp {}
 ///
 /// impl MyEguiApp {
-///     fn new(cc: &eframe_tao::CreationContext<'_>) -> Self {
-///         // Customize egui here with cc.egui_ctx.set_fonts and cc.egui_ctx.set_visuals.
-///         // Restore app state using cc.storage (requires the "persistence" feature).
-///         // Use the cc.gl (a glow::Context) to create graphics shaders and buffers that you can use
-///         // for e.g. egui::PaintCallback.
-///         Self::default()
-///     }
+/// 	fn new(cc:&eframe_tao::CreationContext<'_>) -> Self {
+/// 		// Customize egui here with cc.egui_ctx.set_fonts and cc.egui_ctx.set_visuals.
+/// 		// Restore app state using cc.storage (requires the "persistence" feature).
+/// 		// Use the cc.gl (a glow::Context) to create graphics shaders and buffers that you can use
+/// 		// for e.g. egui::PaintCallback.
+/// 		Self::default()
+/// 	}
 /// }
 ///
 /// impl eframe_tao::App for MyEguiApp {
-///    fn update(&mut self, ctx: &egui::Context, frame: &mut eframe_tao::Frame) {
-///        egui::CentralPanel::default().show(ctx, |ui| {
-///            ui.heading("Hello World!");
-///        });
-///    }
+/// 	fn update(&mut self, ctx:&egui::Context, frame:&mut eframe_tao::Frame) {
+/// 		egui::CentralPanel::default().show(ctx, |ui| {
+/// 			ui.heading("Hello World!");
+/// 		});
+/// 	}
 /// }
 /// ```
 ///
@@ -201,9 +197,9 @@ pub mod native;
 #[cfg(any(feature = "glow", feature = "wgpu"))]
 #[allow(clippy::needless_pass_by_value)]
 pub fn run_native(
-	app_name: &str,
-	native_options: NativeOptions,
-	app_creator: AppCreator,
+	app_name:&str,
+	native_options:NativeOptions,
+	app_creator:AppCreator,
 ) -> Result<()> {
 	let renderer = native_options.renderer;
 
@@ -237,26 +233,25 @@ pub fn run_native(
 /// # Example
 /// ``` no_run
 /// fn main() -> eframe_tao::Result<()> {
-///     // Our application state:
-///     let mut name = "Arthur".to_owned();
-///     let mut age = 42;
+/// 	// Our application state:
+/// 	let mut name = "Arthur".to_owned();
+/// 	let mut age = 42;
 ///
-///     let options = eframe_tao::NativeOptions::default();
-///     eframe_tao::run_simple_native("My egui App", options, move |ctx, _frame| {
-///         egui::CentralPanel::default().show(ctx, |ui| {
-///             ui.heading("My egui Application");
-///             ui.horizontal(|ui| {
-///                 let name_label = ui.label("Your name: ");
-///                 ui.text_edit_singleline(&mut name)
-///                     .labelled_by(name_label.id);
-///             });
-///             ui.add(egui::Slider::new(&mut age, 0..=120).text("age"));
-///             if ui.button("Click each year").clicked() {
-///                 age += 1;
-///             }
-///             ui.label(format!("Hello '{name}', age {age}"));
-///         });
-///     })
+/// 	let options = eframe_tao::NativeOptions::default();
+/// 	eframe_tao::run_simple_native("My egui App", options, move |ctx, _frame| {
+/// 		egui::CentralPanel::default().show(ctx, |ui| {
+/// 			ui.heading("My egui Application");
+/// 			ui.horizontal(|ui| {
+/// 				let name_label = ui.label("Your name: ");
+/// 				ui.text_edit_singleline(&mut name).labelled_by(name_label.id);
+/// 			});
+/// 			ui.add(egui::Slider::new(&mut age, 0..=120).text("age"));
+/// 			if ui.button("Click each year").clicked() {
+/// 				age += 1;
+/// 			}
+/// 			ui.label(format!("Hello '{name}', age {age}"));
+/// 		});
+/// 	})
 /// }
 /// ```
 ///
@@ -265,24 +260,20 @@ pub fn run_native(
 #[cfg(not(target_arch = "wasm32"))]
 #[cfg(any(feature = "glow", feature = "wgpu"))]
 pub fn run_simple_native(
-	app_name: &str,
-	native_options: NativeOptions,
-	update_fun: impl FnMut(&egui::Context, &mut Frame) + 'static,
+	app_name:&str,
+	native_options:NativeOptions,
+	update_fun:impl FnMut(&egui::Context, &mut Frame) + 'static,
 ) -> Result<()> {
 	struct SimpleApp<U> {
-		update_fun: U,
+		update_fun:U,
 	}
-	impl<U: FnMut(&egui::Context, &mut Frame)> App for SimpleApp<U> {
-		fn update(&mut self, ctx: &egui::Context, frame: &mut Frame) {
+	impl<U:FnMut(&egui::Context, &mut Frame)> App for SimpleApp<U> {
+		fn update(&mut self, ctx:&egui::Context, frame:&mut Frame) {
 			(self.update_fun)(ctx, frame);
 		}
 	}
 
-	run_native(
-		app_name,
-		native_options,
-		Box::new(|_cc| Box::new(SimpleApp { update_fun })),
-	)
+	run_native(app_name, native_options, Box::new(|_cc| Box::new(SimpleApp { update_fun })))
 }
 
 // ----------------------------------------------------------------------------
@@ -299,9 +290,7 @@ pub enum Error {
 	Glutin(#[from] glutin::error::Error),
 
 	#[cfg(all(feature = "glow", not(target_arch = "wasm32")))]
-	#[error(
-		"Found no glutin configs matching the template: {0:?}. error: {1:?}"
-	)]
+	#[error("Found no glutin configs matching the template: {0:?}. error: {1:?}")]
 	NoGlutinConfigs(glutin::config::ConfigTemplate, Box<dyn std::error::Error>),
 
 	#[cfg(feature = "wgpu")]

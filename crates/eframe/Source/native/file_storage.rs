@@ -8,10 +8,10 @@ use std::{
 /// A key-value store backed by a [RON](https://github.com/ron-rs/ron) file on disk.
 /// Used to restore egui state, glium window position/size and app state.
 pub struct FileStorage {
-	ron_filepath: PathBuf,
-	kv: HashMap<String, String>,
-	dirty: bool,
-	last_save_join_handle: Option<std::thread::JoinHandle<()>>,
+	ron_filepath:PathBuf,
+	kv:HashMap<String, String>,
+	dirty:bool,
+	last_save_join_handle:Option<std::thread::JoinHandle<()>>,
 }
 
 impl Drop for FileStorage {
@@ -24,19 +24,19 @@ impl Drop for FileStorage {
 
 impl FileStorage {
 	/// Store the state in this .ron file.
-	pub fn from_ron_filepath(ron_filepath: impl Into<PathBuf>) -> Self {
-		let ron_filepath: PathBuf = ron_filepath.into();
+	pub fn from_ron_filepath(ron_filepath:impl Into<PathBuf>) -> Self {
+		let ron_filepath:PathBuf = ron_filepath.into();
 		log::debug!("Loading app state from {:?}…", ron_filepath);
 		Self {
-			kv: read_ron(&ron_filepath).unwrap_or_default(),
+			kv:read_ron(&ron_filepath).unwrap_or_default(),
 			ron_filepath,
-			dirty: false,
-			last_save_join_handle: None,
+			dirty:false,
+			last_save_join_handle:None,
 		}
 	}
 
 	/// Find a good place to put the files that the OS likes.
-	pub fn from_app_name(app_name: &str) -> Option<Self> {
+	pub fn from_app_name(app_name:&str) -> Option<Self> {
 		if let Some(proj_dirs) = directories_next::ProjectDirs::from("", "", app_name) {
 			let data_dir = proj_dirs.data_dir().to_path_buf();
 			if let Err(err) = std::fs::create_dir_all(&data_dir) {
@@ -53,11 +53,9 @@ impl FileStorage {
 }
 
 impl crate::Storage for FileStorage {
-	fn get_string(&self, key: &str) -> Option<String> {
-		self.kv.get(key).cloned()
-	}
+	fn get_string(&self, key:&str) -> Option<String> { self.kv.get(key).cloned() }
 
-	fn set_string(&mut self, key: &str, value: String) {
+	fn set_string(&mut self, key:&str, value:String) {
 		if self.kv.get(key) != Some(&value) {
 			self.kv.insert(key.to_owned(), value);
 			self.dirty = true;
@@ -90,10 +88,9 @@ impl crate::Storage for FileStorage {
 
 // ----------------------------------------------------------------------------
 
-fn read_ron<T>(ron_path: impl AsRef<Path>) -> Option<T>
+fn read_ron<T>(ron_path:impl AsRef<Path>) -> Option<T>
 where
-	T: serde::de::DeserializeOwned,
-{
+	T: serde::de::DeserializeOwned, {
 	match std::fs::File::open(ron_path) {
 		Ok(file) => {
 			let reader = std::io::BufReader::new(file);
@@ -102,12 +99,12 @@ where
 				Err(err) => {
 					log::warn!("Failed to parse RON: {}", err);
 					None
-				}
+				},
 			}
-		}
+		},
 		Err(_err) => {
 			// File probably doesn't exist. That's fine.
 			None
-		}
+		},
 	}
 }

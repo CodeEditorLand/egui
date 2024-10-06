@@ -3,9 +3,11 @@ use std::sync::Arc;
 use egui::mutex::Mutex;
 use wasm_bindgen::prelude::*;
 
-/// Detects panics, logs them using `console.error`, and stores the panics message and callstack.
+/// Detects panics, logs them using `console.error`, and stores the panics
+/// message and callstack.
 ///
-/// This lets you query `PanicHandler` for the panic message (if any) so you can show it in the HTML.
+/// This lets you query `PanicHandler` for the panic message (if any) so you can
+/// show it in the HTML.
 ///
 /// Chep to clone (ref-counted).
 #[derive(Clone)]
@@ -35,19 +37,15 @@ impl PanicHandler {
 	}
 
 	/// Has there been a panic?
-	pub fn has_panicked(&self) -> bool {
-		self.0.lock().summary.is_some()
-	}
+	pub fn has_panicked(&self) -> bool { self.0.lock().summary.is_some() }
 
 	/// What was the panic message and callstack?
-	pub fn panic_summary(&self) -> Option<PanicSummary> {
-		self.0.lock().summary.clone()
-	}
+	pub fn panic_summary(&self) -> Option<PanicSummary> { self.0.lock().summary.clone() }
 }
 
 #[derive(Clone, Default)]
 struct PanicHandlerInner {
-	summary: Option<PanicSummary>,
+	summary:Option<PanicSummary>,
 }
 
 /// Contains a summary about a panics.
@@ -56,30 +54,26 @@ struct PanicHandlerInner {
 /// with an added callstack.
 #[derive(Clone, Debug)]
 pub struct PanicSummary {
-	message: String,
-	callstack: String,
+	message:String,
+	callstack:String,
 }
 
 impl PanicSummary {
-	pub fn new(info: &std::panic::PanicInfo<'_>) -> Self {
+	pub fn new(info:&std::panic::PanicInfo<'_>) -> Self {
 		let message = info.to_string();
 		let callstack = Error::new().stack();
 		Self { message, callstack }
 	}
 
-	pub fn message(&self) -> String {
-		self.message.clone()
-	}
+	pub fn message(&self) -> String { self.message.clone() }
 
-	pub fn callstack(&self) -> String {
-		self.callstack.clone()
-	}
+	pub fn callstack(&self) -> String { self.callstack.clone() }
 }
 
 #[wasm_bindgen]
 extern {
 	#[wasm_bindgen(js_namespace = console)]
-	fn error(msg: String);
+	fn error(msg:String);
 
 	type Error;
 
@@ -87,5 +81,5 @@ extern {
 	fn new() -> Error;
 
 	#[wasm_bindgen(structural, method, getter)]
-	fn stack(error: &Error) -> String;
+	fn stack(error:&Error) -> String;
 }

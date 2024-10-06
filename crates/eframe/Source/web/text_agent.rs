@@ -1,13 +1,12 @@
 //! The text agent is an `<input>` element used to trigger
 //! mobile keyboard and IME input.
-//!
 use std::{cell::Cell, rc::Rc};
 
 use wasm_bindgen::prelude::*;
 
 use super::{canvas_element, AppRunner, WebRunner};
 
-static AGENT_ID: &str = "egui_text_agent";
+static AGENT_ID:&str = "egui_text_agent";
 
 pub fn text_agent() -> web_sys::HtmlInputElement {
 	web_sys::window()
@@ -21,7 +20,7 @@ pub fn text_agent() -> web_sys::HtmlInputElement {
 }
 
 /// Text event handler,
-pub fn install_text_agent(runner_ref: &WebRunner) -> Result<(), JsValue> {
+pub fn install_text_agent(runner_ref:&WebRunner) -> Result<(), JsValue> {
 	let window = web_sys::window().unwrap();
 	let document = window.document().unwrap();
 	let body = document.body().expect("document should have a body");
@@ -46,7 +45,7 @@ pub fn install_text_agent(runner_ref: &WebRunner) -> Result<(), JsValue> {
 		let input_clone = input.clone();
 		let is_composing = is_composing.clone();
 
-		move |_event: web_sys::InputEvent, runner| {
+		move |_event:web_sys::InputEvent, runner| {
 			let text = input_clone.value();
 			if !text.is_empty() && !is_composing.get() {
 				input_clone.set_value("");
@@ -62,7 +61,7 @@ pub fn install_text_agent(runner_ref: &WebRunner) -> Result<(), JsValue> {
 			let input_clone = input.clone();
 			let is_composing = is_composing.clone();
 
-			move |_event: web_sys::CompositionEvent, runner: &mut AppRunner| {
+			move |_event:web_sys::CompositionEvent, runner:&mut AppRunner| {
 				is_composing.set(true);
 				input_clone.set_value("");
 
@@ -74,7 +73,7 @@ pub fn install_text_agent(runner_ref: &WebRunner) -> Result<(), JsValue> {
 		runner_ref.add_event_listener(
 			&input,
 			"compositionupdate",
-			move |event: web_sys::CompositionEvent, runner: &mut AppRunner| {
+			move |event:web_sys::CompositionEvent, runner:&mut AppRunner| {
 				if let Some(event) = event.data().map(egui::Event::CompositionUpdate) {
 					runner.input.raw.events.push(event);
 					runner.needs_repaint.repaint_asap();
@@ -85,7 +84,7 @@ pub fn install_text_agent(runner_ref: &WebRunner) -> Result<(), JsValue> {
 		runner_ref.add_event_listener(&input, "compositionend", {
 			let input_clone = input.clone();
 
-			move |event: web_sys::CompositionEvent, runner: &mut AppRunner| {
+			move |event:web_sys::CompositionEvent, runner:&mut AppRunner| {
 				is_composing.set(false);
 				input_clone.set_value("");
 
@@ -99,7 +98,7 @@ pub fn install_text_agent(runner_ref: &WebRunner) -> Result<(), JsValue> {
 
 	// When input lost focus, focus on it again.
 	// It is useful when user click somewhere outside canvas.
-	runner_ref.add_event_listener(&input, "focusout", move |_event: web_sys::MouseEvent, _| {
+	runner_ref.add_event_listener(&input, "focusout", move |_event:web_sys::MouseEvent, _| {
 		// Delay 10 ms, and focus again.
 		let func = js_sys::Function::new_no_args(&format!(
 			"document.getElementById('{}').focus()",
@@ -114,11 +113,11 @@ pub fn install_text_agent(runner_ref: &WebRunner) -> Result<(), JsValue> {
 }
 
 /// Focus or blur text agent to toggle mobile keyboard.
-pub fn update_text_agent(runner: &mut AppRunner) -> Option<()> {
+pub fn update_text_agent(runner:&mut AppRunner) -> Option<()> {
 	use web_sys::HtmlInputElement;
 	let window = web_sys::window()?;
 	let document = window.document()?;
-	let input: HtmlInputElement = document.get_element_by_id(AGENT_ID)?.dyn_into().unwrap();
+	let input:HtmlInputElement = document.get_element_by_id(AGENT_ID)?.dyn_into().unwrap();
 	let canvas_style = canvas_element(runner.canvas_id())?.style();
 
 	if runner.mutable_text_under_cursor {
@@ -176,7 +175,7 @@ pub fn update_text_agent(runner: &mut AppRunner) -> Option<()> {
 	Some(())
 }
 
-fn call_after_delay(delay: std::time::Duration, f: impl FnOnce() + 'static) {
+fn call_after_delay(delay:std::time::Duration, f:impl FnOnce() + 'static) {
 	use wasm_bindgen::prelude::*;
 	let window = web_sys::window().unwrap();
 	let closure = Closure::once(f);
@@ -192,7 +191,7 @@ fn call_after_delay(delay: std::time::Duration, f: impl FnOnce() + 'static) {
 
 /// If context is running under mobile device?
 fn is_mobile() -> Option<bool> {
-	const MOBILE_DEVICE: [&str; 6] = ["Android", "iPhone", "iPad", "iPod", "webOS", "BlackBerry"];
+	const MOBILE_DEVICE:[&str; 6] = ["Android", "iPhone", "iPad", "iPod", "webOS", "BlackBerry"];
 
 	let user_agent = web_sys::window()?.navigator().user_agent().ok()?;
 	let is_mobile = MOBILE_DEVICE.iter().any(|&name| user_agent.contains(name));
@@ -203,7 +202,7 @@ fn is_mobile() -> Option<bool> {
 // candidate window moves following text element (agent),
 // so it appears that the IME candidate window moves with text cursor.
 // On mobile devices, there is no need to do that.
-pub fn move_text_cursor(cursor: Option<egui::Pos2>, canvas_id: &str) -> Option<()> {
+pub fn move_text_cursor(cursor:Option<egui::Pos2>, canvas_id:&str) -> Option<()> {
 	let style = text_agent().style();
 	// Note: movint agent on mobile devices will lead to unpredictable scroll.
 	if is_mobile() == Some(false) {

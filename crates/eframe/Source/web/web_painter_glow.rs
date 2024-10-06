@@ -1,25 +1,20 @@
-use wasm_bindgen::JsCast;
-use wasm_bindgen::JsValue;
+use egui_glow::glow;
+use wasm_bindgen::{JsCast, JsValue};
 use web_sys::HtmlCanvasElement;
 
-use egui_glow::glow;
-
+use super::web_painter::WebPainter;
 use crate::{WebGlContextOption, WebOptions};
 
-use super::web_painter::WebPainter;
-
 pub(crate) struct WebPainterGlow {
-	canvas: HtmlCanvasElement,
-	canvas_id: String,
-	painter: egui_glow::Painter,
+	canvas:HtmlCanvasElement,
+	canvas_id:String,
+	painter:egui_glow::Painter,
 }
 
 impl WebPainterGlow {
-	pub fn gl(&self) -> &std::sync::Arc<glow::Context> {
-		self.painter.gl()
-	}
+	pub fn gl(&self) -> &std::sync::Arc<glow::Context> { self.painter.gl() }
 
-	pub async fn new(canvas_id: &str, options: &WebOptions) -> Result<Self, String> {
+	pub async fn new(canvas_id:&str, options:&WebOptions) -> Result<Self, String> {
 		let canvas = super::canvas_element_or_die(canvas_id);
 
 		let (gl, shader_prefix) =
@@ -29,25 +24,21 @@ impl WebPainterGlow {
 		let painter = egui_glow::Painter::new(gl, shader_prefix, None)
 			.map_err(|error| format!("Error starting glow painter: {}", error))?;
 
-		Ok(Self { canvas, canvas_id: canvas_id.to_owned(), painter })
+		Ok(Self { canvas, canvas_id:canvas_id.to_owned(), painter })
 	}
 }
 
 impl WebPainter for WebPainterGlow {
-	fn max_texture_side(&self) -> usize {
-		self.painter.max_texture_side()
-	}
+	fn max_texture_side(&self) -> usize { self.painter.max_texture_side() }
 
-	fn canvas_id(&self) -> &str {
-		&self.canvas_id
-	}
+	fn canvas_id(&self) -> &str { &self.canvas_id }
 
 	fn paint_and_update_textures(
 		&mut self,
-		clear_color: [f32; 4],
-		clipped_primitives: &[egui::ClippedPrimitive],
-		pixels_per_point: f32,
-		textures_delta: &egui::TexturesDelta,
+		clear_color:[f32; 4],
+		clipped_primitives:&[egui::ClippedPrimitive],
+		pixels_per_point:f32,
+		textures_delta:&egui::TexturesDelta,
 	) -> Result<(), JsValue> {
 		let canvas_dimension = [self.canvas.width(), self.canvas.height()];
 
@@ -56,7 +47,8 @@ impl WebPainter for WebPainterGlow {
 		}
 
 		egui_glow::painter::clear(self.painter.gl(), canvas_dimension, clear_color);
-		self.painter.paint_primitives(canvas_dimension, pixels_per_point, clipped_primitives);
+		self.painter
+			.paint_primitives(canvas_dimension, pixels_per_point, clipped_primitives);
 
 		for &id in &textures_delta.free {
 			self.painter.free_texture(id);
@@ -65,15 +57,13 @@ impl WebPainter for WebPainterGlow {
 		Ok(())
 	}
 
-	fn destroy(&mut self) {
-		self.painter.destroy();
-	}
+	fn destroy(&mut self) { self.painter.destroy(); }
 }
 
 /// Returns glow context and shader prefix.
 fn init_glow_context_from_canvas(
-	canvas: &HtmlCanvasElement,
-	options: WebGlContextOption,
+	canvas:&HtmlCanvasElement,
+	options:WebGlContextOption,
 ) -> Result<(glow::Context, &'static str), String> {
 	let result = match options {
 		// Force use WebGl1
@@ -85,7 +75,7 @@ fn init_glow_context_from_canvas(
 		// Trying WebGl1 first (useful for testing).
 		WebGlContextOption::CompatibilityFirst => {
 			init_webgl1(canvas).or_else(|| init_webgl2(canvas))
-		}
+		},
 	};
 
 	if let Some(result) = result {
@@ -95,7 +85,7 @@ fn init_glow_context_from_canvas(
 	}
 }
 
-fn init_webgl1(canvas: &HtmlCanvasElement) -> Option<(glow::Context, &'static str)> {
+fn init_webgl1(canvas:&HtmlCanvasElement) -> Option<(glow::Context, &'static str)> {
 	let gl1_ctx = canvas.get_context("webgl").expect("Failed to query about WebGL2 context");
 
 	let gl1_ctx = gl1_ctx?;
@@ -115,7 +105,7 @@ fn init_webgl1(canvas: &HtmlCanvasElement) -> Option<(glow::Context, &'static st
 	Some((gl, shader_prefix))
 }
 
-fn init_webgl2(canvas: &HtmlCanvasElement) -> Option<(glow::Context, &'static str)> {
+fn init_webgl2(canvas:&HtmlCanvasElement) -> Option<(glow::Context, &'static str)> {
 	let gl2_ctx = canvas.get_context("webgl2").expect("Failed to query about WebGL2 context");
 
 	let gl2_ctx = gl2_ctx?;
@@ -128,7 +118,7 @@ fn init_webgl2(canvas: &HtmlCanvasElement) -> Option<(glow::Context, &'static st
 	Some((gl, shader_prefix))
 }
 
-fn webgl1_requires_brightening(gl: &web_sys::WebGlRenderingContext) -> bool {
+fn webgl1_requires_brightening(gl:&web_sys::WebGlRenderingContext) -> bool {
 	// See https://github.com/emilk/egui/issues/794
 
 	// detect WebKitGTK
@@ -146,11 +136,13 @@ fn webgl1_requires_brightening(gl: &web_sys::WebGlRenderingContext) -> bool {
 ///
 /// If we detect safari or `webkitGTKs` returns true.
 ///
-/// This function used to avoid displaying linear color with `sRGB` supported systems.
-fn is_safari_and_webkit_gtk(gl: &web_sys::WebGlRenderingContext) -> bool {
-	// This call produces a warning in Firefox ("WEBGL_debug_renderer_info is deprecated in Firefox and will be removed.")
-	// but unless we call it we get errors in Chrome when we call `get_parameter` below.
-	// TODO(emilk): do something smart based on user agent?
+/// This function used to avoid displaying linear color with `sRGB` supported
+/// systems.
+fn is_safari_and_webkit_gtk(gl:&web_sys::WebGlRenderingContext) -> bool {
+	// This call produces a warning in Firefox ("WEBGL_debug_renderer_info is
+	// deprecated in Firefox and will be removed.") but unless we call it we get
+	// errors in Chrome when we call `get_parameter` below. TODO(emilk): do
+	// something smart based on user agent?
 	if gl.get_extension("WEBGL_debug_renderer_info").unwrap().is_some() {
 		if let Ok(renderer) =
 			gl.get_parameter(web_sys::WebglDebugRendererInfo::UNMASKED_RENDERER_WEBGL)

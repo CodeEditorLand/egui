@@ -19,27 +19,21 @@ pub enum ShaderVersion {
 }
 
 impl ShaderVersion {
-	pub fn get(gl: &glow::Context) -> Self {
+	pub fn get(gl:&glow::Context) -> Self {
 		use glow::HasContext as _;
 		let shading_lang_string =
 			unsafe { gl.get_parameter_string(glow::SHADING_LANGUAGE_VERSION) };
 		let shader_version = Self::parse(&shading_lang_string);
-		log::debug!(
-			"Shader version: {:?} ({:?}).",
-			shader_version,
-			shading_lang_string
-		);
+		log::debug!("Shader version: {:?} ({:?}).", shader_version, shading_lang_string);
 		shader_version
 	}
 
 	#[inline]
-	pub(crate) fn parse(glsl_ver: &str) -> Self {
+	pub(crate) fn parse(glsl_ver:&str) -> Self {
 		let start = glsl_ver.find(|c| char::is_ascii_digit(&c)).unwrap();
 		let es = glsl_ver[..start].contains(" ES ");
-		let ver = glsl_ver[start..]
-			.split_once(' ')
-			.map_or(&glsl_ver[start..], |x| x.0);
-		let [maj, min]: [u8; 2] = ver
+		let ver = glsl_ver[start..].split_once(' ').map_or(&glsl_ver[start..], |x| x.0);
+		let [maj, min]:[u8; 2] = ver
 			.splitn(3, '.')
 			.take(2)
 			.map(|x| x.parse().unwrap_or_default())
@@ -47,11 +41,7 @@ impl ShaderVersion {
 			.try_into()
 			.unwrap();
 		if es {
-			if maj >= 3 {
-				Self::Es300
-			} else {
-				Self::Es100
-			}
+			if maj >= 3 { Self::Es300 } else { Self::Es100 }
 		} else if maj > 1 || (maj == 1 && min >= 40) {
 			Self::Gl140
 		} else {

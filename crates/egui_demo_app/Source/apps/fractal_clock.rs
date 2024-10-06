@@ -1,39 +1,40 @@
-use egui::{containers::*, widgets::*, *};
 use std::f32::consts::TAU;
+
+use egui::{containers::*, widgets::*, *};
 
 #[derive(PartialEq)]
 #[cfg_attr(feature = "serde", derive(serde::Deserialize, serde::Serialize))]
 #[cfg_attr(feature = "serde", serde(default))]
 pub struct FractalClock {
-	paused: bool,
-	time: f64,
-	zoom: f32,
-	start_line_width: f32,
-	depth: usize,
-	length_factor: f32,
-	luminance_factor: f32,
-	width_factor: f32,
-	line_count: usize,
+	paused:bool,
+	time:f64,
+	zoom:f32,
+	start_line_width:f32,
+	depth:usize,
+	length_factor:f32,
+	luminance_factor:f32,
+	width_factor:f32,
+	line_count:usize,
 }
 
 impl Default for FractalClock {
 	fn default() -> Self {
 		Self {
-			paused: false,
-			time: 0.0,
-			zoom: 0.25,
-			start_line_width: 2.5,
-			depth: 9,
-			length_factor: 0.8,
-			luminance_factor: 0.8,
-			width_factor: 0.9,
-			line_count: 0,
+			paused:false,
+			time:0.0,
+			zoom:0.25,
+			start_line_width:2.5,
+			depth:9,
+			length_factor:0.8,
+			luminance_factor:0.8,
+			width_factor:0.9,
+			line_count:0,
 		}
 	}
 }
 
 impl FractalClock {
-	pub fn ui(&mut self, ui: &mut Ui, seconds_since_midnight: Option<f64>) {
+	pub fn ui(&mut self, ui:&mut Ui, seconds_since_midnight:Option<f64>) {
 		if !self.paused {
 			self.time = seconds_since_midnight.unwrap_or_else(|| ui.input(|i| i.time));
 			ui.ctx().request_repaint();
@@ -52,7 +53,7 @@ impl FractalClock {
 		});
 	}
 
-	fn options_ui(&mut self, ui: &mut Ui, seconds_since_midnight: Option<f64>) {
+	fn options_ui(&mut self, ui:&mut Ui, seconds_since_midnight:Option<f64>) {
 		if seconds_since_midnight.is_some() {
 			ui.label(format!(
 				"Local time: {:02}:{:02}:{:02}.{:03}",
@@ -83,16 +84,16 @@ impl FractalClock {
 		ui.add(egui_demo_lib::egui_github_link_file!());
 	}
 
-	fn paint(&mut self, painter: &Painter) {
+	fn paint(&mut self, painter:&Painter) {
 		struct Hand {
-			length: f32,
-			angle: f32,
-			vec: Vec2,
+			length:f32,
+			angle:f32,
+			vec:Vec2,
 		}
 
 		impl Hand {
-			fn from_length_angle(length: f32, angle: f32) -> Self {
-				Self { length, angle, vec: length * Vec2::angled(angle) }
+			fn from_length_angle(length:f32, angle:f32) -> Self {
+				Self { length, angle, vec:length * Vec2::angled(angle) }
 			}
 		}
 
@@ -108,7 +109,7 @@ impl FractalClock {
 			Hand::from_length_angle(0.5, angle_from_period(12.0 * 60.0 * 60.0)),
 		];
 
-		let mut shapes: Vec<Shape> = Vec::new();
+		let mut shapes:Vec<Shape> = Vec::new();
 
 		let rect = painter.clip_rect();
 		let to_screen = emath::RectTransform::from_to(
@@ -116,7 +117,7 @@ impl FractalClock {
 			rect,
 		);
 
-		let mut paint_line = |points: [Pos2; 2], color: Color32, width: f32| {
+		let mut paint_line = |points:[Pos2; 2], color:Color32, width:f32| {
 			let line = [to_screen * points[0], to_screen * points[1]];
 
 			// culling
@@ -137,8 +138,8 @@ impl FractalClock {
 
 		#[derive(Clone, Copy)]
 		struct Node {
-			pos: Pos2,
-			dir: Vec2,
+			pos:Pos2,
+			dir:Vec2,
 		}
 
 		let mut nodes = Vec::new();
@@ -150,7 +151,7 @@ impl FractalClock {
 			let end = center + hand.vec;
 			paint_line([center, end], Color32::from_additive_luminance(255), width);
 			if i < 2 {
-				nodes.push(Node { pos: end, dir: hand.vec });
+				nodes.push(Node { pos:end, dir:hand.vec });
 			}
 		}
 
@@ -172,7 +173,7 @@ impl FractalClock {
 			for &rotor in &hand_rotors {
 				for a in &nodes {
 					let new_dir = rotor * a.dir;
-					let b = Node { pos: a.pos + new_dir, dir: new_dir };
+					let b = Node { pos:a.pos + new_dir, dir:new_dir };
 					paint_line(
 						[a.pos, b.pos],
 						Color32::from_additive_luminance(luminance_u8),

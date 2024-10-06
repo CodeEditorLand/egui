@@ -5,23 +5,21 @@ use egui::mutex::Mutex;
 use egui_glow::glow;
 
 pub struct Custom3d {
-	/// Behind an `Arc<Mutex<…>>` so we can pass it to [`egui::PaintCallback`] and paint later.
-	rotating_triangle: Arc<Mutex<RotatingTriangle>>,
-	angle: f32,
+	/// Behind an `Arc<Mutex<…>>` so we can pass it to [`egui::PaintCallback`]
+	/// and paint later.
+	rotating_triangle:Arc<Mutex<RotatingTriangle>>,
+	angle:f32,
 }
 
 impl Custom3d {
-	pub fn new<'a>(cc: &'a eframe::CreationContext<'a>) -> Option<Self> {
+	pub fn new<'a>(cc:&'a eframe::CreationContext<'a>) -> Option<Self> {
 		let gl = cc.gl.as_ref()?;
-		Some(Self {
-			rotating_triangle: Arc::new(Mutex::new(RotatingTriangle::new(gl)?)),
-			angle: 0.0,
-		})
+		Some(Self { rotating_triangle:Arc::new(Mutex::new(RotatingTriangle::new(gl)?)), angle:0.0 })
 	}
 }
 
 impl eframe::App for Custom3d {
-	fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
+	fn update(&mut self, ctx:&egui::Context, _frame:&mut eframe::Frame) {
 		egui::CentralPanel::default().show(ctx, |ui| {
 			egui::ScrollArea::both().auto_shrink([false; 2]).show(ui, |ui| {
 				ui.horizontal(|ui| {
@@ -30,7 +28,10 @@ impl eframe::App for Custom3d {
 					ui.hyperlink_to("glow", "https://github.com/grovesNL/glow");
 					ui.label(" (OpenGL).");
 				});
-				ui.label("It's not a very impressive demo, but it shows you can embed 3D inside of egui.");
+				ui.label(
+					"It's not a very impressive demo, but it shows you can embed 3D inside of \
+					 egui.",
+				);
 
 				egui::Frame::canvas(ui.style()).show(ui, |ui| {
 					self.custom_painting(ui);
@@ -41,7 +42,7 @@ impl eframe::App for Custom3d {
 		});
 	}
 
-	fn on_exit(&mut self, gl: Option<&glow::Context>) {
+	fn on_exit(&mut self, gl:Option<&glow::Context>) {
 		if let Some(gl) = gl {
 			self.rotating_triangle.lock().destroy(gl);
 		}
@@ -49,7 +50,7 @@ impl eframe::App for Custom3d {
 }
 
 impl Custom3d {
-	fn custom_painting(&mut self, ui: &mut egui::Ui) {
+	fn custom_painting(&mut self, ui:&mut egui::Ui) {
 		let (rect, response) =
 			ui.allocate_exact_size(egui::Vec2::splat(300.0), egui::Sense::drag());
 
@@ -63,19 +64,19 @@ impl Custom3d {
 			rotating_triangle.lock().paint(painter.gl(), angle);
 		});
 
-		let callback = egui::PaintCallback { rect, callback: Arc::new(cb) };
+		let callback = egui::PaintCallback { rect, callback:Arc::new(cb) };
 		ui.painter().add(callback);
 	}
 }
 
 struct RotatingTriangle {
-	program: glow::Program,
-	vertex_array: glow::VertexArray,
+	program:glow::Program,
+	vertex_array:glow::VertexArray,
 }
 
 #[allow(unsafe_code)] // we need unsafe code to use glow
 impl RotatingTriangle {
-	fn new(gl: &glow::Context) -> Option<Self> {
+	fn new(gl:&glow::Context) -> Option<Self> {
 		use glow::HasContext as _;
 
 		let shader_version = egui_glow::ShaderVersion::get(gl);
@@ -123,7 +124,7 @@ impl RotatingTriangle {
 				(glow::FRAGMENT_SHADER, fragment_shader_source),
 			];
 
-			let shaders: Vec<_> = shader_sources
+			let shaders:Vec<_> = shader_sources
 				.iter()
 				.map(|(shader_type, shader_source)| {
 					let shader = gl.create_shader(*shader_type).expect("Cannot create shader");
@@ -157,7 +158,7 @@ impl RotatingTriangle {
 		}
 	}
 
-	fn destroy(&self, gl: &glow::Context) {
+	fn destroy(&self, gl:&glow::Context) {
 		use glow::HasContext as _;
 		unsafe {
 			gl.delete_program(self.program);
@@ -165,7 +166,7 @@ impl RotatingTriangle {
 		}
 	}
 
-	fn paint(&self, gl: &glow::Context, angle: f32) {
+	fn paint(&self, gl:&glow::Context, angle:f32) {
 		use glow::HasContext as _;
 		unsafe {
 			gl.use_program(Some(self.program));

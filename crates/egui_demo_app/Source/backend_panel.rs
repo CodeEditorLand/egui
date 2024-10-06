@@ -8,35 +8,37 @@ enum RunMode {
 	///
 	/// Reactive mode saves CPU.
 	///
-	/// The downside is that the UI can become out-of-date if something it is supposed to monitor changes.
-	/// For instance, a GUI for a thermostat need to repaint each time the temperature changes.
-	/// To ensure the UI is up to date you need to call `egui::Context::request_repaint()` each
-	/// time such an event happens. You can also chose to call `request_repaint()` once every second
-	/// or after every single frame - this is called [`Continuous`](RunMode::Continuous) mode,
-	/// and for games and interactive tools that need repainting every frame anyway, this should be the default.
+	/// The downside is that the UI can become out-of-date if something it is
+	/// supposed to monitor changes. For instance, a GUI for a thermostat need
+	/// to repaint each time the temperature changes. To ensure the UI is up to
+	/// date you need to call `egui::Context::request_repaint()` each time such
+	/// an event happens. You can also chose to call `request_repaint()` once
+	/// every second or after every single frame - this is called
+	/// [`Continuous`](RunMode::Continuous) mode, and for games and interactive
+	/// tools that need repainting every frame anyway, this should be the
+	/// default.
 	Reactive,
 
-	/// This will call `egui::Context::request_repaint()` at the end of each frame
-	/// to request the backend to repaint as soon as possible.
+	/// This will call `egui::Context::request_repaint()` at the end of each
+	/// frame to request the backend to repaint as soon as possible.
 	///
-	/// On most platforms this will mean that egui will run at the display refresh rate of e.g. 60 Hz.
+	/// On most platforms this will mean that egui will run at the display
+	/// refresh rate of e.g. 60 Hz.
 	///
 	/// For this demo it is not any reason to do so except to
 	/// demonstrate how quickly egui runs.
 	///
-	/// For games or other interactive apps, this is probably what you want to do.
-	/// It will guarantee that egui is always up-to-date.
+	/// For games or other interactive apps, this is probably what you want to
+	/// do. It will guarantee that egui is always up-to-date.
 	Continuous,
 }
 
 /// Default for demo is Reactive since
 /// 1) We want to use minimal CPU
-/// 2) There are no external events that could invalidate the UI
-///    so there are no events to miss.
+/// 2) There are no external events that could invalidate the UI so there are no
+///    events to miss.
 impl Default for RunMode {
-	fn default() -> Self {
-		RunMode::Reactive
-	}
+	fn default() -> Self { RunMode::Reactive }
 }
 
 // ----------------------------------------------------------------------------
@@ -45,7 +47,7 @@ impl Default for RunMode {
 #[cfg_attr(feature = "serde", derive(serde::Deserialize, serde::Serialize))]
 #[cfg_attr(feature = "serde", serde(default))]
 pub struct BackendPanel {
-	pub open: bool,
+	pub open:bool,
 
 	#[cfg_attr(feature = "serde", serde(skip))]
 	// go back to [`RunMode::Reactive`] mode each time we start
@@ -53,18 +55,17 @@ pub struct BackendPanel {
 
 	/// current slider value for current gui scale
 	#[cfg_attr(feature = "serde", serde(skip))]
-	pixels_per_point: Option<f32>,
+	pixels_per_point:Option<f32>,
 
 	#[cfg_attr(feature = "serde", serde(skip))]
-	frame_history: crate::frame_history::FrameHistory,
+	frame_history:crate::frame_history::FrameHistory,
 
-	egui_windows: EguiWindows,
+	egui_windows:EguiWindows,
 }
 
 impl BackendPanel {
-	pub fn update(&mut self, ctx: &egui::Context, frame: &mut eframe::Frame) {
-		self.frame_history
-			.on_new_frame(ctx.input(|i| i.time), frame.info().cpu_usage);
+	pub fn update(&mut self, ctx:&egui::Context, frame:&mut eframe::Frame) {
+		self.frame_history.on_new_frame(ctx.input(|i| i.time), frame.info().cpu_usage);
 
 		match self.run_mode {
 			RunMode::Continuous => {
@@ -77,11 +78,9 @@ impl BackendPanel {
 		}
 	}
 
-	pub fn end_of_frame(&mut self, ctx: &egui::Context) {
-		self.egui_windows.windows(ctx);
-	}
+	pub fn end_of_frame(&mut self, ctx:&egui::Context) { self.egui_windows.windows(ctx); }
 
-	pub fn ui(&mut self, ui: &mut egui::Ui, frame: &mut eframe::Frame) {
+	pub fn ui(&mut self, ui:&mut egui::Ui, frame:&mut eframe::Frame) {
 		egui::trace!(ui);
 
 		self.integration_ui(ui, frame);
@@ -104,9 +103,7 @@ impl BackendPanel {
 		{
 			let mut debug_on_hover = ui.ctx().debug_on_hover();
 			ui.checkbox(&mut debug_on_hover, "🐛 Debug on hover")
-				.on_hover_text(
-					"Show structure of the ui when you hover with the mouse",
-				);
+				.on_hover_text("Show structure of the ui when you hover with the mouse");
 			ui.ctx().set_debug_on_hover(debug_on_hover);
 		}
 
@@ -115,7 +112,10 @@ impl BackendPanel {
 		{
 			ui.separator();
 			let mut screen_reader = ui.ctx().options(|o| o.screen_reader);
-			ui.checkbox(&mut screen_reader, "🔈 Screen reader").on_hover_text("Experimental feature: checking this will turn on the screen reader on supported platforms");
+			ui.checkbox(&mut screen_reader, "🔈 Screen reader").on_hover_text(
+				"Experimental feature: checking this will turn on the screen reader on supported \
+				 platforms",
+			);
 			ui.ctx().options_mut(|o| o.screen_reader = screen_reader);
 		}
 
@@ -137,14 +137,11 @@ impl BackendPanel {
 		}
 	}
 
-	fn integration_ui(&mut self, ui: &mut egui::Ui, frame: &mut eframe::Frame) {
+	fn integration_ui(&mut self, ui:&mut egui::Ui, frame:&mut eframe::Frame) {
 		ui.horizontal(|ui| {
 			ui.spacing_mut().item_spacing.x = 0.0;
 			ui.label("egui running inside ");
-			ui.hyperlink_to(
-				"eframe",
-				"https://github.com/emilk/egui/tree/master/crates/eframe",
-			);
+			ui.hyperlink_to("eframe", "https://github.com/emilk/egui/tree/master/crates/eframe");
 			ui.label(".");
 		});
 
@@ -176,9 +173,7 @@ impl BackendPanel {
 
 				if ui
 					.button("📱 Phone Size")
-					.on_hover_text(
-						"Resize the window to be small like a phone.",
-					)
+					.on_hover_text("Resize the window to be small like a phone.")
 					.clicked()
 				{
 					// frame.set_window_size(egui::vec2(375.0, 812.0)); // iPhone 12 mini
@@ -189,9 +184,7 @@ impl BackendPanel {
 			});
 
 			if !frame.info().window_info.fullscreen
-				&& ui
-					.button("Drag me to drag window")
-					.is_pointer_button_down_on()
+				&& ui.button("Drag me to drag window").is_pointer_button_down_on()
 			{
 				frame.drag_window();
 			}
@@ -202,14 +195,9 @@ impl BackendPanel {
 		}
 	}
 
-	fn pixels_per_point_ui(
-		&mut self,
-		ui: &mut egui::Ui,
-		info: &eframe::IntegrationInfo,
-	) {
-		let pixels_per_point = self
-			.pixels_per_point
-			.get_or_insert_with(|| ui.ctx().pixels_per_point());
+	fn pixels_per_point_ui(&mut self, ui:&mut egui::Ui, info:&eframe::IntegrationInfo) {
+		let pixels_per_point =
+			self.pixels_per_point.get_or_insert_with(|| ui.ctx().pixels_per_point());
 
 		let mut reset = false;
 
@@ -234,10 +222,8 @@ impl BackendPanel {
 				reset = true;
 			}
 
-			if let Some(native_pixels_per_point) = info.native_pixels_per_point
-			{
-				let enabled =
-					ui.ctx().pixels_per_point() != native_pixels_per_point;
+			if let Some(native_pixels_per_point) = info.native_pixels_per_point {
+				let enabled = ui.ctx().pixels_per_point() != native_pixels_per_point;
 				if ui
 					.add_enabled(enabled, egui::Button::new("Reset"))
 					.on_hover_text(format!(
@@ -256,7 +242,7 @@ impl BackendPanel {
 		}
 	}
 
-	fn run_mode_ui(&mut self, ui: &mut egui::Ui) {
+	fn run_mode_ui(&mut self, ui:&mut egui::Ui) {
 		ui.horizontal(|ui| {
 			let run_mode = &mut self.run_mode;
 			ui.label("Mode:");
@@ -267,14 +253,9 @@ impl BackendPanel {
 		});
 
 		if self.run_mode == RunMode::Continuous {
-			ui.label(format!(
-				"Repainting the UI each frame. FPS: {:.1}",
-				self.frame_history.fps()
-			));
+			ui.label(format!("Repainting the UI each frame. FPS: {:.1}", self.frame_history.fps()));
 		} else {
-			ui.label(
-				"Only running UI code when there are animations or input.",
-			);
+			ui.label("Only running UI code when there are animations or input.");
 
 			// Add a test for `request_repaint_after`, but only in debug
 			// builds to keep the noise down in the official demo.
@@ -284,23 +265,13 @@ impl BackendPanel {
 						ui.label("Frame number:");
 						ui.monospace(ui.ctx().frame_nr().to_string());
 					});
-					if ui
-						.button(
-							"Wait 2s, then request repaint after another 3s",
-						)
-						.clicked()
-					{
+					if ui.button("Wait 2s, then request repaint after another 3s").clicked() {
 						log::info!("Waiting 2s before requesting repaint...");
 						let ctx = ui.ctx().clone();
-						call_after_delay(
-							std::time::Duration::from_secs(2),
-							move || {
-								log::info!("Request a repaint in 3s...");
-								ctx.request_repaint_after(
-									std::time::Duration::from_secs(3),
-								);
-							},
-						);
+						call_after_delay(std::time::Duration::from_secs(2), move || {
+							log::info!("Request a repaint in 3s...");
+							ctx.request_repaint_after(std::time::Duration::from_secs(3));
+						});
 					}
 				});
 			}
@@ -309,7 +280,7 @@ impl BackendPanel {
 }
 
 #[cfg(not(target_arch = "wasm32"))]
-fn window_info_ui(ui: &mut egui::Ui, window_info: &eframe::WindowInfo) {
+fn window_info_ui(ui:&mut egui::Ui, window_info:&eframe::WindowInfo) {
 	let eframe::WindowInfo {
 		position,
 		fullscreen,
@@ -360,40 +331,32 @@ fn window_info_ui(ui: &mut egui::Ui, window_info: &eframe::WindowInfo) {
 #[cfg_attr(feature = "serde", derive(serde::Deserialize, serde::Serialize))]
 struct EguiWindows {
 	// egui stuff:
-	settings: bool,
-	inspection: bool,
-	memory: bool,
-	output_events: bool,
+	settings:bool,
+	inspection:bool,
+	memory:bool,
+	output_events:bool,
 
 	#[cfg_attr(feature = "serde", serde(skip))]
-	output_event_history: std::collections::VecDeque<egui::output::OutputEvent>,
+	output_event_history:std::collections::VecDeque<egui::output::OutputEvent>,
 }
 
 impl Default for EguiWindows {
-	fn default() -> Self {
-		EguiWindows::none()
-	}
+	fn default() -> Self { EguiWindows::none() }
 }
 
 impl EguiWindows {
 	fn none() -> Self {
 		Self {
-			settings: false,
-			inspection: false,
-			memory: false,
-			output_events: false,
-			output_event_history: Default::default(),
+			settings:false,
+			inspection:false,
+			memory:false,
+			output_events:false,
+			output_event_history:Default::default(),
 		}
 	}
 
-	fn checkboxes(&mut self, ui: &mut egui::Ui) {
-		let Self {
-			settings,
-			inspection,
-			memory,
-			output_events,
-			output_event_history: _,
-		} = self;
+	fn checkboxes(&mut self, ui:&mut egui::Ui) {
+		let Self { settings, inspection, memory, output_events, output_event_history: _ } = self;
 
 		ui.checkbox(settings, "🔧 Settings");
 		ui.checkbox(inspection, "🔍 Inspection");
@@ -401,14 +364,8 @@ impl EguiWindows {
 		ui.checkbox(output_events, "📤 Output Events");
 	}
 
-	fn windows(&mut self, ctx: &egui::Context) {
-		let Self {
-			settings,
-			inspection,
-			memory,
-			output_events,
-			output_event_history,
-		} = self;
+	fn windows(&mut self, ctx:&egui::Context) {
+		let Self { settings, inspection, memory, output_events, output_event_history } = self;
 
 		ctx.output(|o| {
 			for event in &o.events {
@@ -419,26 +376,20 @@ impl EguiWindows {
 			output_event_history.pop_front();
 		}
 
-		egui::Window::new("🔧 Settings").open(settings).vscroll(true).show(
-			ctx,
-			|ui| {
-				ctx.settings_ui(ui);
-			},
-		);
+		egui::Window::new("🔧 Settings").open(settings).vscroll(true).show(ctx, |ui| {
+			ctx.settings_ui(ui);
+		});
 
-		egui::Window::new("🔍 Inspection").open(inspection).vscroll(true).show(
-			ctx,
-			|ui| {
+		egui::Window::new("🔍 Inspection")
+			.open(inspection)
+			.vscroll(true)
+			.show(ctx, |ui| {
 				ctx.inspection_ui(ui);
-			},
-		);
+			});
 
-		egui::Window::new("📝 Memory").open(memory).resizable(false).show(
-			ctx,
-			|ui| {
-				ctx.memory_ui(ui);
-			},
-		);
+		egui::Window::new("📝 Memory").open(memory).resizable(false).show(ctx, |ui| {
+			ctx.memory_ui(ui);
+		});
 
 		egui::Window::new("📤 Output Events")
 			.open(output_events)
@@ -446,9 +397,9 @@ impl EguiWindows {
 			.default_width(520.0)
 			.show(ctx, |ui| {
 				ui.label(
-					"Recent output events from egui. \
-            These are emitted when you interact with widgets, or move focus between them with TAB. \
-            They can be hooked up to a screen reader on supported platforms.",
+					"Recent output events from egui. These are emitted when you interact with \
+					 widgets, or move focus between them with TAB. They can be hooked up to a \
+					 screen reader on supported platforms.",
 				);
 
 				ui.separator();
@@ -465,10 +416,7 @@ impl EguiWindows {
 // ----------------------------------------------------------------------------
 
 #[cfg(not(target_arch = "wasm32"))]
-fn call_after_delay(
-	delay: std::time::Duration,
-	f: impl FnOnce() + Send + 'static,
-) {
+fn call_after_delay(delay:std::time::Duration, f:impl FnOnce() + Send + 'static) {
 	std::thread::spawn(move || {
 		std::thread::sleep(delay);
 		f();
@@ -476,10 +424,7 @@ fn call_after_delay(
 }
 
 #[cfg(target_arch = "wasm32")]
-fn call_after_delay(
-	delay: std::time::Duration,
-	f: impl FnOnce() + Send + 'static,
-) {
+fn call_after_delay(delay:std::time::Duration, f:impl FnOnce() + Send + 'static) {
 	use wasm_bindgen::prelude::*;
 	let window = web_sys::window().unwrap();
 	let closure = Closure::once(f);
