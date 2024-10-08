@@ -1,5 +1,6 @@
 .DS_Store
-****/target_ra
+**/target
+**/target_ra
 **/target_wasm
 /.*.json
 /.vscode

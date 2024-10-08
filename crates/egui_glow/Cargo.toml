@@ -1,7 +1,7 @@
 [package]
 name = "egui_glow_tao"
 version = "0.23.0"
-authors = ["Emil Ernerfeldt <emil.ernerfeldt@gmail.com>"]
+authors = [ "Emil Ernerfeldt <emil.ernerfeldt@gmail.com>" ]
 description = "Bindings for using egui natively using the glow library"
 edition = "2021"
 rust-version = "1.65"
@@ -9,31 +9,31 @@ homepage = "https://github.com/emilk/egui/tree/master/crates/egui_glow"
 license = "MIT OR Apache-2.0"
 readme = "README.md"
 repository = "https://github.com/emilk/egui/tree/master/crates/egui_glow"
-categories = ["gui", "game-development"]
-keywords = ["glow", "egui", "gui", "gamedev"]
+categories = [ "gui", "game-development" ]
+keywords = [ "glow", "egui", "gui", "gamedev" ]
 include = [
-	"../LICENSE-APACHE",
-	"../LICENSE-MIT",
-	"**/*.rs",
-	"Cargo.toml",
-	"src/shader/*.glsl",
+  "../LICENSE-APACHE",
+  "../LICENSE-MIT",
+  "**/*.rs",
+  "Cargo.toml",
+  "src/shader/*.glsl"
 ]
 
 [package.metadata.docs.rs]
 all-features = true
 
 [features]
-default = []
-clipboard = ["egui-winit?/clipboard"]
-links = ["egui-winit?/links"]
-puffin = ["dep:puffin", "egui-winit?/puffin"]
-winit = ["egui-winit"]
+default = [ ]
+clipboard = [ "egui-winit?/clipboard" ]
+links = [ "egui-winit?/links" ]
+puffin = [ "dep:puffin", "egui-winit?/puffin" ]
+winit = [ "egui-winit" ]
 
 [dependencies]
-egui = { version = "0.22.0", default-features = false, features = ["bytemuck"] }
+egui = { version = "0.22.0", default-features = false, features = [ "bytemuck" ] }
 bytemuck = "1.7"
 glow = "0.12"
-log = { version = "0.4", features = ["std"] }
+log = { version = "0.4", features = [ "std" ] }
 memoffset = "0.6"
 document-features = { version = "0.2", optional = true }
 
@@ -42,7 +42,7 @@ egui-winit = { package = "egui-tao", version = "0.23.0", path = "../egui-winit",
 puffin = { version = "0.15", optional = true }
 
 [target."cfg(target_arch = \"wasm32\")".dependencies]
-web-sys = { version = "0.3", features = ["console"] }
+web-sys = { version = "0.3", features = [ "console" ] }
 wasm-bindgen = { version = "0.2" }
 
 [dev-dependencies]
@@ -52,4 +52,4 @@ glutin-winit = { package = "glutin_tao", version = "0.33.0", git = "https://gith
 
 [[example]]
 name = "pure_glow"
-required-features = ["winit", "egui/default_fonts"]
+required-features = [ "winit", "egui/default_fonts" ]
