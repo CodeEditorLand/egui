@@ -66,8 +66,10 @@ impl eframe::App for ColorTestApp {
                 ui.label(
                     "NOTE: Some old browsers stuck on WebGL1 without sRGB support will not pass the color test.",
                 );
+
                 ui.separator();
             }
+
             egui::ScrollArea::both().auto_shrink([false; 2]).show(ui, |ui| {
                 self.color_test.ui(ui);
             });
@@ -230,6 +232,7 @@ impl eframe::App for WrapApp {
         #[cfg(target_arch = "wasm32")]
         if let Some(anchor) = frame.info().web_info.location.hash.strip_prefix('#') {
             let anchor = Anchor::all().into_iter().find(|x| x.to_string() == anchor);
+
             if let Some(v) = anchor {
                 self.state.selected_anchor = v;
             }
@@ -242,8 +245,10 @@ impl eframe::App for WrapApp {
 
         egui::TopBottomPanel::top("wrap_app_top_bar").show(ctx, |ui| {
             egui::trace!(ui);
+
             ui.horizontal_wrapped(|ui| {
                 ui.visuals_mut().button_frame = false;
+
                 self.bar_contents(ui, frame);
             });
         });
@@ -294,6 +299,7 @@ impl WrapApp {
                 });
 
                 ui.separator();
+
                 self.backend_panel_contents(ui, frame);
             });
     }
@@ -310,12 +316,15 @@ impl WrapApp {
                 .clicked()
             {
                 ui.ctx().memory_mut(|mem| *mem = Default::default());
+
                 ui.close_menu();
             }
 
             if ui.button("Reset everything").clicked() {
                 self.state = Default::default();
+
                 ui.ctx().memory_mut(|mem| *mem = Default::default());
+
                 ui.close_menu();
             }
         });
@@ -323,6 +332,7 @@ impl WrapApp {
 
     fn show_selected_app(&mut self, ctx: &egui::Context, frame: &mut eframe::Frame) {
         let selected_anchor = self.state.selected_anchor;
+
         for (_name, anchor, app) in self.apps_iter_mut() {
             if anchor == selected_anchor || ctx.memory(|mem| mem.everything_is_visible()) {
                 app.update(ctx, frame);
@@ -347,17 +357,20 @@ impl WrapApp {
         ui.separator();
 
         let mut selected_anchor = self.state.selected_anchor;
+
         for (name, anchor, _app) in self.apps_iter_mut() {
             if ui
                 .selectable_label(selected_anchor == anchor, name)
                 .clicked()
             {
                 selected_anchor = anchor;
+
                 if frame.is_web() {
                     ui.output_mut(|o| o.open_url(format!("#{}", anchor)));
                 }
             }
         }
+
         self.state.selected_anchor = selected_anchor;
 
         ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
@@ -365,6 +378,7 @@ impl WrapApp {
                 // TODO(emilk): fix the overlap on small screens
                 if clock_button(ui, crate::seconds_since_midnight()).clicked() {
                     self.state.selected_anchor = Anchor::Clock;
+
                     if frame.is_web() {
                         ui.output_mut(|o| o.open_url("#clock"));
                     }
@@ -377,12 +391,14 @@ impl WrapApp {
 
     fn ui_file_drag_and_drop(&mut self, ctx: &egui::Context) {
         use egui::*;
+
         use std::fmt::Write as _;
 
         // Preview hovering files:
         if !ctx.input(|i| i.raw.hovered_files.is_empty()) {
             let text = ctx.input(|i| {
                 let mut text = "Dropping files:\n".to_owned();
+
                 for file in &i.raw.hovered_files {
                     if let Some(path) = &file.path {
                         write!(text, "\n{}", path.display()).ok();
@@ -392,6 +408,7 @@ impl WrapApp {
                         text += "\n???";
                     }
                 }
+
                 text
             });
 
@@ -399,7 +416,9 @@ impl WrapApp {
                 ctx.layer_painter(LayerId::new(Order::Foreground, Id::new("file_drop_target")));
 
             let screen_rect = ctx.screen_rect();
+
             painter.rect_filled(screen_rect, 0.0, Color32::from_black_alpha(192));
+
             painter.text(
                 screen_rect.center(),
                 Align2::CENTER_CENTER,
@@ -419,6 +438,7 @@ impl WrapApp {
         // Show dropped files (if any):
         if !self.dropped_files.is_empty() {
             let mut open = true;
+
             egui::Window::new("Dropped files")
                 .open(&mut open)
                 .show(ctx, |ui| {
@@ -430,12 +450,15 @@ impl WrapApp {
                         } else {
                             "???".to_owned()
                         };
+
                         if let Some(bytes) = &file.bytes {
                             write!(info, " ({} bytes)", bytes.len()).ok();
                         }
+
                         ui.label(info);
                     }
                 });
+
             if !open {
                 self.dropped_files.clear();
             }
@@ -445,6 +468,7 @@ impl WrapApp {
 
 fn clock_button(ui: &mut egui::Ui, seconds_since_midnight: f64) -> egui::Response {
     let time = seconds_since_midnight;
+
     let time = format!(
         "{:02}:{:02}:{:02}.{:02}",
         (time % (24.0 * 60.0 * 60.0) / 3600.0).floor(),

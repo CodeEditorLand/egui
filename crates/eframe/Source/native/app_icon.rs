@@ -84,6 +84,7 @@ fn set_app_icon_windows(icon_data: &IconData) -> AppIconStatus {
 
     // SAFETY: WinApi function without side-effects.
     let window_handle = unsafe { winuser::GetActiveWindow() };
+
     if window_handle.is_null() {
         // The Window isn't available yet. Try again later!
         return AppIconStatus::NotSetTryAgain;
@@ -106,6 +107,7 @@ fn set_app_icon_windows(icon_data: &IconData) -> AppIconStatus {
         // Instead we workaround this by creating a png which CreateIconFromResourceEx magically understands.
         // This is a pretty horrible hack as we spend a lot of time encoding, but at least the code is a lot shorter.
         let mut image_scaled_bytes: Vec<u8> = Vec::new();
+
         if image_scaled
             .write_to(
                 &mut std::io::Cursor::new(&mut image_scaled_bytes),
@@ -134,6 +136,7 @@ fn set_app_icon_windows(icon_data: &IconData) -> AppIconStatus {
         Ok(unscaled_image) => unscaled_image,
         Err(err) => {
             log::warn!("Invalid icon: {err}");
+
             return AppIconStatus::NotSetIgnored;
         }
     };
@@ -147,9 +150,12 @@ fn set_app_icon_windows(icon_data: &IconData) -> AppIconStatus {
     {
         // SAFETY: WinAPI getter function with no known side effects.
         let icon_size_big = unsafe { winuser::GetSystemMetrics(winuser::SM_CXICON) };
+
         let icon_big = create_hicon_with_scale(&unscaled_image, icon_size_big);
+
         if icon_big.is_null() {
             log::warn!("Failed to create HICON (for big icon) from embedded png data.");
+
             return AppIconStatus::NotSetIgnored; // We could try independently with the small icon but what's the point, it would look bad!
         } else {
             // SAFETY: Unsafe WinApi function, takes objects previously created with WinAPI, all checked for null prior.
@@ -166,9 +172,12 @@ fn set_app_icon_windows(icon_data: &IconData) -> AppIconStatus {
     {
         // SAFETY: WinAPI getter function with no known side effects.
         let icon_size_small = unsafe { winuser::GetSystemMetrics(winuser::SM_CXSMICON) };
+
         let icon_small = create_hicon_with_scale(&unscaled_image, icon_size_small);
+
         if icon_small.is_null() {
             log::warn!("Failed to create HICON (for small icon) from embedded png data.");
+
             return AppIconStatus::NotSetIgnored;
         } else {
             // SAFETY: Unsafe WinApi function, takes objects previously created with WinAPI, all checked for null prior.
@@ -196,6 +205,7 @@ fn set_title_and_icon_mac(title: &str, icon_data: Option<&IconData>) -> AppIconS
         base::{id, nil},
         foundation::{NSData, NSString},
     };
+
     use objc::{msg_send, sel, sel_impl};
 
     let png_bytes = if let Some(icon_data) = icon_data {
@@ -203,6 +213,7 @@ fn set_title_and_icon_mac(title: &str, icon_data: Option<&IconData>) -> AppIconS
             Ok(png_bytes) => Some(png_bytes),
             Err(err) => {
                 log::warn!("Failed to convert IconData to png: {err}");
+
                 return AppIconStatus::NotSetIgnored;
             }
         }
@@ -220,13 +231,17 @@ fn set_title_and_icon_mac(title: &str, icon_data: Option<&IconData>) -> AppIconS
                 png_bytes.as_ptr().cast::<std::ffi::c_void>(),
                 png_bytes.len() as u64,
             );
+
             let app_icon = NSImage::initWithData_(NSImage::alloc(nil), data);
+
             app.setApplicationIconImage_(app_icon);
         }
 
         // Change the title in the top bar - for python processes this would be again "python" otherwise.
         let main_menu = app.mainMenu();
+
         let app_menu: id = msg_send![main_menu.itemAtIndex_(0), submenu];
+
         app_menu.setTitle_(NSString::alloc(nil).init_str(title));
 
         // The title in the Dock apparently can't be changed.

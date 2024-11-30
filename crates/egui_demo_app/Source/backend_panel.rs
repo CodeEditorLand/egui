@@ -71,6 +71,7 @@ impl BackendPanel {
                 // Tell the backend to repaint as soon as possible
                 ctx.request_repaint();
             }
+
             RunMode::Reactive => {
                 // let the computer rest for a bit
             }
@@ -97,14 +98,17 @@ impl BackendPanel {
         ui.separator();
 
         ui.label("egui windows:");
+
         self.egui_windows.checkboxes(ui);
 
         ui.separator();
 
         {
             let mut debug_on_hover = ui.ctx().debug_on_hover();
+
             ui.checkbox(&mut debug_on_hover, "🐛 Debug on hover")
                 .on_hover_text("Show structure of the ui when you hover with the mouse");
+
             ui.ctx().set_debug_on_hover(debug_on_hover);
         }
 
@@ -112,14 +116,18 @@ impl BackendPanel {
         #[cfg(feature = "web_screen-reader")]
         {
             ui.separator();
+
             let mut screen_reader = ui.ctx().options(|o| o.screen_reader);
+
             ui.checkbox(&mut screen_reader, "🔈 Screen reader").on_hover_text("Experimental feature: checking this will turn on the screen reader on supported platforms");
+
             ui.ctx().options_mut(|o| o.screen_reader = screen_reader);
         }
 
         #[cfg(not(target_arch = "wasm32"))]
         {
             ui.separator();
+
             if ui.button("Quit").clicked() {
                 frame.close();
             }
@@ -138,22 +146,27 @@ impl BackendPanel {
     fn integration_ui(&mut self, ui: &mut egui::Ui, frame: &mut eframe::Frame) {
         ui.horizontal(|ui| {
             ui.spacing_mut().item_spacing.x = 0.0;
+
             ui.label("egui running inside ");
+
             ui.hyperlink_to(
                 "eframe",
                 "https://github.com/emilk/egui/tree/master/crates/eframe",
             );
+
             ui.label(".");
         });
 
         #[cfg(target_arch = "wasm32")]
         ui.collapsing("Web info (location)", |ui| {
             ui.style_mut().wrap = Some(false);
+
             ui.monospace(format!("{:#?}", frame.info().web_info.location));
         });
 
         // On web, the browser controls `pixels_per_point`.
         let integration_controls_pixels_per_point = frame.is_web();
+
         if !integration_controls_pixels_per_point {
             self.pixels_per_point_ui(ui, &frame.info());
         }
@@ -163,6 +176,7 @@ impl BackendPanel {
             ui.horizontal(|ui| {
                 {
                     let mut fullscreen = frame.info().window_info.fullscreen;
+
                     if ui
                         .checkbox(&mut fullscreen, "🗖 Fullscreen (F11)")
                         .on_hover_text("Fullscreen the window")
@@ -180,6 +194,7 @@ impl BackendPanel {
                     // frame.set_window_size(egui::vec2(375.0, 812.0)); // iPhone 12 mini
                     frame.set_window_size(egui::vec2(375.0, 667.0)); //  iPhone SE 2nd gen
                     frame.set_fullscreen(false);
+
                     ui.close_menu();
                 }
             });
@@ -221,6 +236,7 @@ impl BackendPanel {
             if response.drag_released() {
                 // We wait until mouse release to activate:
                 ui.ctx().set_pixels_per_point(*pixels_per_point);
+
                 reset = true;
             } else if !response.is_pointer_button_down_on() {
                 // When not dragging, show the current pixels_per_point so others can change it.
@@ -229,6 +245,7 @@ impl BackendPanel {
 
             if let Some(native_pixels_per_point) = info.native_pixels_per_point {
                 let enabled = ui.ctx().pixels_per_point() != native_pixels_per_point;
+
                 if ui
                     .add_enabled(enabled, egui::Button::new("Reset"))
                     .on_hover_text(format!(
@@ -250,9 +267,12 @@ impl BackendPanel {
     fn run_mode_ui(&mut self, ui: &mut egui::Ui) {
         ui.horizontal(|ui| {
             let run_mode = &mut self.run_mode;
+
             ui.label("Mode:");
+
             ui.radio_value(run_mode, RunMode::Reactive, "Reactive")
                 .on_hover_text("Repaint when there are animations or input (e.g. mouse movement)");
+
             ui.radio_value(run_mode, RunMode::Continuous, "Continuous")
                 .on_hover_text("Repaint everything each frame");
         });
@@ -271,16 +291,21 @@ impl BackendPanel {
                 ui.collapsing("More…", |ui| {
                     ui.horizontal(|ui| {
                         ui.label("Frame number:");
+
                         ui.monospace(ui.ctx().frame_nr().to_string());
                     });
+
                     if ui
                         .button("Wait 2s, then request repaint after another 3s")
                         .clicked()
                     {
                         log::info!("Waiting 2s before requesting repaint...");
+
                         let ctx = ui.ctx().clone();
+
                         call_after_delay(std::time::Duration::from_secs(2), move || {
                             log::info!("Request a repaint in 3s...");
+
                             ctx.request_repaint_after(std::time::Duration::from_secs(3));
                         });
                     }
@@ -307,33 +332,47 @@ fn window_info_ui(ui: &mut egui::Ui, window_info: &eframe::WindowInfo) {
         .show(ui, |ui| {
             if let Some(egui::Pos2 { x, y }) = position {
                 ui.label("Position:");
+
                 ui.monospace(format!("{x:.0}, {y:.0}"));
+
                 ui.end_row();
             }
 
             ui.label("Fullscreen:");
+
             ui.label(fullscreen.to_string());
+
             ui.end_row();
 
             ui.label("Minimized:");
+
             ui.label(minimized.to_string());
+
             ui.end_row();
 
             ui.label("Maximized:");
+
             ui.label(maximized.to_string());
+
             ui.end_row();
 
             ui.label("Focused:");
+
             ui.label(focused.to_string());
+
             ui.end_row();
 
             ui.label("Window size:");
+
             ui.monospace(format!("{x:.0} x {y:.0}", x = size.x, y = size.y));
+
             ui.end_row();
 
             if let Some(egui::Vec2 { x, y }) = monitor_size {
                 ui.label("Monitor size:");
+
                 ui.monospace(format!("{x:.0} x {y:.0}"));
+
                 ui.end_row();
             }
         });
@@ -380,8 +419,11 @@ impl EguiWindows {
         } = self;
 
         ui.checkbox(settings, "🔧 Settings");
+
         ui.checkbox(inspection, "🔍 Inspection");
+
         ui.checkbox(memory, "📝 Memory");
+
         ui.checkbox(output_events, "📤 Output Events");
     }
 
@@ -399,6 +441,7 @@ impl EguiWindows {
                 output_event_history.push_back(event.clone());
             }
         });
+
         while output_event_history.len() > 1000 {
             output_event_history.pop_front();
         }
@@ -454,6 +497,7 @@ impl EguiWindows {
 fn call_after_delay(delay: std::time::Duration, f: impl FnOnce() + Send + 'static) {
     std::thread::spawn(move || {
         std::thread::sleep(delay);
+
         f();
     });
 }
@@ -461,14 +505,19 @@ fn call_after_delay(delay: std::time::Duration, f: impl FnOnce() + Send + 'stati
 #[cfg(target_arch = "wasm32")]
 fn call_after_delay(delay: std::time::Duration, f: impl FnOnce() + Send + 'static) {
     use wasm_bindgen::prelude::*;
+
     let window = web_sys::window().unwrap();
+
     let closure = Closure::once(f);
+
     let delay_ms = delay.as_millis() as _;
+
     window
         .set_timeout_with_callback_and_timeout_and_arguments_0(
             closure.as_ref().unchecked_ref(),
             delay_ms,
         )
         .unwrap();
+
     closure.forget(); // We must forget it, or else the callback is canceled on drop
 }

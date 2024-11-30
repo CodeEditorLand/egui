@@ -59,13 +59,18 @@ impl WebRunner {
         let follow_system_theme = web_options.follow_system_theme;
 
         let mut runner = AppRunner::new(canvas_id, web_options, app_creator).await?;
+
         runner.warm_up();
+
         self.runner.replace(Some(runner));
 
         {
             events::install_canvas_events(self)?;
+
             events::install_document_events(self)?;
+
             events::install_window_events(self)?;
+
             super::text_agent::install_text_agent(self)?;
 
             if follow_system_theme {
@@ -94,6 +99,7 @@ impl WebRunner {
 
         if !events_to_unsubscribe.is_empty() {
             log::debug!("Unsubscribing from {} events", events_to_unsubscribe.len());
+
             for x in events_to_unsubscribe {
                 if let Err(err) = x.unsubscribe() {
                     log::warn!("Failed to unsubscribe from event: {err:?}");
@@ -117,9 +123,11 @@ impl WebRunner {
             // Unsubscribe from all events so that we don't get any more callbacks
             // that will try to access the poisoned runner.
             self.unsubscribe_from_all_events();
+
             None
         } else {
             let lock = self.runner.try_borrow_mut().ok()?;
+
             std::cell::RefMut::filter_map(lock, |lock| -> Option<&mut AppRunner> { lock.as_mut() })
                 .ok()
         }
@@ -155,6 +163,7 @@ impl WebRunner {
             if let Some(mut runner_lock) = runner_ref.try_lock() {
                 // Cast the event to the expected event type
                 let event = event.unchecked_into::<E>();
+
                 closure(event, &mut runner_lock);
             }
         }) as Box<dyn FnMut(web_sys::Event)>);
@@ -207,11 +216,15 @@ impl EventToUnsubscribe {
                     handle.event_name.as_str(),
                     handle.closure.as_ref().unchecked_ref(),
                 )?;
+
                 Ok(())
             }
+
             EventToUnsubscribe::IntervalHandle(handle) => {
                 let window = web_sys::window().unwrap();
+
                 window.clear_interval_with_handle(handle.handle);
+
                 Ok(())
             }
         }

@@ -48,6 +48,7 @@ impl EguiGlow {
         run_ui: impl FnMut(&egui::Context),
     ) -> std::time::Duration {
         let raw_input = self.egui_winit.take_egui_input(window);
+
         let egui::FullOutput {
             platform_output,
             repaint_after,
@@ -59,13 +60,16 @@ impl EguiGlow {
             .handle_platform_output(window, &self.egui_ctx, platform_output);
 
         self.shapes = shapes;
+
         self.textures_delta.append(textures_delta);
+
         repaint_after
     }
 
     /// Paint the results of the last call to [`Self::run`].
     pub fn paint(&mut self, window: &winit::window::Window) {
         let shapes = std::mem::take(&mut self.shapes);
+
         let mut textures_delta = std::mem::take(&mut self.textures_delta);
 
         for (id, image_delta) in textures_delta.set {
@@ -73,7 +77,9 @@ impl EguiGlow {
         }
 
         let clipped_primitives = self.egui_ctx.tessellate(shapes);
+
         let dimensions: [u32; 2] = window.inner_size().into();
+
         self.painter.paint_primitives(
             dimensions,
             self.egui_ctx.pixels_per_point(),

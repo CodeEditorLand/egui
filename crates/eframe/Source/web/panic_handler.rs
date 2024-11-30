@@ -17,7 +17,9 @@ impl PanicHandler {
         let handler = Self(Arc::new(Mutex::new(Default::default())));
 
         let handler_clone = handler.clone();
+
         let previous_hook = std::panic::take_hook();
+
         std::panic::set_hook(Box::new(move |panic_info| {
             let summary = PanicSummary::new(panic_info);
 
@@ -67,7 +69,9 @@ pub struct PanicSummary {
 impl PanicSummary {
     pub fn new(info: &std::panic::PanicInfo<'_>) -> Self {
         let message = info.to_string();
+
         let callstack = Error::new().stack();
+
         Self { message, callstack }
     }
 

@@ -15,7 +15,9 @@ struct EguiWebWindow(u32);
 unsafe impl raw_window_handle::HasRawWindowHandle for EguiWebWindow {
     fn raw_window_handle(&self) -> raw_window_handle::RawWindowHandle {
         let mut window_handle = raw_window_handle::WebWindowHandle::empty();
+
         window_handle.id = self.0;
+
         raw_window_handle::RawWindowHandle::Web(window_handle)
     }
 }
@@ -51,6 +53,7 @@ impl WebPainterWgpu {
         height_in_pixels: u32,
     ) -> Option<wgpu::TextureView> {
         let device = &render_state.device;
+
         self.depth_format.map(|depth_format| {
             device
                 .create_texture(&wgpu::TextureDescriptor {
@@ -89,6 +92,7 @@ impl WebPainterWgpu {
             // Don't use `create_surface_from_canvas`, but `create_surface` instead!
             let raw_window =
                 EguiWebWindow(egui::util::hash(&format!("egui on wgpu {canvas_id}")) as u32);
+
             canvas.set_attribute("data-raw-handle", &raw_window.0.to_string());
 
             #[allow(unsafe_code)]
@@ -99,6 +103,7 @@ impl WebPainterWgpu {
         .map_err(|err| format!("failed to create wgpu surface: {err}"))?;
 
         let depth_format = egui_wgpu::depth_format_from_bits(options.depth_buffer, 0);
+
         let render_state =
             RenderState::create(&options.wgpu_options, &instance, &surface, depth_format, 1)
                 .await
@@ -172,6 +177,7 @@ impl WebPainter for WebPainterWgpu {
 
         let user_cmd_bufs = {
             let mut renderer = render_state.renderer.write();
+
             for (id, image_delta) in &textures_delta.set {
                 renderer.update_texture(
                     &render_state.device,
@@ -192,6 +198,7 @@ impl WebPainter for WebPainterWgpu {
 
         // Resize surface if needed
         let is_zero_sized_surface = size_in_pixels[0] == 0 || size_in_pixels[1] == 0;
+
         let frame = if is_zero_sized_surface {
             None
         } else {
@@ -199,9 +206,12 @@ impl WebPainter for WebPainterWgpu {
                 || size_in_pixels[1] != self.surface_configuration.height
             {
                 self.surface_configuration.width = size_in_pixels[0];
+
                 self.surface_configuration.height = size_in_pixels[1];
+
                 self.surface
                     .configure(&render_state.device, &self.surface_configuration);
+
                 self.depth_texture_view = self.generate_depth_texture_view(
                     render_state,
                     size_in_pixels[0],
@@ -216,8 +226,10 @@ impl WebPainter for WebPainterWgpu {
                     SurfaceErrorAction::RecreateSurface => {
                         self.surface
                             .configure(&render_state.device, &self.surface_configuration);
+
                         return Ok(());
                     }
+
                     SurfaceErrorAction::SkipFrame => {
                         return Ok(());
                     }
@@ -226,9 +238,11 @@ impl WebPainter for WebPainterWgpu {
 
             {
                 let renderer = render_state.renderer.read();
+
                 let frame_view = frame
                     .texture
                     .create_view(&wgpu::TextureViewDescriptor::default());
+
                 let mut render_pass = encoder.begin_render_pass(&wgpu::RenderPassDescriptor {
                     color_attachments: &[Some(wgpu::RenderPassColorAttachment {
                         view: &frame_view,
@@ -264,6 +278,7 @@ impl WebPainter for WebPainterWgpu {
 
         {
             let mut renderer = render_state.renderer.write();
+
             for id in &textures_delta.free {
                 renderer.free_texture(id);
             }

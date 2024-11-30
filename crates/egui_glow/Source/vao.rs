@@ -35,10 +35,12 @@ impl VertexArrayObject {
     ) -> Self {
         let vao = if supports_vao(gl) {
             let vao = gl.create_vertex_array().unwrap();
+
             check_for_gl_error!(gl, "create_vertex_array");
 
             // Store state in the VAO:
             gl.bind_vertex_array(Some(vao));
+
             gl.bind_buffer(glow::ARRAY_BUFFER, Some(vbo));
 
             for attribute in &buffer_infos {
@@ -50,8 +52,11 @@ impl VertexArrayObject {
                     attribute.stride,
                     attribute.offset,
                 );
+
                 check_for_gl_error!(gl, "vertex_attrib_pointer_f32");
+
                 gl.enable_vertex_attrib_array(attribute.location);
+
                 check_for_gl_error!(gl, "enable_vertex_attrib_array");
             }
 
@@ -60,6 +65,7 @@ impl VertexArrayObject {
             Some(vao)
         } else {
             log::debug!("VAO not supported");
+
             None
         };
 
@@ -73,9 +79,11 @@ impl VertexArrayObject {
     pub(crate) unsafe fn bind(&self, gl: &glow::Context) {
         if let Some(vao) = self.vao {
             gl.bind_vertex_array(Some(vao));
+
             check_for_gl_error!(gl, "bind_vertex_array");
         } else {
             gl.bind_buffer(glow::ARRAY_BUFFER, Some(self.vbo));
+
             check_for_gl_error!(gl, "bind_buffer");
 
             for attribute in &self.buffer_infos {
@@ -87,8 +95,11 @@ impl VertexArrayObject {
                     attribute.stride,
                     attribute.offset,
                 );
+
                 check_for_gl_error!(gl, "vertex_attrib_pointer_f32");
+
                 gl.enable_vertex_attrib_array(attribute.location);
+
                 check_for_gl_error!(gl, "enable_vertex_attrib_array");
             }
         }
@@ -99,6 +110,7 @@ impl VertexArrayObject {
             gl.bind_vertex_array(None);
         } else {
             gl.bind_buffer(glow::ARRAY_BUFFER, None);
+
             for attribute in &self.buffer_infos {
                 gl.disable_vertex_attrib_array(attribute.location);
             }
@@ -110,9 +122,11 @@ impl VertexArrayObject {
 
 fn supports_vao(gl: &glow::Context) -> bool {
     const WEBGL_PREFIX: &str = "WebGL ";
+
     const OPENGL_ES_PREFIX: &str = "OpenGL ES ";
 
     let version_string = unsafe { gl.get_parameter_string(glow::VERSION) };
+
     log::debug!("GL version: {:?}.", version_string);
 
     // Examples:
@@ -121,10 +135,13 @@ fn supports_vao(gl: &glow::Context) -> bool {
 
     if let Some(pos) = version_string.rfind(WEBGL_PREFIX) {
         let version_str = &version_string[pos + WEBGL_PREFIX.len()..];
+
         if version_str.contains("1.0") {
             // need to test OES_vertex_array_object .
             let supported_extensions = gl.supported_extensions();
+
             log::debug!("Supported OpenGL extensions: {:?}", supported_extensions);
+
             supported_extensions.contains("OES_vertex_array_object")
                 || supported_extensions.contains("GL_OES_vertex_array_object")
         } else {
@@ -135,7 +152,9 @@ fn supports_vao(gl: &glow::Context) -> bool {
         if version_string.contains("2.0") {
             // need to test OES_vertex_array_object .
             let supported_extensions = gl.supported_extensions();
+
             log::debug!("Supported OpenGL extensions: {:?}", supported_extensions);
+
             supported_extensions.contains("OES_vertex_array_object")
                 || supported_extensions.contains("GL_OES_vertex_array_object")
         } else {
@@ -147,7 +166,9 @@ fn supports_vao(gl: &glow::Context) -> bool {
             // I found APPLE_vertex_array_object , GL_ATI_vertex_array_object ,ARB_vertex_array_object
             // but APPLE's and ATI's very old extension.
             let supported_extensions = gl.supported_extensions();
+
             log::debug!("Supported OpenGL extensions: {:?}", supported_extensions);
+
             supported_extensions.contains("ARB_vertex_array_object")
                 || supported_extensions.contains("GL_ARB_vertex_array_object")
         } else {

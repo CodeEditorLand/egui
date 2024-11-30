@@ -2,7 +2,9 @@ use super::{canvas_element, canvas_origin, AppRunner};
 
 pub fn pos_from_mouse_event(canvas_id: &str, event: &web_sys::MouseEvent) -> egui::Pos2 {
     let canvas = canvas_element(canvas_id).unwrap();
+
     let rect = canvas.get_bounding_client_rect();
+
     egui::Pos2 {
         x: event.client_x() as f32 - rect.left() as f32,
         y: event.client_y() as f32 - rect.top() as f32,
@@ -48,6 +50,7 @@ pub fn pos_from_touch_event(
         .or_else(|| event.touches().get(0))
         .map_or(Default::default(), |touch| {
             *touch_id_for_pos = Some(egui::TouchId::from(touch.identifier()));
+
             pos_from_touch(canvas_origin(canvas_id), &touch)
         })
 }
@@ -61,6 +64,7 @@ fn pos_from_touch(canvas_origin: egui::Pos2, touch: &web_sys::Touch) -> egui::Po
 
 pub fn push_touches(runner: &mut AppRunner, phase: egui::TouchPhase, event: &web_sys::TouchEvent) {
     let canvas_origin = canvas_origin(runner.canvas_id());
+
     for touch_idx in 0..event.changed_touches().length() {
         if let Some(touch) = event.changed_touches().item(touch_idx) {
             runner.input.raw.events.push(egui::Event::Touch {
@@ -78,6 +82,7 @@ pub fn push_touches(runner: &mut AppRunner, phase: egui::TouchPhase, event: &web
 /// a real text input or the name of a key.
 pub fn should_ignore_key(key: &str) -> bool {
     let is_function_key = key.starts_with('F') && key.len() > 1;
+
     is_function_key
         || matches!(
             key,

@@ -103,16 +103,22 @@ impl eframe::App for Custom3d {
                 .show(ui, |ui| {
                     ui.horizontal(|ui| {
                         ui.spacing_mut().item_spacing.x = 0.0;
+
                         ui.label("The triangle is being painted using ");
+
                         ui.hyperlink_to("WGPU", "https://wgpu.rs");
+
                         ui.label(" (Portable Rust graphics API awesomeness)");
                     });
+
                     ui.label("It's not a very impressive demo, but it shows you can embed 3D inside of egui.");
 
                     egui::Frame::canvas(ui.style()).show(ui, |ui| {
                         self.custom_painting(ui);
                     });
+
                     ui.label("Drag to rotate!");
+
                     ui.add(egui_demo_lib::egui_github_link_file!());
                 });
         });
@@ -145,11 +151,14 @@ impl Custom3d {
         let cb = egui_wgpu::CallbackFn::new()
             .prepare(move |device, queue, _encoder, paint_callback_resources| {
                 let resources: &TriangleRenderResources = paint_callback_resources.get().unwrap();
+
                 resources.prepare(device, queue, angle);
+
                 Vec::new()
             })
             .paint(move |_info, render_pass, paint_callback_resources| {
                 let resources: &TriangleRenderResources = paint_callback_resources.get().unwrap();
+
                 resources.paint(render_pass);
             });
 
@@ -181,7 +190,9 @@ impl TriangleRenderResources {
     fn paint<'rp>(&'rp self, render_pass: &mut wgpu::RenderPass<'rp>) {
         // Draw our triangle!
         render_pass.set_pipeline(&self.pipeline);
+
         render_pass.set_bind_group(0, &self.bind_group, &[]);
+
         render_pass.draw(0..3, 0..1);
     }
 }

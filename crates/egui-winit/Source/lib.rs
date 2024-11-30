@@ -29,6 +29,7 @@ pub fn native_pixels_per_point(window: &winit::window::Window) -> f32 {
 
 pub fn screen_size_in_pixels(window: &winit::window::Window) -> egui::Vec2 {
     let size = window.inner_size();
+
     egui::vec2(size.width as f32, size.height as f32)
 }
 
@@ -144,6 +145,7 @@ impl State {
     /// [`winit::event::WindowEvent::ScaleFactorChanged`] events.
     pub fn set_pixels_per_point(&mut self, pixels_per_point: f32) {
         self.egui_input.pixels_per_point = Some(pixels_per_point);
+
         self.current_pixels_per_point = pixels_per_point;
     }
 
@@ -172,7 +174,9 @@ impl State {
         // See: https://github.com/rust-windowing/winit/issues/208
         // This solves an issue where egui window positions would be changed when minimizing on Windows.
         let screen_size_in_pixels = screen_size_in_pixels(window);
+
         let screen_size_in_points = screen_size_in_pixels / pixels_per_point;
+
         self.egui_input.screen_rect =
             if screen_size_in_points.x > 0.0 && screen_size_in_points.y > 0.0 {
                 Some(egui::Rect::from_min_size(
@@ -195,40 +199,53 @@ impl State {
         event: &winit::event::WindowEvent<'_>,
     ) -> EventResponse {
         use winit::event::WindowEvent;
+
         match event {
             WindowEvent::ScaleFactorChanged { scale_factor, .. } => {
                 let pixels_per_point = *scale_factor as f32;
+
                 self.egui_input.pixels_per_point = Some(pixels_per_point);
+
                 self.current_pixels_per_point = pixels_per_point;
+
                 EventResponse {
                     repaint: true,
                     consumed: false,
                 }
             }
+
             WindowEvent::MouseInput { state, button, .. } => {
                 self.on_mouse_button_input(*state, *button);
+
                 EventResponse {
                     repaint: true,
                     consumed: egui_ctx.wants_pointer_input(),
                 }
             }
+
             WindowEvent::MouseWheel { delta, .. } => {
                 self.on_mouse_wheel(*delta);
+
                 EventResponse {
                     repaint: true,
                     consumed: egui_ctx.wants_pointer_input(),
                 }
             }
+
             WindowEvent::CursorMoved { position, .. } => {
                 self.on_cursor_moved(*position);
+
                 EventResponse {
                     repaint: true,
                     consumed: egui_ctx.is_using_pointer(),
                 }
             }
+
             WindowEvent::CursorLeft { .. } => {
                 self.pointer_pos_in_points = None;
+
                 self.egui_input.events.push(egui::Event::PointerGone);
+
                 EventResponse {
                     repaint: true,
                     consumed: false,
@@ -237,6 +254,7 @@ impl State {
             // WindowEvent::TouchpadPressure {device_id, pressure, stage, ..  } => {} // TODO
             WindowEvent::Touch(touch) => {
                 self.on_touch(touch);
+
                 let consumed = match touch.phase {
                     winit::event::TouchPhase::Started
                     | winit::event::TouchPhase::Ended
@@ -244,11 +262,13 @@ impl State {
                     winit::event::TouchPhase::Moved => egui_ctx.is_using_pointer(),
                     _ => unreachable!()
                 };
+
                 EventResponse {
                     repaint: true,
                     consumed,
                 }
             }
+
             WindowEvent::ReceivedImeText(ch) => {
                 // On Mac we get here when the user presses Cmd-C (copy), ctrl-W, etc.
                 // We need to ignore these characters that are side-effects of commands.
@@ -259,75 +279,96 @@ impl State {
                     self.egui_input
                         .events
                         .push(egui::Event::Text(ch.to_string()));
+
                     egui_ctx.wants_keyboard_input()
                 } else {
                     false
                 };
+
                 EventResponse {
                     repaint: true,
                     consumed,
                 }
             }
+
             WindowEvent::KeyboardInput { event, .. } => {
                 self.on_keyboard_input(event);
+
                 let consumed = egui_ctx.wants_keyboard_input()
                     || event.physical_key == winit::keyboard::KeyCode::Tab;
+
                 EventResponse {
                     repaint: true,
                     consumed,
                 }
             }
+
             WindowEvent::Focused(focused) => {
                 self.egui_input.focused = *focused;
                 // We will not be given a KeyboardInput event when the modifiers are released while
                 // the window does not have focus. Unset all modifier state to be safe.
                 self.egui_input.modifiers = egui::Modifiers::default();
+
                 self.egui_input
                     .events
                     .push(egui::Event::WindowFocused(*focused));
+
                 EventResponse {
                     repaint: true,
                     consumed: false,
                 }
             }
+
             WindowEvent::HoveredFile(path) => {
                 self.egui_input.hovered_files.push(egui::HoveredFile {
                     path: Some(path.clone()),
                     ..Default::default()
                 });
+
                 EventResponse {
                     repaint: true,
                     consumed: false,
                 }
             }
+
             WindowEvent::HoveredFileCancelled => {
                 self.egui_input.hovered_files.clear();
+
                 EventResponse {
                     repaint: true,
                     consumed: false,
                 }
             }
+
             WindowEvent::DroppedFile(path) => {
                 self.egui_input.hovered_files.clear();
+
                 self.egui_input.dropped_files.push(egui::DroppedFile {
                     path: Some(path.clone()),
                     ..Default::default()
                 });
+
                 EventResponse {
                     repaint: true,
                     consumed: false,
                 }
             }
+
             WindowEvent::ModifiersChanged(state) => {
                 self.egui_input.modifiers.alt = state.alt_key();
+
                 self.egui_input.modifiers.ctrl = state.control_key();
+
                 self.egui_input.modifiers.shift = state.shift_key();
+
                 self.egui_input.modifiers.mac_cmd = cfg!(target_os = "macos") && state.super_key();
+
                 self.egui_input.modifiers.command = if cfg!(target_os = "macos") {
                     state.super_key()
                 } else {
                     state.control_key()
                 };
+
                 EventResponse {
                     repaint: true,
                     consumed: false,
@@ -372,6 +413,7 @@ impl State {
             //         consumed: egui_ctx.wants_pointer_input(),
             //     }
             // }
+
             _ => unreachable!()
         }
     }
@@ -436,6 +478,7 @@ impl State {
             pos_in_pixels.x as f32 / self.pixels_per_point(),
             pos_in_pixels.y as f32 / self.pixels_per_point(),
         );
+
         self.pointer_pos_in_points = Some(pos_in_points);
 
         if self.simulate_touch_screen {
@@ -495,16 +538,20 @@ impl State {
                     self.pointer_touch_id = Some(touch.id);
                     // First move the pointer to the right location
                     self.on_cursor_moved(touch.location);
+
                     self.on_mouse_button_input(
                         winit::event::ElementState::Pressed,
                         winit::event::MouseButton::Left,
                     );
                 }
+
                 winit::event::TouchPhase::Moved => {
                     self.on_cursor_moved(touch.location);
                 }
+
                 winit::event::TouchPhase::Ended => {
                     self.pointer_touch_id = None;
+
                     self.on_mouse_button_input(
                         winit::event::ElementState::Released,
                         winit::event::MouseButton::Left,
@@ -512,13 +559,18 @@ impl State {
                     // The pointer should vanish completely to not get any
                     // hover effects
                     self.pointer_pos_in_points = None;
+
                     self.egui_input.events.push(egui::Event::PointerGone);
                 }
+
                 winit::event::TouchPhase::Cancelled => {
                     self.pointer_touch_id = None;
+
                     self.pointer_pos_in_points = None;
+
                     self.egui_input.events.push(egui::Event::PointerGone);
                 }
+
                 _ => unreachable!(),
             }
         }
@@ -530,6 +582,7 @@ impl State {
                 winit::event::MouseScrollDelta::LineDelta(x, y) => {
                     (egui::MouseWheelUnit::Line, egui::vec2(x, y))
                 }
+
                 winit::event::MouseScrollDelta::PixelDelta(winit::dpi::PhysicalPosition {
                     x,
                     y,
@@ -539,27 +592,33 @@ impl State {
                 ),
                 _ => unreachable!(),
             };
+
             let modifiers = self.egui_input.modifiers;
+
             self.egui_input.events.push(egui::Event::MouseWheel {
                 unit,
                 delta,
                 modifiers,
             });
         }
+
         let delta = match delta {
             winit::event::MouseScrollDelta::LineDelta(x, y) => {
                 let points_per_scroll_line = 50.0; // Scroll speed decided by consensus: https://github.com/emilk/egui/issues/461
                 egui::vec2(x, y) * points_per_scroll_line
             }
+
             winit::event::MouseScrollDelta::PixelDelta(delta) => {
                 egui::vec2(delta.x as f32, delta.y as f32) / self.pixels_per_point()
             }
+
             _ => unreachable!(),
         };
 
         if self.egui_input.modifiers.ctrl || self.egui_input.modifiers.command {
             // Treat as zoom instead:
             let factor = (delta.y / 200.0).exp();
+
             self.egui_input.events.push(egui::Event::Zoom(factor));
         } else if self.egui_input.modifiers.shift {
             // Treat as horizontal scrolling.
@@ -574,6 +633,7 @@ impl State {
 
     fn on_keyboard_input(&mut self, input: &winit::event::KeyEvent) {
         let keycode = input.physical_key;
+
         let pressed = input.state == winit::event::ElementState::Pressed;
 
         if pressed {
@@ -586,6 +646,7 @@ impl State {
             } else if is_paste_command(self.egui_input.modifiers, keycode) {
                 if let Some(contents) = self.clipboard.get() {
                     let contents = contents.replace("\r\n", "\n");
+
                     if !contents.is_empty() {
                         self.egui_input.events.push(egui::Event::Paste(contents));
                     }
@@ -627,6 +688,7 @@ impl State {
             #[cfg(feature = "accesskit")]
             accesskit_update,
         } = platform_output;
+
         self.current_pixels_per_point = egui_ctx.pixels_per_point(); // someone can have changed it to scale the UI
 
         self.set_cursor_icon(window, cursor_icon);
@@ -659,11 +721,13 @@ impl State {
         }
 
         let is_pointer_in_window = self.pointer_pos_in_points.is_some();
+
         if is_pointer_in_window {
             self.current_cursor_icon = Some(cursor_icon);
 
             if let Some(winit_cursor_icon) = translate_cursor(cursor_icon) {
                 window.set_cursor_visible(true);
+
                 window.set_cursor_icon(winit_cursor_icon);
             } else {
                 window.set_cursor_visible(false);
@@ -734,6 +798,7 @@ fn translate_mouse_button(button: winit::event::MouseButton) -> Option<egui::Poi
 
 fn translate_virtual_key_code(key: winit::keyboard::KeyCode) -> Option<egui::Key> {
     use egui::Key;
+
     use winit::keyboard::KeyCode;
 
     Some(match key {

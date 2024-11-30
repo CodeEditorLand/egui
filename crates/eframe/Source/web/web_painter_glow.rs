@@ -24,6 +24,7 @@ impl WebPainterGlow {
 
         let (gl, shader_prefix) =
             init_glow_context_from_canvas(&canvas, options.webgl_context_option)?;
+
         let gl = std::sync::Arc::new(gl);
 
         let painter = egui_glow::Painter::new(gl, shader_prefix, None)
@@ -60,6 +61,7 @@ impl WebPainter for WebPainterGlow {
         }
 
         egui_glow::painter::clear(self.painter.gl(), canvas_dimension, clear_color);
+
         self.painter
             .paint_primitives(canvas_dimension, pixels_per_point, clipped_primitives);
 
@@ -106,6 +108,7 @@ fn init_webgl1(canvas: &HtmlCanvasElement) -> Option<(glow::Context, &'static st
         .expect("Failed to query about WebGL2 context");
 
     let gl1_ctx = gl1_ctx?;
+
     log::debug!("WebGL1 selected.");
 
     let gl1_ctx = gl1_ctx
@@ -130,12 +133,15 @@ fn init_webgl2(canvas: &HtmlCanvasElement) -> Option<(glow::Context, &'static st
         .expect("Failed to query about WebGL2 context");
 
     let gl2_ctx = gl2_ctx?;
+
     log::debug!("WebGL2 selected.");
 
     let gl2_ctx = gl2_ctx
         .dyn_into::<web_sys::WebGl2RenderingContext>()
         .unwrap();
+
     let gl = glow::Context::from_webgl2_context(gl2_ctx);
+
     let shader_prefix = "";
 
     Some((gl, shader_prefix))

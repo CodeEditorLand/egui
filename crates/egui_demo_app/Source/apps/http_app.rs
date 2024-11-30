@@ -17,6 +17,7 @@ struct Resource {
 impl Resource {
     fn from_response(ctx: &egui::Context, response: ehttp::Response) -> Self {
         let content_type = response.content_type().unwrap_or_default();
+
         let image = if content_type.starts_with("image/") {
             RetainedImage::from_image_bytes(&response.url, &response.bytes).ok()
         } else {
@@ -24,7 +25,9 @@ impl Resource {
         };
 
         let text = response.text();
+
         let colored_text = text.and_then(|text| syntax_highlighting(ctx, &response, text));
+
         let text = text.map(|text| text.to_owned());
 
         Self {
@@ -57,6 +60,7 @@ impl eframe::App for HttpApp {
     fn update(&mut self, ctx: &egui::Context, frame: &mut eframe::Frame) {
         egui::TopBottomPanel::bottom("http_bottom").show(ctx, |ui| {
             let layout = egui::Layout::top_down(egui::Align::Center).with_main_justify(true);
+
             ui.allocate_ui_with_layout(ui.available_size(), layout, |ui| {
                 ui.add(egui_demo_lib::egui_github_link_file!())
             })
@@ -67,20 +71,28 @@ impl eframe::App for HttpApp {
 
             ui.horizontal_wrapped(|ui| {
                 ui.spacing_mut().item_spacing.x = 0.0;
+
                 ui.label("HTTP requests made using ");
+
                 ui.hyperlink_to("ehttp", "https://www.github.com/emilk/ehttp");
+
                 ui.label(".");
             });
 
             if trigger_fetch {
                 let ctx = ctx.clone();
+
                 let (sender, promise) = Promise::new();
+
                 let request = ehttp::Request::get(&self.url);
+
                 ehttp::fetch(request, move |response| {
                     ctx.request_repaint(); // wake up UI thread
                     let resource = response.map(|response| Resource::from_response(&ctx, response));
+
                     sender.send(resource);
                 });
+
                 self.promise = Some(promise);
             }
 
@@ -92,6 +104,7 @@ impl eframe::App for HttpApp {
                         Ok(resource) => {
                             ui_resource(ui, resource);
                         }
+
                         Err(error) => {
                             // This should only happen if the fetch API isn't available or something similar.
                             ui.colored_label(
@@ -113,6 +126,7 @@ fn ui_url(ui: &mut egui::Ui, frame: &mut eframe::Frame, url: &mut String) -> boo
 
     ui.horizontal(|ui| {
         ui.label("URL:");
+
         trigger_fetch |= ui
             .add(egui::TextEdit::singleline(url).desired_width(f32::INFINITY))
             .lost_focus();
@@ -128,12 +142,16 @@ fn ui_url(ui: &mut egui::Ui, frame: &mut eframe::Frame, url: &mut String) -> boo
                 "https://raw.githubusercontent.com/emilk/egui/master/{}",
                 file!()
             );
+
             trigger_fetch = true;
         }
+
         if ui.button("Random image").clicked() {
             let seed = ui.input(|i| i.time);
+
             let side = 640;
             *url = format!("https://picsum.photos/seed/{}/{}", seed, side);
+
             trigger_fetch = true;
         }
     });
@@ -150,14 +168,17 @@ fn ui_resource(ui: &mut egui::Ui, resource: &Resource) {
     } = resource;
 
     ui.monospace(format!("url:          {}", response.url));
+
     ui.monospace(format!(
         "status:       {} ({})",
         response.status, response.status_text
     ));
+
     ui.monospace(format!(
         "content-type: {}",
         response.content_type().unwrap_or_default()
     ));
+
     ui.monospace(format!(
         "size:         {:.1} kB",
         response.bytes.len() as f32 / 1000.0
@@ -176,7 +197,9 @@ fn ui_resource(ui: &mut egui::Ui, resource: &Resource) {
                         .show(ui, |ui| {
                             for header in &response.headers {
                                 ui.label(header.0);
+
                                 ui.label(header.1);
+
                                 ui.end_row();
                             }
                         })
@@ -186,15 +209,19 @@ fn ui_resource(ui: &mut egui::Ui, resource: &Resource) {
 
             if let Some(text) = &text {
                 let tooltip = "Click to copy the response body";
+
                 if ui.button("📋").on_hover_text(tooltip).clicked() {
                     ui.output_mut(|o| o.copied_text = text.clone());
                 }
+
                 ui.separator();
             }
 
             if let Some(image) = image {
                 let mut size = image.size_vec2();
+
                 size *= (ui.available_width() / size.x).min(1.0);
+
                 image.show_size(ui, size);
             } else if let Some(colored_text) = colored_text {
                 colored_text.ui(ui);
@@ -224,8 +251,11 @@ fn syntax_highlighting(
     text: &str,
 ) -> Option<ColoredText> {
     let extension_and_rest: Vec<&str> = response.url.rsplitn(2, '.').collect();
+
     let extension = extension_and_rest.get(0)?;
+
     let theme = crate::syntax_highlighting::CodeTheme::from_style(&ctx.style());
+
     Some(ColoredText(crate::syntax_highlighting::highlight(
         ctx, &theme, text, extension,
     )))
@@ -244,11 +274,14 @@ impl ColoredText {
             // Selectable text:
             let mut layouter = |ui: &egui::Ui, _string: &str, wrap_width: f32| {
                 let mut layout_job = self.0.clone();
+
                 layout_job.wrap.max_width = wrap_width;
+
                 ui.fonts(|f| f.layout_job(layout_job))
             };
 
             let mut text = self.0.text.as_str();
+
             ui.add(
                 egui::TextEdit::multiline(&mut text)
                     .font(egui::TextStyle::Monospace)
@@ -257,9 +290,13 @@ impl ColoredText {
             );
         } else {
             let mut job = self.0.clone();
+
             job.wrap.max_width = ui.available_width();
+
             let galley = ui.fonts(|f| f.layout_job(job));
+
             let (response, painter) = ui.allocate_painter(galley.size(), egui::Sense::hover());
+
             painter.add(egui::Shape::galley(response.rect.min, galley));
         }
     }

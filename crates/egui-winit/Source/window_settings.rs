@@ -16,6 +16,7 @@ pub struct WindowSettings {
 impl WindowSettings {
     pub fn from_display(window: &winit::window::Window) -> Self {
         let inner_size_points = window.inner_size().to_logical::<f32>(window.scale_factor());
+
         let position = if cfg!(macos) {
             // MacOS uses inner position when positioning windows.
             window
@@ -105,9 +106,11 @@ impl WindowSettings {
             } else {
                 return; // no monitors 🤷
             };
+
             for monitor in monitors {
                 let monitor_x_range = (monitor.position().x - inner_size_points.x as i32)
                     ..(monitor.position().x + monitor.size().width as i32);
+
                 let monitor_y_range = (monitor.position().y - inner_size_points.y as i32)
                     ..(monitor.position().y + monitor.size().height as i32);
 
@@ -124,10 +127,12 @@ impl WindowSettings {
                 inner_size_pixels +=
                     egui::Vec2::new(0.0, 32.0 * active_monitor.scale_factor() as f32);
             }
+
             let monitor_position = egui::Pos2::new(
                 active_monitor.position().x as f32,
                 active_monitor.position().y as f32,
             );
+
             let monitor_size = egui::Vec2::new(
                 active_monitor.size().width as f32,
                 active_monitor.size().height as f32,

@@ -816,6 +816,7 @@ impl Frame {
     #[doc(alias = "quit")]
     pub fn close(&mut self) {
         log::debug!("eframe_tao::Frame::close called");
+
         self.output.close = true;
     }
 
@@ -865,6 +866,7 @@ impl Frame {
     #[cfg(not(target_arch = "wasm32"))]
     pub fn set_window_size(&mut self, size: egui::Vec2) {
         self.output.window_size = Some(size);
+
         self.info.window_info.size = size; // so that subsequent calls see the updated value
     }
 
@@ -886,6 +888,7 @@ impl Frame {
     #[cfg(not(target_arch = "wasm32"))]
     pub fn set_fullscreen(&mut self, fullscreen: bool) {
         self.output.fullscreen = Some(fullscreen);
+
         self.info.window_info.fullscreen = fullscreen; // so that subsequent calls see the updated value
     }
 
@@ -893,6 +896,7 @@ impl Frame {
     #[cfg(not(target_arch = "wasm32"))]
     pub fn set_window_pos(&mut self, pos: egui::Pos2) {
         self.output.window_pos = Some(pos);
+
         self.info.window_info.position = Some(pos); // so that subsequent calls see the updated value
     }
 
@@ -926,9 +930,12 @@ impl Frame {
     pub fn set_centered(&mut self) {
         if let Some(monitor_size) = self.info.window_info.monitor_size {
             let inner_size = self.info.window_info.size;
+
             if monitor_size.x > 1.0 && monitor_size.y > 1.0 {
                 let x = (monitor_size.x - inner_size.x) / 2.0;
+
                 let y = (monitor_size.y - inner_size.y) / 2.0;
+
                 self.set_window_pos(egui::Pos2 { x, y });
             }
         }
@@ -1105,6 +1112,7 @@ pub fn get_value<T: serde::de::DeserializeOwned>(storage: &dyn Storage, key: &st
             Ok(value) => Some(value),
             Err(err) => {
                 log::warn!("Failed to decode RON: {err}");
+
                 None
             }
         })

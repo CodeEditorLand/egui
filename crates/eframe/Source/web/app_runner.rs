@@ -50,15 +50,19 @@ impl AppRunner {
             cpu_usage: None,
             native_pixels_per_point: Some(super::native_pixels_per_point()),
         };
+
         let storage = LocalStorage::default();
 
         let egui_ctx = egui::Context::default();
+
         egui_ctx.set_os(egui::os::OperatingSystem::from_user_agent(
             &super::user_agent().unwrap_or_default(),
         ));
+
         super::load_memory(&egui_ctx);
 
         let theme = system_theme.unwrap_or(web_options.default_theme);
+
         egui_ctx.set_visuals(theme.egui_visuals());
 
         let app = app_creator(&epi::CreationContext {
@@ -92,6 +96,7 @@ impl AppRunner {
         let needs_repaint: std::sync::Arc<NeedRepaint> = Default::default();
         {
             let needs_repaint = needs_repaint.clone();
+
             egui_ctx.set_request_repaint_callback(move |info| {
                 needs_repaint.repaint_after(info.after.as_secs_f64());
             });
@@ -133,6 +138,7 @@ impl AppRunner {
 
     pub fn auto_save_if_needed(&mut self) {
         let time_since_last_save = now_sec() - self.last_save_time;
+
         if time_since_last_save > self.app.auto_save_interval().as_secs_f64() {
             self.save();
         }
@@ -142,9 +148,11 @@ impl AppRunner {
         if self.app.persist_egui_memory() {
             super::save_memory(&self.egui_ctx);
         }
+
         if let Some(storage) = self.frame.storage_mut() {
             self.app.save(storage);
         }
+
         self.last_save_time = now_sec();
     }
 
@@ -155,9 +163,12 @@ impl AppRunner {
     pub fn warm_up(&mut self) {
         if self.app.warm_up_enabled() {
             let saved_memory: egui::Memory = self.egui_ctx.memory(|m| m.clone());
+
             self.egui_ctx
                 .memory_mut(|m| m.set_everything_is_visible(true));
+
             self.logic();
+
             self.egui_ctx.memory_mut(|m| *m = saved_memory); // We don't want to remember that windows were huge.
             self.egui_ctx.clear_animations();
         }
@@ -165,6 +176,7 @@ impl AppRunner {
 
     pub fn destroy(mut self) {
         log::debug!("Destroying AppRunner");
+
         self.painter.destroy();
     }
 
@@ -175,12 +187,15 @@ impl AppRunner {
         let frame_start = now_sec();
 
         super::resize_canvas_to_screen_size(self.canvas_id(), self.app.max_size_points());
+
         let canvas_size = super::canvas_size_in_points(self.canvas_id());
+
         let raw_input = self.input.new_frame(canvas_size);
 
         let full_output = self.egui_ctx.run(raw_input, |egui_ctx| {
             self.app.update(egui_ctx, &mut self.frame);
         });
+
         let egui::FullOutput {
             platform_output,
             repaint_after,
@@ -189,11 +204,14 @@ impl AppRunner {
         } = full_output;
 
         self.handle_platform_output(platform_output);
+
         self.textures_delta.append(textures_delta);
+
         let clipped_primitives = self.egui_ctx.tessellate(shapes);
 
         {
             let app_output = self.frame.take_app_output();
+
             let epi::backend::AppOutput {} = app_output;
         }
 
@@ -234,6 +252,7 @@ impl AppRunner {
         } = platform_output;
 
         super::set_cursor_icon(cursor_icon);
+
         if let Some(open) = open_url {
             super::open_url(&open.url, open.new_tab);
         }
@@ -250,6 +269,7 @@ impl AppRunner {
 
         if self.text_cursor_pos != text_cursor_pos {
             super::text_agent::move_text_cursor(text_cursor_pos, self.canvas_id());
+
             self.text_cursor_pos = text_cursor_pos;
         }
     }

@@ -74,6 +74,7 @@ pub fn check_for_gl_error_impl(gl: &glow::Context, file: &str, line: u32, contex
     use glow::HasContext as _;
     #[allow(unsafe_code)]
     let error_code = unsafe { gl.get_error() };
+
     if error_code != glow::NO_ERROR {
         let error_str = match error_code {
             glow::INVALID_ENUM => "GL_INVALID_ENUM",

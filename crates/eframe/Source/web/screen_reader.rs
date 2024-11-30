@@ -17,13 +17,17 @@ impl Default for ScreenReader {
         let tts = match tts::Tts::default() {
             Ok(screen_reader) => {
                 log::debug!("Initialized screen reader.");
+
                 Some(screen_reader)
             }
+
             Err(err) => {
                 log::warn!("Failed to load screen reader: {}", err);
+
                 None
             }
         };
+
         Self { tts }
     }
 }
@@ -38,9 +42,12 @@ impl ScreenReader {
         if text.is_empty() {
             return;
         }
+
         if let Some(tts) = &mut self.tts {
             log::debug!("Speaking: {:?}", text);
+
             let interrupt = true;
+
             if let Err(err) = tts.speak(text, interrupt) {
                 log::warn!("Failed to read: {}", err);
             }

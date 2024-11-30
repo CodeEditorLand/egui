@@ -21,24 +21,31 @@ pub enum ShaderVersion {
 impl ShaderVersion {
     pub fn get(gl: &glow::Context) -> Self {
         use glow::HasContext as _;
+
         let shading_lang_string =
             unsafe { gl.get_parameter_string(glow::SHADING_LANGUAGE_VERSION) };
+
         let shader_version = Self::parse(&shading_lang_string);
+
         log::debug!(
             "Shader version: {:?} ({:?}).",
             shader_version,
             shading_lang_string
         );
+
         shader_version
     }
 
     #[inline]
     pub(crate) fn parse(glsl_ver: &str) -> Self {
         let start = glsl_ver.find(|c| char::is_ascii_digit(&c)).unwrap();
+
         let es = glsl_ver[..start].contains(" ES ");
+
         let ver = glsl_ver[start..]
             .split_once(' ')
             .map_or(&glsl_ver[start..], |x| x.0);
+
         let [maj, min]: [u8; 2] = ver
             .splitn(3, '.')
             .take(2)
@@ -46,6 +53,7 @@ impl ShaderVersion {
             .collect::<Vec<u8>>()
             .try_into()
             .unwrap();
+
         if es {
             if maj >= 3 {
                 Self::Es300
@@ -88,6 +96,7 @@ impl ShaderVersion {
 #[test]
 fn test_shader_version() {
     use ShaderVersion::{Es100, Es300, Gl120, Gl140};
+
     for (s, v) in [
         ("1.2 OpenGL foo bar", Gl120),
         ("3.0", Gl140),

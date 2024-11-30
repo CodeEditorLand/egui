@@ -42,12 +42,14 @@ pub fn read_window_info(
         .map(|pos| egui::Pos2 { x: pos.x, y: pos.y });
 
     let monitor = window.current_monitor().is_some();
+
     let monitor_size = if monitor {
         let size = window
             .current_monitor()
             .unwrap()
             .size()
             .to_logical::<f32>(pixels_per_point.into());
+
         Some(egui::vec2(size.width, size.height))
     } else {
         None
@@ -116,8 +118,11 @@ pub fn window_builder<E>(
     #[cfg(target_os = "linux")]
     {
         window_builder = window_builder.with_rgba_visual(true);
+
         window_builder = window_builder.with_app_paintable(true);
+
         window_builder = window_builder.with_double_buffered(true);
+
         window_builder = window_builder.with_transparent_draw(!*transparent);
     }
     #[cfg(target_os = "macos")]
@@ -131,12 +136,14 @@ pub fn window_builder<E>(
     #[cfg(all(feature = "wayland", target_os = "linux"))]
     if let Some(app_id) = &native_options.app_id {
         use winit::platform::wayland::WindowBuilderExtWayland as _;
+
         window_builder = window_builder.with_name(app_id, "");
     }
 
     if let Some(min_size) = *min_window_size {
         window_builder = window_builder.with_min_inner_size(points_to_size(min_size));
     }
+
     if let Some(max_size) = *max_window_size {
         window_builder = window_builder.with_max_inner_size(points_to_size(max_size));
     }
@@ -148,7 +155,9 @@ pub fn window_builder<E>(
         window_settings.clamp_to_sane_values(largest_monitor_point_size(event_loop));
         #[cfg(windows)]
         window_settings.clamp_window_to_sane_position(event_loop);
+
         window_builder = window_settings.initialize_window(window_builder);
+
         window_settings.inner_size_points()
     } else {
         if let Some(pos) = *initial_window_pos {
@@ -161,6 +170,7 @@ pub fn window_builder<E>(
         if let Some(initial_window_size) = *initial_window_size {
             let initial_window_size =
                 initial_window_size.at_most(largest_monitor_point_size(event_loop));
+
             window_builder = window_builder.with_inner_size(points_to_size(initial_window_size));
         }
 
@@ -170,14 +180,19 @@ pub fn window_builder<E>(
     if *centered {
         if let Some(monitor) = event_loop.available_monitors().next() {
             let monitor_size = monitor.size().to_logical::<f64>(monitor.scale_factor());
+
             let inner_size = inner_size_points.unwrap_or(egui::Vec2 { x: 800.0, y: 600.0 });
+
             if monitor_size.width > 0.0 && monitor_size.height > 0.0 {
                 let x = (monitor_size.width - inner_size.x as f64) / 2.0;
+
                 let y = (monitor_size.height - inner_size.y as f64) / 2.0;
+
                 window_builder = window_builder.with_position(winit::dpi::LogicalPosition { x, y });
             }
         }
     }
+
     window_builder
 }
 
@@ -197,7 +212,9 @@ fn largest_monitor_point_size<E>(event_loop: &EventLoopWindowTarget<E>) -> egui:
 
     for monitor in event_loop.available_monitors() {
         let size = monitor.size().to_logical::<f32>(monitor.scale_factor());
+
         let size = egui::vec2(size.width, size.height);
+
         max_size = max_size.max(size);
     }
 
@@ -218,6 +235,7 @@ fn window_builder_drag_and_drop(
     enable: bool,
 ) -> winit::window::WindowBuilder {
     use winit::platform::windows::WindowBuilderExtWindows as _;
+
     window_builder.with_drag_and_drop(enable)
 }
 
@@ -296,11 +314,13 @@ pub fn handle_app_output(
 
     if let Some(minimized) = minimized {
         window.set_minimized(minimized);
+
         window_state.minimized = minimized;
     }
 
     if let Some(maximized) = maximized {
         window.set_maximized(maximized);
+
         window_state.maximized = maximized;
     }
 
@@ -309,6 +329,7 @@ pub fn handle_app_output(
             window.set_focus();
         } else if let Some(attention) = attention {
             use winit::window::UserAttentionType;
+
             window.request_user_attention(match attention {
                 egui::UserAttentionType::Reset => None,
                 egui::UserAttentionType::Critical => Some(UserAttentionType::Critical),
@@ -326,6 +347,7 @@ pub fn create_storage(_app_name: &str) -> Option<Box<dyn epi::Storage>> {
     if let Some(storage) = super::file_storage::FileStorage::from_app_name(_app_name) {
         return Some(Box::new(storage));
     }
+
     None
 }
 
@@ -362,6 +384,7 @@ impl EpiIntegration {
         let egui_ctx = egui::Context::default();
 
         let memory = load_egui_memory(storage.as_deref()).unwrap_or_default();
+
         egui_ctx.memory_mut(|mem| *mem = memory);
 
         let native_pixels_per_point = window.scale_factor() as f32;
@@ -391,7 +414,9 @@ impl EpiIntegration {
         };
 
         let mut egui_winit = egui_winit::State::new(event_loop);
+
         egui_winit.set_max_texture_side(max_texture_side);
+
         egui_winit.set_pixels_per_point(native_pixels_per_point);
 
         let app_icon_setter = super::app_icon::AppTitleIconSetter::new(
@@ -434,10 +459,14 @@ impl EpiIntegration {
 
     pub fn warm_up(&mut self, app: &mut dyn epi::App, window: &winit::window::Window) {
         crate::profile_function!();
+
         let saved_memory: egui::Memory = self.egui_ctx.memory(|mem| mem.clone());
+
         self.egui_ctx
             .memory_mut(|mem| mem.set_everything_is_visible(true));
+
         let full_output = self.update(app, window);
+
         self.pending_full_output.append(full_output); // Handle it next frame
         self.egui_ctx.memory_mut(|mem| *mem = saved_memory); // We don't want to remember that windows were huge.
         self.egui_ctx.clear_animations();
@@ -458,13 +487,18 @@ impl EpiIntegration {
         match event {
             WindowEvent::CloseRequested => {
                 log::debug!("Received WindowEvent::CloseRequested");
+
                 self.close = app.on_close_event();
+
                 log::debug!("App::on_close_event returned {}", self.close);
             }
+
             WindowEvent::Destroyed => {
                 log::debug!("Received WindowEvent::Destroyed");
+
                 self.close = true;
             }
+
             WindowEvent::MouseInput {
                 button: MouseButton::Left,
                 state: ElementState::Pressed,
@@ -473,11 +507,15 @@ impl EpiIntegration {
             WindowEvent::ScaleFactorChanged { scale_factor, .. } => {
                 self.frame.info.native_pixels_per_point = Some(*scale_factor as _);
             }
+
             WindowEvent::ThemeChanged(winit_theme) if self.follow_system_theme => {
                 let theme = theme_from_winit_theme(*winit_theme);
+
                 self.frame.info.system_theme = Some(theme);
+
                 self.egui_ctx.set_visuals(theme.egui_visuals());
             }
+
             _ => {}
         }
 
@@ -500,30 +538,39 @@ impl EpiIntegration {
 
         self.frame.info.window_info =
             read_window_info(window, self.egui_ctx.pixels_per_point(), &self.window_state);
+
         let raw_input = self.egui_winit.take_egui_input(window);
 
         // Run user code:
         let full_output = self.egui_ctx.run(raw_input, |egui_ctx| {
             crate::profile_scope!("App::update");
+
             app.update(egui_ctx, &mut self.frame);
         });
 
         self.pending_full_output.append(full_output);
+
         let full_output = std::mem::take(&mut self.pending_full_output);
 
         {
             let mut app_output = self.frame.take_app_output();
+
             app_output.drag_window &= self.can_drag_window; // Necessary on Windows; see https://github.com/emilk/egui/pull/1108
             self.can_drag_window = false;
+
             if app_output.close {
                 self.close = app.on_close_event();
+
                 log::debug!("App::on_close_event returned {}", self.close);
             }
+
             self.frame.output.visible = app_output.visible; // this is handled by post_present
             self.frame.output.screenshot_requested = app_output.screenshot_requested;
+
             if self.frame.output.attention.is_some() {
                 self.frame.output.attention = None;
             }
+
             handle_app_output(
                 window,
                 self.egui_ctx.pixels_per_point(),
@@ -533,6 +580,7 @@ impl EpiIntegration {
         }
 
         let frame_time = frame_start.elapsed().as_secs_f64() as f32;
+
         self.frame.info.cpu_usage = Some(frame_time);
 
         full_output
@@ -540,6 +588,7 @@ impl EpiIntegration {
 
     pub fn post_rendering(&mut self, app: &mut dyn epi::App, window: &winit::window::Window) {
         let inner_size = window.inner_size();
+
         let window_size_px = [inner_size.width, inner_size.height];
 
         app.post_rendering(window_size_px, &self.frame);
@@ -565,8 +614,10 @@ impl EpiIntegration {
 
     pub fn maybe_autosave(&mut self, app: &mut dyn epi::App, window: &winit::window::Window) {
         let now = std::time::Instant::now();
+
         if now - self.last_auto_save > app.auto_save_interval() {
             self.save(app, window);
+
             self.last_auto_save = now;
         }
     }
@@ -579,23 +630,28 @@ impl EpiIntegration {
 
             if _app.persist_native_window() {
                 crate::profile_scope!("native_window");
+
                 epi::set_value(
                     storage,
                     STORAGE_WINDOW_KEY,
                     &WindowSettings::from_display(_window),
                 );
             }
+
             if _app.persist_egui_memory() {
                 crate::profile_scope!("egui_memory");
+
                 self.egui_ctx
                     .memory(|mem| epi::set_value(storage, STORAGE_EGUI_MEMORY_KEY, mem));
             }
             {
                 crate::profile_scope!("App::save");
+
                 _app.save(storage);
             }
 
             crate::profile_scope!("Storage::flush");
+
             storage.flush();
         }
     }

@@ -7,6 +7,7 @@ impl WebLogger {
     /// Pipe all [`log`] events to the web console.
     pub fn init(filter: log::LevelFilter) -> Result<(), log::SetLoggerError> {
         log::set_max_level(filter);
+
         log::set_boxed_logger(Box::new(WebLogger::new(filter)))
     }
 
@@ -27,6 +28,7 @@ impl log::Log for WebLogger {
 
         let msg = if let (Some(file), Some(line)) = (record.file(), record.line()) {
             let file = shorten_file_path(file);
+
             format!("[{}] {file}:{line}: {}", record.target(), record.args())
         } else {
             format!("[{}] {}", record.target(), record.args())

@@ -62,6 +62,7 @@ pub fn now_sec() -> f64 {
 #[allow(dead_code)]
 pub fn screen_size_in_native_points() -> Option<egui::Vec2> {
     let window = web_sys::window()?;
+
     Some(egui::vec2(
         window.inner_width().ok()?.as_f64()? as f32,
         window.inner_height().ok()?.as_f64()? as f32,
@@ -70,6 +71,7 @@ pub fn screen_size_in_native_points() -> Option<egui::Vec2> {
 
 pub fn native_pixels_per_point() -> f32 {
     let pixels_per_point = web_sys::window().unwrap().device_pixel_ratio() as f32;
+
     if pixels_per_point > 0.0 && pixels_per_point.is_finite() {
         pixels_per_point
     } else {
@@ -81,6 +83,7 @@ pub fn system_theme() -> Option<Theme> {
     let dark_mode = prefers_color_scheme_dark(&web_sys::window()?)
         .ok()??
         .matches();
+
     Some(theme_from_dark_mode(dark_mode))
 }
 
@@ -98,7 +101,9 @@ fn theme_from_dark_mode(dark_mode: bool) -> Theme {
 
 pub fn canvas_element(canvas_id: &str) -> Option<web_sys::HtmlCanvasElement> {
     let document = web_sys::window()?.document()?;
+
     let canvas = document.get_element_by_id(canvas_id)?;
+
     canvas.dyn_into::<web_sys::HtmlCanvasElement>().ok()
 }
 
@@ -111,12 +116,15 @@ fn canvas_origin(canvas_id: &str) -> egui::Pos2 {
     let rect = canvas_element(canvas_id)
         .unwrap()
         .get_bounding_client_rect();
+
     egui::pos2(rect.left() as f32, rect.top() as f32)
 }
 
 pub fn canvas_size_in_points(canvas_id: &str) -> egui::Vec2 {
     let canvas = canvas_element(canvas_id).unwrap();
+
     let pixels_per_point = native_pixels_per_point();
+
     egui::vec2(
         canvas.width() as f32 / pixels_per_point,
         canvas.height() as f32 / pixels_per_point,
@@ -125,11 +133,13 @@ pub fn canvas_size_in_points(canvas_id: &str) -> egui::Vec2 {
 
 pub fn resize_canvas_to_screen_size(canvas_id: &str, max_size_points: egui::Vec2) -> Option<()> {
     let canvas = canvas_element(canvas_id)?;
+
     let parent = canvas.parent_element()?;
 
     // Prefer the client width and height so that if the parent
     // element is resized that the egui canvas resizes appropriately.
     let width = parent.client_width();
+
     let height = parent.client_height();
 
     let canvas_real_size = Vec2 {
@@ -146,7 +156,9 @@ pub fn resize_canvas_to_screen_size(canvas_id: &str, max_size_points: egui::Vec2
     let max_size_pixels = pixels_per_point * max_size_points;
 
     let canvas_size_pixels = pixels_per_point * canvas_real_size;
+
     let canvas_size_pixels = canvas_size_pixels.min(max_size_pixels);
+
     let canvas_size_points = canvas_size_pixels / pixels_per_point;
 
     // Make sure that the height and width are always even numbers.
@@ -163,6 +175,7 @@ pub fn resize_canvas_to_screen_size(canvas_id: &str, max_size_points: egui::Vec2
             &format!("{}px", round_to_even(canvas_size_points.x)),
         )
         .ok()?;
+
     canvas
         .style()
         .set_property(
@@ -170,7 +183,9 @@ pub fn resize_canvas_to_screen_size(canvas_id: &str, max_size_points: egui::Vec2
             &format!("{}px", round_to_even(canvas_size_points.y)),
         )
         .ok()?;
+
     canvas.set_width(round_to_even(canvas_size_pixels.x) as u32);
+
     canvas.set_height(round_to_even(canvas_size_pixels.y) as u32);
 
     Some(())
@@ -180,6 +195,7 @@ pub fn resize_canvas_to_screen_size(canvas_id: &str, max_size_points: egui::Vec2
 
 pub fn set_cursor_icon(cursor: egui::CursorIcon) -> Option<()> {
     let document = web_sys::window()?.document()?;
+
     document
         .body()?
         .style()
@@ -192,12 +208,15 @@ pub fn set_clipboard_text(s: &str) {
     if let Some(window) = web_sys::window() {
         if let Some(clipboard) = window.navigator().clipboard() {
             let promise = clipboard.write_text(s);
+
             let future = wasm_bindgen_futures::JsFuture::from(promise);
+
             let future = async move {
                 if let Err(err) = future.await {
                     log::error!("Copy/cut action failed: {err:?}");
                 }
             };
+
             wasm_bindgen_futures::spawn_local(future);
         }
     }
@@ -251,6 +270,7 @@ pub fn open_url(url: &str, new_tab: bool) -> Option<()> {
     web_sys::window()?
         .open_with_url_and_target(url, name)
         .ok()?;
+
     Some(())
 }
 

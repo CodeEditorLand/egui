@@ -217,12 +217,14 @@ pub fn run_native(
         #[cfg(feature = "glow")]
         Renderer::Glow => {
             log::debug!("Using the glow renderer");
+
             native::run::run_glow(app_name, native_options, app_creator)
         }
 
         #[cfg(feature = "wgpu")]
         Renderer::Wgpu => {
             log::debug!("Using the wgpu renderer");
+
             native::run::run_wgpu(app_name, native_options, app_creator)
         }
     }
@@ -272,6 +274,7 @@ pub fn run_simple_native(
     struct SimpleApp<U> {
         update_fun: U,
     }
+
     impl<U: FnMut(&egui::Context, &mut Frame)> App for SimpleApp<U> {
         fn update(&mut self, ctx: &egui::Context, frame: &mut Frame) {
             (self.update_fun)(ctx, frame);
@@ -323,6 +326,7 @@ mod profiling_scopes {
             puffin::profile_function!($($arg)*);
         };
     }
+
     pub(crate) use profile_function;
 
     /// Profiling macro for feature "puffin"
@@ -332,6 +336,7 @@ mod profiling_scopes {
             puffin::profile_scope!($($arg)*);
         };
     }
+
     pub(crate) use profile_scope;
 }
 
