@@ -26,4 +26,4 @@ opt-level = 2 # fast and small wasm, basically same as `opt-level = 's'`
 opt-level = 2
 
 [workspace.dependencies]
-thiserror = "1.0.37"
+thiserror = { version = "1.0.37" }
