@@ -11,11 +11,8 @@ mod http_app;
 
 #[cfg(all(feature = "glow", not(feature = "wgpu")))]
 pub use custom3d_glow::Custom3d;
-
 #[cfg(feature = "wgpu")]
 pub use custom3d_wgpu::Custom3d;
-
 pub use fractal_clock::FractalClock;
-
 #[cfg(feature = "http")]
 pub use http_app::HttpApp;
