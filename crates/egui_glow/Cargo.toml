@@ -1,16 +1,36 @@
+[dependencies]
+bytemuck = { version = "1.7" }
+document-features = { version = "0.2", optional = true }
+egui = { version = "0.22.0", default-features = false, features = ["bytemuck"] }
+glow = { version = "0.12" }
+log = { version = "0.4", features = ["std"] }
+memoffset = { version = "0.6" }
+
+[dev-dependencies]
+glutin = { version = "0.30" }
+glutin-winit = { package = "glutin_tao", version = "0.33.0", git = "https://github.com/tauri-apps/glutin", branch = "0.31" }
+raw-window-handle = "0.5.0"
+
+[[example]]
+name = "pure_glow"
+required-features = ["winit", "egui/default_fonts"]
+
+[features]
+clipboard = ["egui-winit?/clipboard"]
+default = []
+links = ["egui-winit?/links"]
+puffin = ["dep:puffin", "egui-winit?/puffin"]
+winit = ["egui-winit"]
+
+[lib]
+path = "Source/lib.rs"
+
 [package]
-name = "egui_glow_tao"
-version = "0.23.0"
 authors = ["Emil Ernerfeldt <emil.ernerfeldt@gmail.com>"]
+categories = ["gui", "game-development"]
 description = "Bindings for using egui natively using the glow library"
 edition = "2021"
-rust-version = "1.65"
 homepage = "https://github.com/emilk/egui/tree/master/crates/egui_glow"
-license-file = "LICENSE"
-readme = "README.md"
-repository = "https://github.com/emilk/egui/tree/master/crates/egui_glow"
-categories = ["gui", "game-development"]
-keywords = ["glow", "egui", "gui", "gamedev"]
 include = [
 	"../LICENSE-APACHE",
 	"../LICENSE-MIT",
@@ -18,38 +38,31 @@ include = [
 	"Cargo.toml",
 	"src/shader/*.glsl",
 ]
+keywords = ["glow", "egui", "gui", "gamedev"]
+license-file = "LICENSE"
+name = "egui_glow_tao"
+readme = "README.md"
+repository = "https://github.com/emilk/egui/tree/master/crates/egui_glow"
+rust-version = "1.65"
+version = "0.23.0"
+
+[package.metadata]
+
+[package.metadata.docs]
 
 [package.metadata.docs.rs]
 all-features = true
 
-[features]
-default = []
-clipboard = ["egui-winit?/clipboard"]
-links = ["egui-winit?/links"]
-puffin = ["dep:puffin", "egui-winit?/puffin"]
-winit = ["egui-winit"]
+[target]
 
-[dependencies]
-egui = { version = "0.22.0", default-features = false, features = ["bytemuck"] }
-bytemuck = { version = "1.7" }
-glow = { version = "0.12" }
-log = { version = "0.4", features = ["std"] }
-memoffset = { version = "0.6" }
-document-features = { version = "0.2", optional = true }
+[target.'cfg(not(target_arch = "wasm32"))']
 
-[target."cfg(not(target_arch = \"wasm32\"))".dependencies]
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 egui-winit = { package = "egui-tao", version = "0.23.0", path = "../egui-winit", optional = true, default-features = false }
 puffin = { version = "0.15", optional = true }
 
-[target."cfg(target_arch = \"wasm32\")".dependencies]
-web-sys = { version = "0.3", features = ["console"] }
+[target.'cfg(target_arch = "wasm32")']
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
 wasm-bindgen = { version = "0.2" }
-
-[dev-dependencies]
-glutin = { version = "0.30" }
-raw-window-handle = "0.5.0"
-glutin-winit = { package = "glutin_tao", version = "0.33.0", git = "https://github.com/tauri-apps/glutin", branch = "0.31" }
-
-[[example]]
-name = "pure_glow"
-required-features = ["winit", "egui/default_fonts"]
+web-sys = { version = "0.3", features = ["console"] }
