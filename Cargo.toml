@@ -20,4 +20,4 @@ members = [
 resolver = "2"
 
 [workspace.dependencies]
-thiserror = { version = "1.0.37" }
+thiserror = { version = "2.0.11" }

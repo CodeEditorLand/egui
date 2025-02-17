@@ -1,15 +1,15 @@
 [dependencies]
-bytemuck = { version = "1.7" }
+bytemuck = { version = "1.21" }
 document-features = { version = "0.2", optional = true }
-egui = { version = "0.22.0", default-features = false, features = ["bytemuck"] }
-glow = { version = "0.12" }
+egui = { version = "0.31.0", default-features = false, features = ["bytemuck"] }
+glow = { version = "0.16" }
 log = { version = "0.4", features = ["std"] }
-memoffset = { version = "0.6" }
+memoffset = { version = "0.9" }
 
 [dev-dependencies]
-glutin = { version = "0.30" }
+glutin = { version = "0.32" }
 glutin-winit = { package = "glutin_tao", version = "0.33.0", git = "https://github.com/tauri-apps/glutin", branch = "0.31" }
-raw-window-handle = "0.5.0"
+raw-window-handle = "0.6.2"
 
 [[example]]
 name = "pure_glow"
@@ -29,7 +29,7 @@ path = "Source/lib.rs"
 authors = ["Emil Ernerfeldt <emil.ernerfeldt@gmail.com>"]
 categories = ["gui", "game-development"]
 description = "Bindings for using egui natively using the glow library"
-edition = "2021"
+edition = "2024"
 homepage = "https://github.com/emilk/egui/tree/master/crates/egui_glow"
 include = [
 	"../LICENSE-APACHE",
@@ -43,7 +43,7 @@ license-file = "LICENSE"
 name = "egui_glow_tao"
 readme = "README.md"
 repository = "https://github.com/emilk/egui/tree/master/crates/egui_glow"
-rust-version = "1.65"
+rust-version = "1.85.0"
 version = "0.23.0"
 
 [package.metadata]
@@ -59,7 +59,7 @@ all-features = true
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 egui-winit = { package = "egui-tao", version = "0.23.0", path = "../egui-winit", optional = true, default-features = false }
-puffin = { version = "0.15", optional = true }
+puffin = { version = "0.19", optional = true }
 
 [target.'cfg(target_arch = "wasm32")']
 

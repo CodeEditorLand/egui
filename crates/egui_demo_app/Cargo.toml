@@ -3,22 +3,22 @@ name = "egui_demo_app"
 path = "Source/main.rs"
 
 [dependencies]
-bytemuck = { version = "1.7.1", optional = true }
+bytemuck = { version = "1.21.0", optional = true }
 chrono = { version = "0.4", default-features = false, features = [
 	"js-sys",
 	"wasmbind",
 ] }
 eframe = { package = "eframe_tao", version = "0.23.0", path = "../eframe", default-features = false }
-egui = { version = "0.22.0", features = ["extra_debug_asserts"] }
-egui_demo_lib = { version = "0.22.0", features = ["chrono"] }
-egui_extras = { version = "0.22.0", optional = true }
-ehttp = { version = "0.2.0", optional = true }
-image = { version = "0.24", optional = true, default-features = false, features = [
+egui = { version = "0.31.0", features = ["extra_debug_asserts"] }
+egui_demo_lib = { version = "0.31.0", features = ["chrono"] }
+egui_extras = { version = "0.31.0", optional = true }
+ehttp = { version = "0.5.0", optional = true }
+image = { version = "0.25", optional = true, default-features = false, features = [
 	"jpeg",
 	"png",
 ] }
 log = { version = "0.4", features = ["std"] }
-poll-promise = { version = "0.2", optional = true, default-features = false }
+poll-promise = { version = "0.3", optional = true, default-features = false }
 serde = { version = "1", optional = true, features = ["derive"] }
 
 [features]
@@ -37,11 +37,11 @@ path = "Source/lib.rs"
 [package]
 authors = ["Emil Ernerfeldt <emil.ernerfeldt@gmail.com>"]
 default-run = "egui_demo_app"
-edition = "2021"
+edition = "2024"
 license-file = "LICENSE"
 name = "egui_demo_app"
 publish = false
-rust-version = "1.65"
+rust-version = "1.85.0"
 version = "0.22.0"
 
 [package.metadata]
@@ -56,7 +56,7 @@ all-features = true
 [target.'cfg(not(target_arch = "wasm32"))']
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-env_logger = "0.10"
+env_logger = "0.11"
 
 [target.'cfg(target_arch = "wasm32")']
 
